@@ -6,7 +6,7 @@ main:
     url: https://hqng.github.io/
   - title: "Blogs"
     url: /year-archive/
-  # - title: "Sample Collections"
-  #   url: /collection-archive/
+  - title: "Collections"
+    url: /collection-archive/
   - title: "Sitemap"
     url: /sitemap/
