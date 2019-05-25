@@ -10,3 +10,12 @@ main:
     url: /collection-archive/
   # - title: "Sitemap"
     # url: /sitemap/
+
+# cheatsheets links
+cheatsheets:
+  - title: Advance Stat Theory
+    children:
+      - title: "Quick-Start Guide"
+        url: /cheatsheets/quick-start-guide/
+      # - title: "Upgrading"
+        # url: /docs/upgrading/
