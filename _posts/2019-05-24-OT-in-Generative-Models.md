@@ -3,8 +3,8 @@ title: "Optimal Transport and VI"
 categories:
   - Variational Inference
 tags:
-  - generative models
-  - optimal transport
+  - vae
+  - OT
 ---
 
 **This is the test content**

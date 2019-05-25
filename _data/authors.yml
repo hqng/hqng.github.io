@@ -1,0 +1,16 @@
+# Authors
+
+Nguyen Q. Huy:
+  name        : "hqng"
+  bio         : "A simple man, a simple life"
+  avatar      : #"/assets/images/bio-photo-2.jpg"
+  links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:hqngix@gmail.com"
+    - label: "Website"
+      icon: "fas fa-fw fa-link"
+      # url: "https://thewhip.com"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      # url: "https://twitter.com/extravagantman"
