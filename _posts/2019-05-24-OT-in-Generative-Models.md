@@ -1,5 +1,7 @@
 ---
+layout: post
 mathjax: true
+comments: false
 title: "Optimal Transport and VI"
 categories:
   - Variational Inference
