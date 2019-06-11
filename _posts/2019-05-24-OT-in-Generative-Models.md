@@ -1,4 +1,5 @@
 ---
+layout: archive
 mathjax: true
 title: "Optimal Transport and VI"
 categories:
