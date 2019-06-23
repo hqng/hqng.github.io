@@ -4,7 +4,7 @@ title: "Optimal Transport and VI"
 categories:
   - Variational Inference
 tags:
-  - vae
+  - VAE
   - OT
 ---
 

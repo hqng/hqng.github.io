@@ -2,7 +2,7 @@
 title: VAE
 layout: tag
 permalink: /tags/vae/
-taxonomy: vae
+taxonomy: VAE
 ---
 
-Sample post listing for the tag `vae`.
+Sample post listing for the tag `VAE`.
