@@ -282,7 +282,7 @@ compress_html:
 
 # Collections
 collections:
-  cheatsheets:
+  statisticaltheory:
     output: true
     permalink: /:collection/:path/
   # recipes:
@@ -316,7 +316,7 @@ defaults:
     values:
       layout: single
       author_profile: true
-  # _cheatsheets
+  # _statisticaltheory
   - scope:
       path: ""
       type: statisticaltheory
