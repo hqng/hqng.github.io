@@ -11,11 +11,11 @@ main:
   # - title: "Sitemap"
     # url: /sitemap/
 
-# cheatsheets links
-cheatsheets:
-  - title: Advance Stat Theory
+# statisticaltheory links
+statisticaltheory:
+  - title: Advanced Statistical Theory
     children:
       - title: "Quick-Start Guide"
-        url: /cheatsheets/quick-start-guide/
+        url: /statisticaltheory/quick-start-guide/
       # - title: "Upgrading"
         # url: /docs/upgrading/

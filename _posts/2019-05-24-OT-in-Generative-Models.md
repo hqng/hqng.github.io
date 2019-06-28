@@ -3,6 +3,7 @@ mathjax: true
 title: "Optimal Transport and VI"
 categories:
   - Variational Inference
+toc: true
 tags:
   - VAE
   - OT

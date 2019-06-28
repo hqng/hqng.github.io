@@ -319,7 +319,7 @@ defaults:
   # _cheatsheets
   - scope:
       path: ""
-      type: cheatsheets
+      type: statisticaltheory
     values:
       layout: single
       read_time: false
@@ -327,7 +327,7 @@ defaults:
       share: false
       comments: false
       sidebar:
-        nav: "cheatsheets"
+        nav: "statisticaltheory"
   # _recipes
   # - scope:
   #     path: ""
