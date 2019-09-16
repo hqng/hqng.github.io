@@ -2,8 +2,8 @@
 main:
   # - title: "Quick-Start Guide"
     # url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
-  - title: "About"
-    url: /about/ #https://hqng.github.io/
+  #- title: "About"
+    # url: /about/ #https://hqng.github.io/
   - title: "Blogs"
     url: /year-archive/
   - title: "Collections"
@@ -16,6 +16,6 @@ statistics:
   - title: Advanced Statistical Theory
     children:
       - title: "Statistical Theory"
-        url: /statisticaltheory/statistical-theory/
+        url: /statistics/statistical-theory/
       # - title: "Upgrading"
         # url: /docs/upgrading/
