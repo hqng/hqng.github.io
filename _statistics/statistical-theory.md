@@ -8,6 +8,6 @@ redirect_from:
 toc: false
 ---
 
-**Hello there!** <br>
-This is my cheatsheet for [Advanced Statistical Theory](/pdf/adv-stat-theory.pdf). <br>
+Hello there! <br>
+This is my cheatsheet for [Advanced Statistical Theory](/assets/pdfs/adv-stat-theory.pdf). <br>
 Hope you find it useful.
