@@ -15,7 +15,7 @@ main:
 statistics:
   - title: Advanced Statistical Theory
     children:
-      - title: "Quick-Start Guide"
-        url: /statisticaltheory/statiscal-theory/
+      - title: "Statistical Theory"
+        url: /statisticaltheory/statistical-theory/
       # - title: "Upgrading"
         # url: /docs/upgrading/
