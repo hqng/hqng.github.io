@@ -12,10 +12,10 @@ main:
     # url: /sitemap/
 
 # statistics links
-# statistics:
-#   - title: Advanced Statistical Theory
-#     children:
-#       - title: "Statistical Theory"
-#         url: /statistics/statistical-theory/
-#       - title: "Upgrading"
-#         url: /docs/upgrading/
+statistics:
+  - title: Statistics
+    children:
+      - title: "Statistical Theory"
+        url: /statistics/statistical-theory/
+      # - title: "Upgrading"
+        # url: /docs/upgrading/
