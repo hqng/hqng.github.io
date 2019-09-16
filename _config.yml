@@ -108,7 +108,7 @@ analytics:
 author:
   name             : *name #"hqng"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am just a simple person who dreams of aritificial general intelligence."
+  bio              : "An ordinary man always curious."
   location         : "Singapore"
   email            :
   links:
