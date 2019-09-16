@@ -15,9 +15,9 @@ Many recent research in generative models have borrowed ideas from classic proba
 <br>
 We first revisit VI whose idea is the base of VAE and its variants. Assume we have a set $\mathbf{x} = \{ x_1, x_2, \dots, x_N \} $ contains $N$ observations of data. VI aims to understand data by inferring low-dimensional representation from these (often high-dimensional) observations. To do so, it introduces a set of $M$ latent variables $\mathbf{z} = \{ z_1, z_2, \dots, z_M\} \sim q(\mathbf{z})$ with prior density $q(\mathbf{z})$ and relates them to the observations through likelihood $p(\mathbf{x} | \mathbf{z})$: <br>
 \begin{align}
-& p(\mathbf{z} | \mathbf{x}) = \frac{p(\mathbf{x}, \mathbf{z})}{p(\mathbf{x})}  = \frac{p(\mathbf{x} | \mathbf{z}) q(\mathbf{z}) }{\int p(\mathbf{x}, \mathbf{z}) d \mathbf{z}} \label{eq1.1} \\ <br>
-\text{where:} \: & p(\mathbf{z} | \mathbf{x}) \: \text{is posterior} \nonumber \\ <br>
-& p(\mathbf{x}, \mathbf{z}) = p(\mathbf{x} | \mathbf{z}) q(\mathbf{z}) \: \text{is joint density of} \: \mathbf{x} \: \text{and} \: \mathbf{z} \nonumber \\ <br>
+& p(\mathbf{z} | \mathbf{x}) = \frac{p(\mathbf{x}, \mathbf{z})}{p(\mathbf{x})}  = \frac{p(\mathbf{x} | \mathbf{z}) q(\mathbf{z}) }{\int p(\mathbf{x}, \mathbf{z}) d \mathbf{z}} \label{eq1.1}
+\text{where:} \: & p(\mathbf{z} | \mathbf{x}) \: \text{is posterior} \nonumber \\\\
+& p(\mathbf{x}, \mathbf{z}) = p(\mathbf{x} | \mathbf{z}) q(\mathbf{z}) \: \text{is joint density of} \: \mathbf{x} \: \text{and} \: \mathbf{z} \nonumber \\\\
 & p(\mathbf{x}) = \int p(\mathbf{x}, \mathbf{z}) d \mathbf{z} \: \text{is evidence, computed by marginalizing} \: \mathbf{z} \nonumber
 \end{align}
 The posterior represents distribution of latent variables given the observations, getting posterior is equivalent to learning data representation. <br>
@@ -76,11 +76,11 @@ Choosing prior distribution leads to a trade-off between complexity and quality 
 q_{\boldsymbol{\theta}}(\mathbf{z}) = \prod_{j=1}^{M} q_{\theta_j}(z_j) \label{eq1.5}
 \end{align}
 Remember that mean-field approximation does not concern the correlation between latent variables, it becomes less accurate when true posterior variables are highly dependent.
-For brevity, we shorten $q_{\theta_j}(z_j)$ to $q(z_j)$ and denote $\z_{-j} = \mathbf{z} \setminus {z_j}$ as the latent set excluding variable $z_j$.\\
+For brevity, we shorten $q_{\theta_j}(z_j)$ to $q(z_j)$ and denote $\mathbf{z}_{-j} = \mathbf{z} \setminus {z_j}$ as the latent set excluding variable $z_j$.\\
 
 By the assumption, we have:
 \begin{align}
-p(\mathbf{x}, \mathbf{z}) &= p(z_j, \mathbf{x} | z_{-j}) q(\z_{-j}) \nonumber \\
+p(\mathbf{x}, \mathbf{z}) &= p(z_j, \mathbf{x} | z_{-j}) q(\mathbf{z}_{-j}) \nonumber \\
 &= p(z_j, \mathbf{x} | z_{-j}) \prod_{i \neq j} q(z_i) \label{eq1.6} \\
 \mathbb{E}_{q(\mathbf{z})}\left[\log q (\mathbf{z}) \right] &= \sum_{j=1}^{M} \mathbb{E}_{q(z_j)}\left[\log q(z_j) \right] \label{eq1.7}
 \end{align}
@@ -89,40 +89,40 @@ Hence:
 \begin{align}
 \mathcal{L} &= \int_{\mathbf{z}} \left( \prod_{i=1}^{M} q_i (z_i) \right) \log \frac{p(\mathbf{x}, \mathbf{z})} {\prod_{k=1}^{M} q_k(z_k) } d \mathbf{z} \nonumber \\
 &= \int_{\mathbf{z}} \left( \prod_{i=1}^{M} q_i (z_i) \right) \left( \log p(\mathbf{x}, \mathbf{z}) - \sum_{k=1}^{M} \log q_k(z_k) \right) d \mathbf{z} \nonumber \\
-&= \int_{z_j} q(z_j) \int_{\z_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \left[ \log p(\mathbf{x}, \mathbf{z}) - \sum_{k=1}^{M} \log q_k(z_k) \right) d \mathbf{z} \nonumber \\
-&= \int_{z_j} q(z_j) \int_{\z_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \log p(\mathbf{x}, \mathbf{z}) d \mathbf{z} \nonumber \\
-& - \int_{z_j} q(z_j) \int_{\z_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k=1}^{M} \log q_k(z_k) d \mathbf{z} \label{eq1.8}
+&= \int_{z_j} q(z_j) \int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \left[ \log p(\mathbf{x}, \mathbf{z}) - \sum_{k=1}^{M} \log q_k(z_k) \right) d \mathbf{z} \nonumber \\
+&= \int_{z_j} q(z_j) \int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \log p(\mathbf{x}, \mathbf{z}) d \mathbf{z} \nonumber \\
+& - \int_{z_j} q(z_j) \int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k=1}^{M} \log q_k(z_k) d \mathbf{z} \label{eq1.8}
 \end{align}
 Here we substitute  $\int_{\mathbf{z}} d \mathbf{z}$ for $\int_{z_1} \int_{z_2} \dots \int_{z_M}  d z_1 d z_2 \dots d z_M$ \\
 
 On the other hand:
 \begin{align}
-\int_{\z_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \log p(\mathbf{x}, \mathbf{z}) dz_1 \dots dz_{j-1} dz_{j+1} \dots dz_M = \mathbb{E}_{q(\z_{-j})} \log p(\mathbf{x}, \mathbf{z}) \label{eq1.9}
+\int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \log p(\mathbf{x}, \mathbf{z}) dz_1 \dots dz_{j-1} dz_{j+1} \dots dz_M = \mathbb{E}_{q(\mathbf{z}_{-j})} \log p(\mathbf{x}, \mathbf{z}) \label{eq1.9}
 \end{align}
 
 From (\ref{eq1.8}) and (\ref{eq1.9}):
 \begin{align}
-\mathcal{L} &= \int_{z_j} q(z_j) \mathbb{E}_{q(\z_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j - \int_{z_j} q(z_j) \int_{\z_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k=1}^{M} \log q_k(z_k) d z_1 d z_2 \dots d z_M \nonumber \\
-&= \int_{z_j} q(z_j) \mathbb{E}_{q(\z_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j 
-- \int_{z_j} q(z_j) \log q(z_j) \underbrace{\int_{\z_{-j}} \left( \prod_{i \neq j}q_i(z_i) \right) dz_1 \dots dz_M }_{=1} \nonumber \\
-&- \underbrace{\int_{z_j} q(z_j) dz_j }_{=1} \int_{\z_{-j}} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k \neq j} \log q_k (z_k) dz_1 \dots dz_{j-1} dz_{j+1} \dots dz_M \nonumber \\
-&= \int_{z_j} q(z_j) \mathbb{E}_{q(\z_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j - \int_{z_j} q(z_j) \log q(z_j) dz_j \nonumber \\
-&- \int_{\z_{-j}} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k \neq j} \log q_k(z_k) dz_1 \dots dz_{j-1} dz_{j+1} \dots dz_M \nonumber \\
-&= \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\z_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] - \log q(z_j) \right)  dz_j + C_{-j} \label{eq1.10} \\
+\mathcal{L} &= \int_{z_j} q(z_j) \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j - \int_{z_j} q(z_j) \int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k=1}^{M} \log q_k(z_k) d z_1 d z_2 \dots d z_M \nonumber \\
+&= \int_{z_j} q(z_j) \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j 
+- \int_{z_j} q(z_j) \log q(z_j) \underbrace{\int_{\mathbf{z}_{-j}} \left( \prod_{i \neq j}q_i(z_i) \right) dz_1 \dots dz_M }_{=1} \nonumber \\
+&- \underbrace{\int_{z_j} q(z_j) dz_j }_{=1} \int_{\mathbf{z}_{-j}} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k \neq j} \log q_k (z_k) dz_1 \dots dz_{j-1} dz_{j+1} \dots dz_M \nonumber \\
+&= \int_{z_j} q(z_j) \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j - \int_{z_j} q(z_j) \log q(z_j) dz_j \nonumber \\
+&- \int_{\mathbf{z}_{-j}} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k \neq j} \log q_k(z_k) dz_1 \dots dz_{j-1} dz_{j+1} \dots dz_M \nonumber \\
+&= \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] - \log q(z_j) \right)  dz_j + C_{-j} \label{eq1.10} \\
 \text{where:} \: & C_{-j} \: \text{containts all constant quantities w.r.t} \: z_j \nonumber
 \end{align}
 
 Using (\ref{eq1.6}), we can come up with another form:
 \begin{align}
-\mathcal{L} &= \int_{\z_j} q(z_j) \left( \mathbb{E}_{q(\z_{-j})}[ \log p(z_j, \mathbf{x} | \z_{-j}) + \log q(\z_{-j})] - \log q(z_j) \right) dz_j + C_{-j} \nonumber \\
-&= \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\z_{-j})}[\log p(z_j, \mathbf{x} | \z_{-j})] - \log q(z_j) \right) dz_j \nonumber \\
-&+ \left( \int_{z_j} q(z_j) dz_j \right) \mathbb{E}_{q(\z_{-j})} [\log q(\z_{-j})] + C_{-j} \nonumber \\
-&= \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\z_{-j})}[\log p(z_j, \mathbf{x} | \z_{-j})] - \log q(z_j) \right) dz_j + C_{-j}^{\prime} \label{eq1.11}
+\mathcal{L} &= \int_{\mathbf{z}_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(z_j, \mathbf{x} | \mathbf{z}_{-j}) + \log q(\mathbf{z}_{-j})] - \log q(z_j) \right) dz_j + C_{-j} \nonumber \\
+&= \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j})] - \log q(z_j) \right) dz_j \nonumber \\
+&+ \left( \int_{z_j} q(z_j) dz_j \right) \mathbb{E}_{q(\mathbf{z}_{-j})} [\log q(\mathbf{z}_{-j})] + C_{-j} \nonumber \\
+&= \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j})] - \log q(z_j) \right) dz_j + C_{-j}^{\prime} \label{eq1.11}
 \end{align}
 
 Our objective now becomes:
 \begin{align}
-& \underset{q(z_j)}{\max} \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\z_{-j})}[ \log p(z_j, \mathbf{x} | \z_{-j}) ] - \log q(z_j) \right)  dz_j + C_{-j}^{\prime} \label{eq1.12} \\
+& \underset{q(z_j)}{\max} \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(z_j, \mathbf{x} | \mathbf{z}_{-j}) ] - \log q(z_j) \right)  dz_j + C_{-j}^{\prime} \label{eq1.12} \\
 \text{s.t:} & \: \int_{z_j}q(z_j)dz_j = 1, \: \forall j \in \{1,2,\dots,M \} \nonumber
 \end{align}
 
@@ -134,17 +134,17 @@ Problem (\ref{eq1.12}) can be easily solved by Lagrange multiplier:
 Taking derivative of (\ref{eq1.13}) w.r.t $q(z_j)$:
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial q(z_j)} &= \frac{\partial}{\partial q(z_j)} \left[ q(z_j) 
-\left( \mathbb{E}_{q(\z_{-j})} [\log p(z_j, \mathbf{x} | \z_{-j} ) -\log q(z_j) ] \right) - \lambda_j q(z_j) \right] \nonumber \\
-&= \mathbb{E}_{q(\z_{-j})}[\log p(z_j, \mathbf{x} | \z_{-j}) ] - \log q(z_j) - 1 - \lambda_j \label{eq1.14}
+\left( \mathbb{E}_{q(\mathbf{z}_{-j})} [\log p(z_j, \mathbf{x} | \mathbf{z}_{-j} ) -\log q(z_j) ] \right) - \lambda_j q(z_j) \right] \nonumber \\
+&= \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j}) ] - \log q(z_j) - 1 - \lambda_j \label{eq1.14}
 \end{align}
 
 Set the partial derivative to $0$ to get the updating form of $q(z_j)$:
 \begin{alignat}{2}
-& \log q(z_j) &&= \mathbb{E}_{q(\z_{-j})}[\log p(z_j, \mathbf{x} | \z_{-j} )] - 1 - \lambda_j \nonumber \\
-& &&= \mathbb{E}_{q(\z_{-j})}[\log p(z_j, \mathbf{x} | \z_{-j} )] + const \nonumber \\
-\implies & q(z_j) &&= \frac{\exp \left\{ \mathbb{E}_{q(\z_{-j})}[\log p(z_j, \mathbf{x} | \z_{-j} )] \right\} }{Z_j} \nonumber \\
-\implies & q(z_j) && \propto \exp \left\{ \mathbb{E}_{q(\z_{-j})}[\log p(z_j, \mathbf{x} | \z_{-j} )] \right\} \nonumber \\
-& && \propto \exp \left\{ \mathbb{E}_{q(\z_{-j})}[\log p(\mathbf{x}, \mathbf{z})] \right\} \label{eq1.15} \\
+& \log q(z_j) &&= \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j} )] - 1 - \lambda_j \nonumber \\
+& &&= \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j} )] + const \nonumber \\
+\implies & q(z_j) &&= \frac{\exp \left\{ \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j} )] \right\} }{Z_j} \nonumber \\
+\implies & q(z_j) && \propto \exp \left\{ \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j} )] \right\} \nonumber \\
+& && \propto \exp \left\{ \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(\mathbf{x}, \mathbf{z})] \right\} \label{eq1.15} \\
 & \text{where:} \: && Z_j \: \text{is a normalization constant} \nonumber
 \end{alignat}
 
