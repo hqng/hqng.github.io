@@ -108,7 +108,7 @@ analytics:
 author:
   name             : *name #"hqng"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "An ordinary man always curious."
+  bio              : "An ordinary man - Always curious."
   location         : "Singapore"
   email            :
   links:
@@ -282,7 +282,7 @@ compress_html:
 
 # Collections
 collections:
-  statisticaltheory:
+  statistics:
     output: true
     permalink: /:collection/:path/
   # recipes:
@@ -316,10 +316,10 @@ defaults:
     values:
       layout: single
       author_profile: true
-  # _statisticaltheory
+  # _statistics
   - scope:
       path: ""
-      type: statisticaltheory
+      type: statistics
     values:
       layout: single
       read_time: false
@@ -327,7 +327,7 @@ defaults:
       share: false
       comments: false
       sidebar:
-        nav: "statisticaltheory"
+        nav: "statistics"
   # _recipes
   # - scope:
   #     path: ""
