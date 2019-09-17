@@ -9,5 +9,5 @@ toc: false
 ---
 
 Hello there! <br>
-This is my cheatsheet for [Advanced Statistical Theory](/assets/pdfs/adv-stat-theory.pdf). <br>
+This is [Advanced Statistical Theory's](/assets/pdfs/adv-stat-theory.pdf) cheatsheet. <br>
 Hope you find it useful.
