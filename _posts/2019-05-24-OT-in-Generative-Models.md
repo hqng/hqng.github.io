@@ -14,6 +14,7 @@ Many recent research in generative models have borrowed ideas from classic proba
 # <a name="VI"></a> Variational Inference
 
 We first revisit VI whose idea is the base of VAE and its variants. Assume we have a set $\mathbf{x} = \{ x_1, x_2, \dots, x_N \}$ contains $N$ observations of data. VI aims to understand data by inferring low-dimensional representation from these (often high-dimensional) observations. To do so, it introduces a set of $M$ latent variables $\mathbf{z} = \{ z_1, z_2, \dots, z_M\} \sim q(\mathbf{z})$ with prior density $q(\mathbf{z})$ and relates them to the observations through likelihood {% raw %} $ p(\mathbf{x} | \mathbf{z}) $ {% endraw %} :
+<br>
 $$ \small
 \begin{align}
 & p(\mathbf{z} | \mathbf{x}) = \frac{p(\mathbf{x}, \mathbf{z})}{p(\mathbf{x})}  = \frac{p(\mathbf{x} | \mathbf{z}) q(\mathbf{z}) }{\int p(\mathbf{x}, \mathbf{z}) d \mathbf{z}} \label{eq1.1} \tag{1.1} \\
@@ -26,7 +27,7 @@ $$
 The posterior represents distribution of latent variables given the observations, getting posterior is equivalent to learning data representation. <br>
 <br>
 While $ p(\mathbf{x}, \mathbf{z}) $ can be fully observable, the integral term is computationally expensive, thus the posterior is intractable 
-([Blei *et al.*, 2017](https://doi.org/10.1080/01621459.2017.1285773)). VI overcomes this difficulty by approximating intractable posterior with simpler distribution. Specifically, it parameterizes prior $q(\mathbf{z})$ with variational parameters $\boldsymbol{\theta} = \{\theta_1, \theta_2, ..., \theta_M \}$ and then optimize them to achieve a good approximation of posterior in term of KL divergence. <br>
+([Blei *et al.*, 2017](https://doi.org/10.1080/01621459.2017.1285773)). VI overcomes this difficulty by approximating intractable posterior with simpler distribution. Specifically, it parameterizes prior $q(\mathbf{z})$ with variational parameters $\boldsymbol{\theta} = \{\theta_1, \theta_2, ..., \theta_M \}$ and then optimize them to achieve a good approximation of posterior in term of KL divergence.
 
 ## <a name="VanillaVI"></a> Vanilla VI
 
@@ -101,7 +102,8 @@ q_{\boldsymbol{\theta}}(\mathbf{z}) = \prod_{j=1}^{M} q_{\theta_j}(z_j) \label{e
 $$
 <br>
 Remember that mean-field approximation does not concern the correlation between latent variables, it becomes less accurate when true posterior variables are highly dependent. <br>
-For brevity, we shorten $q_{\theta_j}(z_j)$ to $q(z_j)$ and denote {% raw %}  $ \mathbf{z}_{-j} = \mathbf{z} \setminus \{z_j\} $ {% endraw %} as the latent set excluding variable $ z_j $. <br>
+For brevity, we shorten $q_{\theta_j}(z_j)$ to $q(z_j)$ and denote {% raw %}  $ \mathbf{z}_{-j} = \mathbf{z} \setminus \{z_j\} $ {% endraw %} as the latent set excluding variable $ z_j $.
+<br>
 <br>
 By the assumption, we have: <br>
 $$ \small
