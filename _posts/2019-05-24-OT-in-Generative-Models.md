@@ -13,14 +13,16 @@ Many recent research in generative models have borrowed ideas from classic proba
 
 # <a name="VI"></a> Variational Inference
 
-We first revisit VI whose idea is the base of VAE and its variants. Assume we have a set $\mathbf{x} = \{ x_1, x_2, \dots, x_N \}$ contains $N$ observations of data. VI aims to understand data by inferring low-dimensional representation from these (often high-dimensional) observations. To do so, it introduces a set of $M$ latent variables $\mathbf{z} = \{ z_1, z_2, \dots, z_M\} \sim q(\mathbf{z})$ with prior density $q(\mathbf{z})$ and relates them to the observations through likelihood $p(\mathbf{x} | \mathbf{z})$: <br>
+We first revisit VI whose idea is the base of VAE and its variants. Assume we have a set $\mathbf{x} = \{ x_1, x_2, \dots, x_N \}$ contains $N$ observations of data. VI aims to understand data by inferring low-dimensional representation from these (often high-dimensional) observations. To do so, it introduces a set of $M$ latent variables $\mathbf{z} = \{ z_1, z_2, \dots, z_M\} \sim q(\mathbf{z})$ with prior density $q(\mathbf{z})$ and relates them to the observations through likelihood $p(\mathbf{x} | \mathbf{z})$ :
 {% raw %}
+$$
 \begin{align}
 & p(\mathbf{z} | \mathbf{x}) = \frac{p(\mathbf{x}, \mathbf{z})}{p(\mathbf{x})}  = \frac{p(\mathbf{x} | \mathbf{z}) q(\mathbf{z}) }{\int p(\mathbf{x}, \mathbf{z}) d \mathbf{z}} \label{eq1.1} \tag{1.1} \\
 \text{where:} \: & p(\mathbf{z} | \mathbf{x}) \: \text{is posterior} \nonumber \\
 & p(\mathbf{x}, \mathbf{z}) = p(\mathbf{x} | \mathbf{z}) q(\mathbf{z}) \: \text{is joint density of} \: \mathbf{x} \: \text{and} \: \mathbf{z} \nonumber \\
 & p(\mathbf{x}) = \int p(\mathbf{x}, \mathbf{z}) d \mathbf{z} \: \text{is evidence, computed by marginalizing} \: \mathbf{z} \nonumber
 \end{align}
+$$
 {% endraw %}
 The posterior represents distribution of latent variables given the observations, getting posterior is equivalent to learning data representation. <br>
 <br>
