@@ -139,7 +139,7 @@ $$ \small
 $$
 {% endraw %}
 <br>
-Here we substitute  {% raw %} $ \int_{\mathbf{z}} d \mathbf{z}$ for $\int_{z_1} \int_{z_2} \dots \int_{z_M}  d z_1 d z_2 \dots d z_M$ {% raw %}. 
+Here we substitute  {% raw %} $ \int_{\mathbf{z}} d \mathbf{z}$ for $\int_{z_1} \int_{z_2} \dots \int_{z_M}  d z_1 d z_2 \dots d z_M$ {% endraw %}. 
 <br>
 On the other hand: 
 <br>
