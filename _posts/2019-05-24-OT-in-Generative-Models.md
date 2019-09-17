@@ -30,7 +30,7 @@ While $ p(\mathbf{x}, \mathbf{z}) $ can be fully observable, the integral term i
 ## <a name="VanillaVI"></a> Vanilla VI
 
 We now derive the optimization problem's objective of VI. Let's consider:
-$$
+$$ \small
 \begin{align}
 & \log p(\mathbf{x}) = \log \int p(\mathbf{x} | \mathbf{z}) q_{\boldsymbol{\theta}} (\mathbf{z}) d\mathbf{z} = \log \mathbb{E}_{\mathbf{z} \sim q_{\boldsymbol{\theta}} (\mathbf{z})} [p(\mathbf{x} | \mathbf{z})] \label{eq1.2} \tag{1.2} \\
 \text{where:} & \: q_{\boldsymbol{\theta}} (\mathbf{z}) \: \text{is parameterized prior} \nonumber
@@ -38,7 +38,7 @@ $$
 $$
 <br>
 Since $\log$ is concave function, by Jensen's inequality:
-$$
+$$ \small
 \begin{align}
 \log \mathbb{E}_{ \mathbf{z} \sim q_{\boldsymbol{\theta}} (z)} [ p(\mathbf{x} | \mathbf{z})] \geq &\mathbb{E}_{\mathbf{z} \sim q_{\boldsymbol{\theta}}(\mathbf{z})} [ \log p(\mathbf{x} | \mathbf{z}) ] = \nonumber \\ 
 &= \mathbb{E}_{q_{\boldsymbol{\theta}}(\mathbf{z})} \left[ \log \frac{ p(\mathbf{x}, \mathbf{z}) }{q_{\boldsymbol{\theta}}(\mathbf{z})} \right] = \nonumber \\
@@ -49,7 +49,7 @@ $$
 The quantity $\mathcal{L}$ is ELBO - Evidence Lower BOund.<br>
 <br>
 We now show that the difference between $\log p(x)$ and ELBO is exactly KL divergence between variational distribution, i.e. parameterized prior $q_{\boldsymbol{\theta}}(\mathbf{z})$, and posterior:
-$$
+$$ \small
 \begin{align}
 \log p(\mathbf{x}) - \mathcal{L} &= \log p(\mathbf{x}) - \mathbb{E}_{q_{\boldsymbol{\theta}} (\mathbf{z})} [ \log p(\mathbf{x}, \mathbf{z}) - \log q_{\boldsymbol{\theta}}(\mathbf{z})] \nonumber \\
 &= \mathbb{E}_{q_{\boldsymbol{\theta}} (\mathbf{z})} [\log p(\mathbf{x})] - \mathbb{E}_{q_{\boldsymbol{\theta}}  (\mathbf{z})} [ \log p(\mathbf{x}, \mathbf{z}) - \log q_{\boldsymbol{\theta}} (\mathbf{z})] \nonumber \\
@@ -62,7 +62,7 @@ $$
 $$
 <br>
 Another way to express ($\ref{eq1.4}$) is:
-$$
+$$ \small
 \begin{align}
 \log p(\mathbf{x}) &= \mathbb{E}_{ \mathbf{z} \sim q_{\boldsymbol{\theta}}(\mathbf{z}) } \left[ \log p(\mathbf{x}) \right] \nonumber \\
 &= \mathbb{E}_{ \mathbf{z} \sim q_{\boldsymbol{\theta}}(\mathbf{z}) } \left[ \log \frac{p(\mathbf{x} | \mathbf{z}) q_{\boldsymbol{\theta}}(\mathbf{z}) }{p(\mathbf{z} | \mathbf{x})} \right] \nonumber \\
@@ -73,7 +73,7 @@ $$
 \end{align}
 $$
 So:
-$$
+$$ \small
 \begin{align}
 \implies \: & \log p(\mathbf{x}) - \text{KL} \left( q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x}) \parallel p(\mathbf{z} | \mathbf{x}) \right) = \mathbb{E}_{q_{\boldsymbol{\theta}}(\mathbf{z})} \left[ \log p(\mathbf{x} | \mathbf{z}) \right]  - \text{KL} \left( q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x}) \parallel p(\mathbf{z}) \right) \label{eq1.4a} \tag{1.4a} \\
 & \text{where:} \: p(\mathbf{z}) \: \text{is true distribution of} \: \mathbf{z} \nonumber
@@ -92,7 +92,7 @@ Note that $\log p(\mathbf{x})$ is a constant quantity w.r.t $\boldsymbol{\theta}
 ## <a name="MFVI"></a> Mean-Field VI (MFVI)
 
 Choosing prior distribution leads to a trade-off between complexity and quality of posterior. We want an approximation that can express prior well yet must be simple enough to make itself tractable. A common choice is mean-field approximation, an adaption of mean-field theory in physics. Under mean-field assumption, MFVI factorizes $q_{\boldsymbol{\theta}}(\mathbf{z})$ into $M$ factors where each factor is governed by its own parameter and is independent of others:
-$$
+$$ \small
 \begin{align}
 q_{\boldsymbol{\theta}}(\mathbf{z}) = \prod_{j=1}^{M} q_{\theta_j}(z_j) \label{eq1.5} \tag{1.5}
 \end{align}
@@ -101,7 +101,7 @@ Remember that mean-field approximation does not concern the correlation between 
 For brevity, we shorten $q_{\theta_j}(z_j)$ to $q(z_j)$ and denote {% raw %}  $ \mathbf{z}_{-j} = \mathbf{z} \setminus \{z_j\} $ {% endraw %} as the latent set excluding variable $ z_j $.
 
 By the assumption, we have:
-$$
+$$ \small
 \begin{align}
 p(\mathbf{x}, \mathbf{z}) &= p(z_j, \mathbf{x} | z_{-j}) q(\mathbf{z}_{-j}) \nonumber \\
 &= p(z_j, \mathbf{x} | z_{-j}) \prod_{i \neq j} q(z_i) \label{eq1.6} \tag{1.6} \\
@@ -110,7 +110,7 @@ p(\mathbf{x}, \mathbf{z}) &= p(z_j, \mathbf{x} | z_{-j}) q(\mathbf{z}_{-j}) \non
 $$
 <br>
 Hence:
-$$
+$$ \small
 \begin{align}
 \mathcal{L} &= \int_{\mathbf{z}} \left( \prod_{i=1}^{M} q_i (z_i) \right) \log \frac{p(\mathbf{x}, \mathbf{z})} {\prod_{k=1}^{M} q_k(z_k) } d \mathbf{z} \nonumber \\
 &= \int_{\mathbf{z}} \left( \prod_{i=1}^{M} q_i (z_i) \right) \left( \log p(\mathbf{x}, \mathbf{z}) - \sum_{k=1}^{M} \log q_k(z_k) \right) d \mathbf{z} \nonumber \\
@@ -122,7 +122,7 @@ $$
 Here we substitute  $\int_{\mathbf{z}} d \mathbf{z}$ for $\int_{z_1} \int_{z_2} \dots \int_{z_M}  d z_1 d z_2 \dots d z_M$. <br>
 <br>
 On the other hand:
-$$
+$$ \small
 \begin{align}
 \int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \log p(\mathbf{x}, \mathbf{z}) dz_1 \dots dz_{j-1} dz_{j+1} \dots dz_M = \mathbb{E}_{q(\mathbf{z}_{-j})} \log p(\mathbf{x}, \mathbf{z}) \label{eq1.9} \tag{1.9}
 \end{align}
@@ -130,7 +130,7 @@ $$
 <br>
 From ($\ref{eq1.8}$) and ($\ref{eq1.9}$): <br>
 {% raw %}
-$$
+$$ \small
 \begin{align}
 \mathcal{L} &= \int_{z_j} q(z_j) \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j - \int_{z_j} q(z_j) \int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k=1}^{M} \log q_k(z_k) d z_1 d z_2 \dots d z_M \nonumber \\
 &= \int_{z_j} q(z_j) \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j 
@@ -144,7 +144,7 @@ $$
 $$
 {% endraw %}
 Using ($\ref{eq1.6}$), we can come up with another form:
-$$
+$$ \small
 \begin{align}
 \mathcal{L} &= \int_{\mathbf{z}_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(z_j, \mathbf{x} | \mathbf{z}_{-j}) + \log q(\mathbf{z}_{-j})] - \log q(z_j) \right) dz_j + C_{-j} \nonumber \\
 &= \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j})] - \log q(z_j) \right) dz_j \nonumber \\
@@ -154,7 +154,7 @@ $$
 $$
 <br>
 Our objective now becomes:
-$$
+$$ \small
 \begin{align}
 & \underset{q(z_j)}{\max} \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(z_j, \mathbf{x} | \mathbf{z}_{-j}) ] - \log q(z_j) \right)  dz_j + C_{-j}^{\prime} \label{eq1.12} \tag{1.12} \\
 \text{s.t:} & \: \int_{z_j}q(z_j)dz_j = 1, \: \forall j \in \{1,2,\dots,M \} \nonumber
@@ -162,14 +162,14 @@ $$
 $$
 <br>
 Problem ($\ref{eq1.12}$) can be easily solved by Lagrange multiplier:
-$$
+$$ \small
 \begin{align}
 \max &\: \mathcal{L} - \sum_{j=1}^{M} \lambda_j \int_{z_j}q(z_j)dz_j \label{eq1.13} \tag{1.13}
 \end{align}
 $$
 <br>
 Taking derivative of ($\ref{eq1.13}$) w.r.t $q(z_j)$:
-$$
+$$ \small
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial q(z_j)} &= \frac{\partial}{\partial q(z_j)} \left[ q(z_j) 
 \left( \mathbb{E}_{q(\mathbf{z}_{-j})} [\log p(z_j, \mathbf{x} | \mathbf{z}_{-j} ) -\log q(z_j) ] \right) - \lambda_j q(z_j) \right] \nonumber \\
@@ -204,7 +204,7 @@ Various VI models are not feasible for big datasets, for instance, MFVI's updati
 Instead of only considering local (per data point) latent variable $z_i$ and their corresponding variational parameter $\theta_i$, SVI introduces global latent variable $\mathbf{y}$ and global variational parameter $\boldsymbol{\phi}$. In detail, we have {% raw %} $ \\{ z_i \text{s}, \mathbf{y} \\} $ {% endraw %} as latent variables and {% raw %} $ \{ \theta_i, \boldsymbol{\phi} \} $ {% endraw %} as variational parameter for $i = 1, 2, \dots, N$ (recall that $N$ is number of observations). Furthermore, we assume the model depends on a hyper-paremeter $\alpha$. Unlike vanilla VI, SVI's objective is summed over contributions of all $N$ individual data points. This setting allows stochastic optimization work. Later we will learn that VAE also adopts it.<br>
 <br>
 Variational distribution follows below assumption:
-$$
+$$ \small
 \begin{align}
 & q(\mathbf{z}, \mathbf{y}) = q_{\boldsymbol{\phi}}(\mathbf{y}) \prod_{i=1}^{N} q_{\theta_i}(z_i) = q(\mathbf{y}) \prod_{i=1}^{N} q(z_i) 
 \label{eq1.16} \tag{1.16} \\
@@ -213,7 +213,7 @@ $$
 $$
 <br>
 Joint distribution is factorization of global term and local terms:
-$$
+$$ \small
 \begin{align}
 p(\mathbf{x}, \mathbf{z}, \mathbf{y} \mid \alpha) &= p(\mathbf{y} \mid \alpha) \prod_{i=1}^{N} p(x_i, z_i \mid \mathbf{y}, \alpha) 
 \label{eq1.17} \tag{1.17} \\
@@ -222,7 +222,7 @@ p(x_i, z_i \mid \mathbf{y}, \alpha) &= p(x_i \mid z_i, \mathbf{y}, \alpha) p(z_i
 $$
 <br>
 SVI's objective then becomes:
-$$
+$$ \small
 \begin{align}
 \mathcal{L} &= \mathbb{E}_{q(\mathbf{z}, \mathbf{y})} \left[\log \frac{p(\mathbf{x}, \mathbf{z}, \mathbf{y} \mid \alpha)}{q(\mathbf{z}, \mathbf{y})} \right] \nonumber \\
 &= \mathbb{E}_q \left[ \log p(\mathbf{x}, \mathbf{z}, \mathbf{y} \mid \alpha) \right] - \mathbb{E}_q \left[ \log q(\mathbf{z}, \mathbf{y}) \right] \tag*{($\mathbb{E}_q$ is abbreviation of  $\mathbb{E}_{q(\mathbf{z}, \mathbf{y})}$ )} \nonumber \\
@@ -234,7 +234,7 @@ $$
 $$
 <br>
 Though coordinate ascent can optimize function ($\ref{eq1.19}$), stochastic gradient descent should be more efficient. Particularly, in each iteration, random-selected mini-batches of size $S$ are used to obtain stochastic estimate $\hat{\mathcal{L}}$ of ELBO:
-$$
+$$ \small
 \begin{align}
 \hat{\mathcal{L}} &= \mathbb{E}_q \left[ \log p(\mathbf{y} \mid \alpha) - \log q(\mathbf{y}) \right] + \frac{N}{S} \sum_{i=1}^{S} \left[ \log p(x_{i_s} \mid z_{i_s}, \mathbf{y}, \alpha) + \log p(z_{i_s} \mid \mathbf{y}, \alpha) - \log q(z_{i_s}) \right] \label{eq1.20} \tag{1.20}
 \end{align}
