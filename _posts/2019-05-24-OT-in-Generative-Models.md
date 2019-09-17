@@ -201,7 +201,6 @@ Various VI models are not feasible for big datasets, for instance, MFVI's updati
 <br>
 <figure>
   <img src="{{ '/assets/otvi/SVI.jpg' | relative_url }}" alt="SVI" style="width:60%">
-  <figcaption>Graphical model of SVI</figcaption>
 </figure>
 <a name="Fig1.1"></a> **Fig1.1:** Graphical model of SVI: observations $x_i$, local underlying variables $z_i$s, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation. <br>
 <br>
