@@ -196,8 +196,7 @@ Since $q(z_j)$ and $q(z_i)$ are independent for any $j \neq i, \: i, j \in \{1, 
 Various VI models are not feasible for big datasets, for instance, MFVI's updating rule ($\ref{eq1.15}$) is exhausted for huge number of observations since it must process every single data point. Different from these approaches, SVI employs stochastic optimization for efficiently optimizing its objective under big data circumstance.<br>
 <br>
 <figure>
-  <img src="../html/pic_trulli.jpg" alt="Trulli" style="width:60%">
-  <img src="{{ '/assets/otvi/SVI.jpg' | relative_url }}" alt="SVI">
+  <img src="{{ '/assets/otvi/SVI.jpg' | relative_url }}" alt="SVI" style="width:60%">
   <figcaption>Fig1.1: Graphical model of SVI</figcaption>
 </figure>
 <a name="Fig1.1"></a> **Fig1.1:** Graphical model of SVI: observations $x_i$, local underlying variables $z_i's$, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation.
