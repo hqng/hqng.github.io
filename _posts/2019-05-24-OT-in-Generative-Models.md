@@ -197,11 +197,11 @@ Various VI models are not feasible for big datasets, for instance, MFVI's updati
 <br>
 <figure>
   <img src="{{ '/assets/otvi/SVI.jpg' | relative_url }}" alt="SVI" style="width:60%">
-  <figcaption>Fig1.1: Graphical model of SVI</figcaption>
+  <figcaption>Graphical model of SVI</figcaption>
 </figure>
-<a name="Fig1.1"></a> **Fig1.1:** Graphical model of SVI: observations $x_i$, local underlying variables $z_i's$, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation.
+<a name="Fig1.1"></a> **Fig1.1:** Graphical model of SVI: observations $x_i$, local underlying variables $z_i$s, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation. <br>
 <br>
-Instead of only considering local (per data point) latent variable $z_i$ and their corresponding variational parameter $\theta_i$, SVI introduces global latent variable $\mathbf{y}$ and global variational parameter $\boldsymbol{\phi}$. In detail, we have {% raw %} $ \{ z_i \text{s}, \mathbf{y} \} $ {% endraw %} as latent variables and {% raw %} $ \{ \theta_i, \boldsymbol{\phi} \} $ {% endraw %} as variational parameter for $i = 1, 2, \dots, N$ (recall that $N$ is number of observations). Furthermore, we assume the model depends on a hyper-paremeter $\alpha$. Unlike vanilla VI, SVI's objective is summed over contributions of all $N$ individual data points. This setting allows stochastic optimization work. Later we will learn that VAE also adopts it.<br>
+Instead of only considering local (per data point) latent variable $z_i$ and their corresponding variational parameter $\theta_i$, SVI introduces global latent variable $\mathbf{y}$ and global variational parameter $\boldsymbol{\phi}$. In detail, we have {% raw %} $ \\{ z_i \text{s}, \mathbf{y} \\} $ {% endraw %} as latent variables and {% raw %} $ \{ \theta_i, \boldsymbol{\phi} \} $ {% endraw %} as variational parameter for $i = 1, 2, \dots, N$ (recall that $N$ is number of observations). Furthermore, we assume the model depends on a hyper-paremeter $\alpha$. Unlike vanilla VI, SVI's objective is summed over contributions of all $N$ individual data points. This setting allows stochastic optimization work. Later we will learn that VAE also adopts it.<br>
 <br>
 Variational distribution follows below assumption:
 $$
