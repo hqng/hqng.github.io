@@ -98,7 +98,7 @@ q_{\boldsymbol{\theta}}(\mathbf{z}) = \prod_{j=1}^{M} q_{\theta_j}(z_j) \label{e
 \end{align}
 $$
 Remember that mean-field approximation does not concern the correlation between latent variables, it becomes less accurate when true posterior variables are highly dependent.<br>
-For brevity, we shorten $q_{\theta_j}(z_j)$ to $q(z_j)$ and denote \( \mathbf{z}_{-j} = \mathbf{z} \setminus \{z_j\} \) as the latent set excluding variable \( z_j \).
+For brevity, we shorten $q_{\theta_j}(z_j)$ to $q(z_j)$ and denote $ \mathbf{z}_{-j} = \mathbf{z} \setminus \{z_j\} \text{ as the latent set excluding variable }  z_j $.
 <br>
 By the assumption, we have:
 $$
