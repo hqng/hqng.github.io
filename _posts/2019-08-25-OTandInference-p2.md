@@ -20,9 +20,9 @@ VAE is another scale-up variant of VI. It employs deep neural networks to perfor
 In VI models, each local variable is governed by its own variational parameter, e.g. in SVI, parameter $\theta_i$ corresponds to latent variable $z_i$. To maximize ELBO, we have to optimize objective function w.r.t all variational parameters. Consequently, the larger number of parameters is, the more expensive computational cost is.
 
 <div style="text-align: center;">
-<img src="{{ '/assets/otvi/AmortizedVI.jpg' | relative_url }}" alt="Amortized VI" width="30%" /> 
+<img src="{{ '/assets/otvi/AmortizedVI.jpg' | relative_url }}" alt="Amortized VI" width="25%" /> 
 </div>
-<a name="Fig2.1"></a> <sub> -->*Fig2.1:* Graphical model of Amortized VI. Dashed line indicates variational approximation.<-- </sub>
+<a name="Fig2.1"></a> <sub> *Fig2.1:* Graphical model of Amortized VI. Dashed line indicates variational approximation. </sub>
 
 Amortized VI reforms SVI structure to lower the cost. In particular, it  assumes that optimal $z_i$'s can be represented as a function of $x_i$s, $z_i = f(x_i)$, i.e. $z_i$s are features of $x_i$s. Of course, local variational parameters are removed. Employing a function whose parameters are shared across all data points allows past computation to support future computation. Once the function is estimated (say, after few optimization steps), local variables obviously can be computed by passing new data points to $f(\cdot)$. This is why we name it *amortized*. Function $f(\cdot)$ implements a deep neural network called *inference network* to make a powerful predictor.
 
@@ -51,7 +51,7 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-This often results in very high variance estimate and impractical [Blei *et al.*](https://arxiv.org/abs/1312.6114). Fortunately, reparameterization trick can resolve the problem. <br>
+This often results in very high variance estimate and impractical [Blei *et al.*, 2012](https://arxiv.org/abs/1312.6114). Fortunately, reparameterization trick can resolve the problem. <br>
 <br>
 The idea of reparameterization is to transform one distribution into another form by additive/multiplicative location-scale transformations, these are basically [co-ordinate transformations](http://blog.shakirm.com/2015/10/machine-learning-trick-of-the-day-4-reparameterisation-tricks/). This way, we can express diverse and flexible class of distributions in combination of multiple simpler terms. <br>
 <br>
@@ -117,11 +117,12 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Sampling $\varepsilon$ clearly is easier than sampling $z$ directly, the problem ($\ref{eq2.1}$) turns out to be feasible. %Even better, the estimator ($\ref{eq2.5}$) is unbiased and practicable.
+Sampling $\varepsilon$ clearly is easier than sampling $z$ directly, the problem ($\ref{eq2.1}$) turns out to be feasible.
 
-\subsection{VAE} \label{VAEmodel}
-VAE adopts SVI and Amortized VI to make a powerful generative model. The term "generative" bases on the fact that VAE employs a neural network as \textit{generative network} alongside mentioned \textit{inference network}. 
-For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e. hidden variable $z$ has (parameterized) normal distribution. Other settings which are less common can be found at \cite{KingmaThesis}, \cite{VariationalBayes}.
+### <a name="VAEmodel"> VAE
+
+VAE adopts SVI and Amortized VI to make a powerful generative model. The term "generative" bases on the fact that VAE employs a neural network as *generative network* alongside mentioned *inference network*. 
+For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e. hidden variable $z$ has (parameterized) normal distribution. Other settings which are less common can be found at [Kingma's Thesis](), [Kingma and Welling, 2014](https://arxiv.org/abs/1312.6114).
 
 \begin{figure}[H]
 	\centering
