@@ -124,29 +124,38 @@ Sampling $\varepsilon$ clearly is easier than sampling $z$ directly, the problem
 VAE adopts SVI and Amortized VI to make a powerful generative model. The term "generative" bases on the fact that VAE employs a neural network as *generative network* alongside mentioned *inference network*. 
 For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e. hidden variable $z$ has (parameterized) normal distribution. Other settings which are less common can be found at [Kingma's Thesis](), [Kingma and Welling, 2014](https://arxiv.org/abs/1312.6114).
 
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}[b]{0.45\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{VAE}
-		\caption{Graphical model.}
-		\label{fig2.2a}
-	\end{subfigure}
-	%\hspace{2pt}
-	\begin{subfigure}[b]{0.45\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{VAEnet}
-		\caption{Deep neural networks model}
-		\label{fig2.2b}
-	\end{subfigure}
-	\captionsetup{width=.75\textwidth}
-	\caption{(a) Fig \ref{fig2.2a} shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\phiparam$ is parameters of variational distribution $q_{\phiparam}(z | x)$. $\thetaparam$ is parameter of generative model $p(z) p_{\thetaparam}(x | z) $. (b) Fig \ref{fig2.2b} presents VAE deep learning model. $q_{\phiparam}(z | x)$ and $p_{\thetaparam}(x | z)$ are replaced by neural networks.}
-	\label{fig2.2}
-\end{figure}
+<html>
+<style>
+* {
+  box-sizing: border-box;
+}
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;"><img src="{{ '/assets/otvi/VAE.jpg' | relative_url }}" alt="VAE" style="float: left; height: 15em; margin-right: 1%; margin-bottom: 0.5em;"/>fig2.2a Graphical model.</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;"><img src="{{ '/assets/otvi/VAEnet.jpg' | relative_url }}" alt="VAEnet" style="float: left; height: 15em; margin-right: 1%; margin-bottom: 0.5em;"/>fig2.2b Neural networks model.</p>
-<p style="clear: both;"/>
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+
+<div class="row">
+  <div class="column">
+    <img src="{{ '/assets/otvi/VAE.jpg' | relative_url }}" alt="VAE" style="height: 15em;"/>
+    <figcaption>fig2.2a Grapical model</figcaption>
+  </div>
+  <div class="column">
+    <img src="{{ '/assets/otvi/VAEnet.jpg' | relative_url }}" alt="VAEnet" style="height: 15em;">
+	<figcaption>fig 2.2b Neural networks</figcaption>
+  </div>
+</div>
+</html>
+<a name="Fig2.1"></a> <sub>(a) Fig \ref{fig2.2a} shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\phiparam$ is parameters of variational distribution $q_{\phiparam}(z | x)$. $\thetaparam$ is parameter of generative model $p(z) p_{\thetaparam}(x | z) $. (b) Fig \ref{fig2.2b} presents VAE deep learning model. $q_{\phiparam}(z | x)$ and $p_{\thetaparam}(x | z)$ are replaced by neural networks.</sub>
 
 Figure (\ref{fig2.2}) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\phiparam}(z | x)$ and generative model $p(z) p_{\thetaparam}(x | z)$ are performed by encoder network and decoder network respectively. The variational parameters $\phiparam$ and generative model's parameters $\thetaparam $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables (section \ref{VI}), VAE can take a single data point as input thanks to \textit{amortized} setting. \\ %i.e. given a single observation $x_i$, we have $z_i \sim q_{\phiparam}(z | x=x_i) = q_{\phiparam}(z | x_i)$. \\
 
