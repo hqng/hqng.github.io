@@ -11,273 +11,213 @@ tags:
 excerpt: "Second part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
 ---
 
-Recent research in generative models have borrowed ideas from classic probabilistic frameworks. Such a model is VAE, an improvement of variational inference. Similar to VI, VAE's objective is to minimize the KL divergence between parameterized posterior and true posterior with respect to a variational family. Alternatively, a number of works attempt to enhance feature-learning and data-generating power of VAE by using different probability divergences. Among these approaches, Wasserstein distance brought from Optimal Transport (OT) is particularly promising. This article will survey several VI models that utilize Wasserstein distance. <br>
+## <a name="VAE"></a> Variational Auto-encoders (VAE)
 
-## <a name="VI"></a> Variational Inference
+VAE is another scale-up variant of VI. It employs deep neural networks to perform large datasets of high-dimensional samples such as images. Apart from representation learning, VAE is more advanced than VI at ability of reconstructing high quality samples.
 
-We first revisit VI whose idea is the base of VAE and its variants. Assume we have a set $\mathbf{x} = \\{ x_1, x_2, \dots, x_N \\}$ contains $N$ observations of data. VI aims to understand data by inferring low-dimensional representation from these (often high-dimensional) observations. To do so, it introduces a set of $M$ latent variables $\mathbf{z} = \\{ z_1, z_2, \dots, z_M \\} \sim q(\mathbf{z})$ with prior density $q(\mathbf{z})$ and relates them to the observations through likelihood {% raw %} $ p(\mathbf{x} | \mathbf{z}) $ {% endraw %}:
-<br>
-$$ \small
-\begin{align}
-& p(\mathbf{z} | \mathbf{x}) = \frac{p(\mathbf{x}, \mathbf{z})}{p(\mathbf{x})}  = \frac{p(\mathbf{x} | \mathbf{z}) q(\mathbf{z}) }{\int p(\mathbf{x}, \mathbf{z}) d \mathbf{z}} \label{eq1.1} \tag{1.1} \\
-\text{where:} \: & p(\mathbf{z} | \mathbf{x}) \: \text{is posterior} \nonumber \\
-& p(\mathbf{x}, \mathbf{z}) = p(\mathbf{x} | \mathbf{z}) q(\mathbf{z}) \: \text{is joint density of} \: \mathbf{x} \: \text{and} \: \mathbf{z} \nonumber \\
-& p(\mathbf{x}) = \int p(\mathbf{x}, \mathbf{z}) d \mathbf{z} \: \text{is evidence, computed by marginalizing} \: \mathbf{z} \nonumber
-\end{align}
-$$
-<br>
-The posterior represents distribution of latent variables given the observations, getting posterior is equivalent to learning data representation. <br>
-<br>
-While $ p(\mathbf{x}, \mathbf{z}) $ can be fully observable, the integral term is computationally expensive, thus the posterior is intractable 
-([Blei *et al.*, 2017](https://doi.org/10.1080/01621459.2017.1285773)). VI overcomes this difficulty by approximating intractable posterior with simpler distribution. Specifically, it parameterizes prior $q(\mathbf{z})$ with variational parameters $\boldsymbol{\theta} = \\{ \theta_1, \theta_2, ..., \theta_M \\} $ and then optimize them to achieve a good approximation of posterior in term of KL divergence.
+### <a name="AmortizedVI"></a> Amortized Variational Inference
 
-### <a name="VanillaVI"></a> Vanilla VI
+In VI models, each local variable is governed by its own variational parameter, e.g. in SVI, parameter $\theta_i$ corresponds to latent variable $z_i$. To maximize ELBO, we have to optimize objective function w.r.t all variational parameters. Consequently, the larger number of parameters is, the more expensive computational cost is.
 
-We now derive the optimization problem's objective of VI. Let's consider:
+<div style="text-align: center;">
+<img src="{{ '/assets/otvi/AmortizedVI.jpg' | relative_url }}" alt="Amortized VI" width="30%" /> 
+</div>
+<a name="Fig2.1"></a> <sub> -->*Fig2.1:* Graphical model of Amortized VI. Dashed line indicates variational approximation.<-- </sub>
+
+Amortized VI reforms SVI structure to lower the cost. In particular, it  assumes that optimal $z_i$'s can be represented as a function of $x_i$s, $z_i = f(x_i)$, i.e. $z_i$s are features of $x_i$s. Of course, local variational parameters are removed. Employing a function whose parameters are shared across all data points allows past computation to support future computation. Once the function is estimated (say, after few optimization steps), local variables obviously can be computed by passing new data points to $f(\cdot)$. This is why we name it *amortized*. Function $f(\cdot)$ implements a deep neural network called *inference network* to make a powerful predictor.
+
+### <a name="Reparmeterize-MC"></a> Reparameterization and Monte Carlo
+
+Reparameterization trick and Monte Carlo method are necessary for VAE to work. One challenge in VAE, and gradient-based models in general, is to compute gradient of expectation of a smooth function. A common way to achieve such gradient without analytical methods is to reparameterize variable first, then estimate gradient by Monte Carlo sampling. The former step serves two purposes, one for back-propagation's, one for reducing complexity of the latter step. (Feel free to skip this section if you are already familiar with those concepts.) <br>
+
+Let's estimate the following gradient which later shows up in VAE:
 <br>
+{% raw %}
 $$ \small
 \begin{align}
-& \log p(\mathbf{x}) = \log \int p(\mathbf{x} | \mathbf{z}) q_{\boldsymbol{\theta}} (\mathbf{z}) d\mathbf{z} = \log \mathbb{E}_{\mathbf{z} \sim q_{\boldsymbol{\theta}} (\mathbf{z})} [p(\mathbf{x} | \mathbf{z})] \label{eq1.2} \tag{1.2} \\
-\text{where:} & \: q_{\boldsymbol{\theta}} (\mathbf{z}) \: \text{is parameterized prior} \nonumber
+\nabla_{\theta} \E_{q_{\theta}(z)} \left[ f(z) \right] = \nabla_{\theta} \int q_{\theta}(z)f(z)dz \label{eq2.1} \tag(2.1)
 \end{align}
 $$
+{% endraw %}
 <br>
-Since $\log$ is concave function, by Jensen's inequality: <br>
+The naive Monte Carlo gradient estimator of ($\ref{eq2.1}$) is:
 <br>
-$$ \small
-\begin{align}
-\log \mathbb{E}_{ \mathbf{z} \sim q_{\boldsymbol{\theta}} (z)} [ p(\mathbf{x} | \mathbf{z})] \geq &\mathbb{E}_{\mathbf{z} \sim q_{\boldsymbol{\theta}}(\mathbf{z})} [ \log p(\mathbf{x} | \mathbf{z}) ] = \nonumber \\ 
-&= \mathbb{E}_{q_{\boldsymbol{\theta}}(\mathbf{z})} \left[ \log \frac{ p(\mathbf{x}, \mathbf{z}) }{q_{\boldsymbol{\theta}}(\mathbf{z})} \right] = \nonumber \\
-&= \mathbb{E}_{q_{\boldsymbol{\theta}}(\mathbf{z})} [ \log p(\mathbf{x}, \mathbf{z}) - \log q_{\boldsymbol{\theta}}(\mathbf{z}) ] = \mathcal{L} 
-\label{eq1.3} \tag{1.3}
-\end{align}
-$$
-<br>
-The quantity $\mathcal{L}$ is ELBO - Evidence Lower BOund.<br>
-<br>
-We now show that the difference between $\log p(x)$ and ELBO is exactly KL divergence between variational distribution, i.e. parameterized prior $q_{\boldsymbol{\theta}}(\mathbf{z})$, and posterior:
-<br>
-$$ \small
-\begin{align}
-\log p(\mathbf{x}) - \mathcal{L} &= \log p(\mathbf{x}) - \mathbb{E}_{q_{\boldsymbol{\theta}} (\mathbf{z})} [ \log p(\mathbf{x}, \mathbf{z}) - \log q_{\boldsymbol{\theta}}(\mathbf{z})] \nonumber \\
-&= \mathbb{E}_{q_{\boldsymbol{\theta}} (\mathbf{z})} [\log p(\mathbf{x})] - \mathbb{E}_{q_{\boldsymbol{\theta}}  (\mathbf{z})} [ \log p(\mathbf{x}, \mathbf{z}) - \log q_{\boldsymbol{\theta}} (\mathbf{z})] \nonumber \\
-&= \mathbb{E}_{q_{\boldsymbol{\theta}} (\mathbf{z})} [\log p(\mathbf{x}) - \log p(\mathbf{x}, \mathbf{z}) + \log q_{\boldsymbol{\theta}}(\mathbf{z}) ] \nonumber \\
-&= \mathbb{E}_{q_{\boldsymbol{\theta}} (\mathbf{z})} \left[ -\log \frac{p(\mathbf{x}, \mathbf{z})}{p(\mathbf{x})} + \log q_{\boldsymbol{\theta}}(\mathbf{z}) \right] \nonumber \\
-&= \mathbb{E}_{q_{\boldsymbol{\theta}} (\mathbf{z})} \left[ \log q_{\boldsymbol{\theta}} (\mathbf{z}) - \log p(\mathbf{z} | \mathbf{x}) \right] \nonumber \\
-&= \mathbb{E}_{q_{\boldsymbol{\theta}} (\mathbf{z})} \left[ \log \frac{q_{\boldsymbol{\theta}} (\mathbf{z})}{p(\mathbf{z} | \mathbf{x})} \right] = \text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x})) \label{eq1.4} \tag{1.4} \\
-\text{where:} \: \text{KL} (q \parallel p ) \: &\text{is Kullback-Leibler divergence between} \: q \: \text{and} \: p \nonumber
-\end{align}
-$$
-<br>
-Another way to express ($\ref{eq1.4}$) is: 
-<br>
-$$ \small
-\begin{align}
-\log p(\mathbf{x}) &= \mathbb{E}_{ \mathbf{z} \sim q_{\boldsymbol{\theta}}(\mathbf{z}) } \left[ \log p(\mathbf{x}) \right] \nonumber \\
-&= \mathbb{E}_{ \mathbf{z} \sim q_{\boldsymbol{\theta}}(\mathbf{z}) } \left[ \log \frac{p(\mathbf{x} | \mathbf{z}) q_{\boldsymbol{\theta}}(\mathbf{z}) }{p(\mathbf{z} | \mathbf{x})} \right] \nonumber \\
-&= \mathbb{E}_{q_{\boldsymbol{\theta}} (\mathbf{z})} \left[ \log \frac{q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x}) p(\mathbf{x} | \mathbf{z}) p(\mathbf{z})}{q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x}) p(\mathbf{z} | \mathbf{x}) } \right] \nonumber \\
-&= \mathbb{E}_{q_{\boldsymbol{\theta}} (\mathbf{z})} \left[ \log \frac{q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x})}{p (\mathbf{z} | \mathbf{x})} + \log p(\mathbf{x} | \mathbf{z}) - \log \frac{q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x})}{p(\mathbf{z})} \right] \nonumber \\
-&= \mathbb{E}_{q_{\boldsymbol{\theta}}(\mathbf{z})} \left[ \log \frac{q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x})}{p(\mathbf{z} | \mathbf{x})} \right] + \mathbb{E}_{q_{\boldsymbol{\theta}}(\mathbf{z})} \left[ \log p(\mathbf{x} | \mathbf{z}) \right] - \mathbb{E}_{q_{\boldsymbol{\theta}}(\mathbf{z})} \left[ \log \frac{q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x})}{p(\mathbf{z})} \right] \nonumber \\
-&= \text{KL} \left( q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x}) \parallel p(\mathbf{z} | \mathbf{x}) \right) + \mathbb{E}_{q_{\boldsymbol{\theta}}(\mathbf{z})} \left[ \log p(\mathbf{x} | \mathbf{z}) \right]  - \text{KL} \left( q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x}) \parallel p(\mathbf{z}) \right) \nonumber
-\end{align}
-$$
-<br>
-So:
-<br>
-$$ \small
-\begin{align}
-\implies \: & \log p(\mathbf{x}) - \text{KL} \left( q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x}) \parallel p(\mathbf{z} | \mathbf{x}) \right) = \mathbb{E}_{q_{\boldsymbol{\theta}}(\mathbf{z})} \left[ \log p(\mathbf{x} | \mathbf{z}) \right]  - \text{KL} \left( q_{\boldsymbol{\theta}}(\mathbf{z} | \mathbf{x}) \parallel p(\mathbf{z}) \right) \label{eq1.4a} \tag{1.4a} \\
-& \text{where:} \: p(\mathbf{z}) \: \text{is true distribution of} \: \mathbf{z} \nonumber
-\end{align}
-$$
-<br>
-From ($\ref{eq1.4}$), the posterior $p(\mathbf{z} | \mathbf{x})$ can be approximated by $q_{\boldsymbol{\theta}}(\mathbf{z})$ as long as we can find a parameters set $\boldsymbol{\theta}$ to have $\text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x})) = 0$. Although fulfilling that requirement is practically impossible, we could still reach the KL divergence's minima. Hence, VI simply turns computing task of intractable posterior into optimization problem with following objective: 
-<br>
+{% raw %}
 $$ \small
 \begin{align*}
-\underset{\boldsymbol{\theta}}{\min} \: \text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x}))
+\nabla_{\theta} \E_{q_{\theta}(z)} \left[ f(z) \right] &= \E_{q_{\theta}(z)} \left[ f(z) \nabla_{q_{\theta}(z)} \log q_{\theta}(z) \right] \approx \frac{1}{L} \sum_{i=1}^{L} f(z) \nabla_{q_{\theta}(z_i)} \log q_{\theta}(z_i) \\
+\text{where:} \: & L \: \text{is number of samples} \nonumber \\
+& z_i \sim q_{\theta}(z)
 \end{align*}
 $$
+{% endraw %}
+This often results in very high variance estimate and impractical [Blei *et al.*](https://arxiv.org/abs/1312.6114). Fortunately, reparameterization trick can resolve the problem. <br>
 <br>
-Note that $\log p(\mathbf{x})$ is a constant quantity w.r.t $\boldsymbol{\theta}$, to minimize $\text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x}))$ is equivalent to maximize the ELBO. One way of computing ELBO analytically is to restrict models to conjugate exponential family distribution. But we will focus on other approaches which are related to VAE.
-
-### <a name="MFVI"></a> Mean-Field VI (MFVI)
-
-Choosing prior distribution leads to a trade-off between complexity and quality of posterior. We want an approximation that can express prior well yet must be simple enough to make itself tractable. A common choice is mean-field approximation, an adaption of mean-field theory in physics. Under mean-field assumption, MFVI factorizes $q_{\boldsymbol{\theta}}(\mathbf{z})$ into $M$ factors where each factor is governed by its own parameter and is independent of others:
+The idea of reparameterization is to transform one distribution into another form by additive/multiplicative location-scale transformations, these are basically [co-ordinate transformations](http://blog.shakirm.com/2015/10/machine-learning-trick-of-the-day-4-reparameterisation-tricks/). This way, we can express diverse and flexible class of distributions in combination of multiple simpler terms. <br>
 <br>
-$$ \small
-\begin{align}
-q_{\boldsymbol{\theta}}(\mathbf{z}) = \prod_{j=1}^{M} q_{\theta_j}(z_j) \label{eq1.5} \tag{1.5}
-\end{align}
-$$
-<br>
-Remember that mean-field approximation does not concern the correlation between latent variables, it becomes less accurate when true posterior variables are highly dependent.
-<br>
-For brevity, we shorten $q_{\theta_j}(z_j)$ to $q(z_j)$ and denote {% raw %}  $ \mathbf{z}_{-j} = \mathbf{z} \setminus \{z_j\} $ {% endraw %} as the latent set excluding variable $ z_j $.
-<br>
-By the assumption, we have:
+We illustrate normal distribution case since it is widely used in machine learning and also appears in VAE. Given variable $z$ drawn from normal distribution and standard Gaussian noise {% raw %} $ \varepsilon $ {% endraw %}, {% raw %} $z$ {% endraw %} can be reparameterized by following transformation:
 <br>
 {% raw %}
 $$ \small
 \begin{align}
-p(\mathbf{x}, \mathbf{z}) &= p(z_j, \mathbf{x} | z_{-j}) q(\mathbf{z}_{-j}) \nonumber \\
-&= p(z_j, \mathbf{x} | z_{-j}) \prod_{i \neq j} q(z_i) \label{eq1.6} \tag{1.6} \\
-\mathbb{E}_{q(\mathbf{z})} \left[ \log q (\mathbf{z}) \right] &= \sum_{j=1}^{M} \mathbb{E}_{q(z_j)} \left[ \log q(z_j) \right] \label{eq1.7} \tag{1.7}
+& z = \mu + \varepsilon \sigma \label{eq2.2} \\
+\text{where:} \: & z \sim \mathcal{N}(z ; \mu, \sigma^2) \nonumber \\
+& \varepsilon \sim \mathcal{N}(\varepsilon ; 0, 1) \nonumber
 \end{align}
 $$
 {% endraw %}
 <br>
-Hence:
+If high dimensional space:
 <br>
 {% raw %}
 $$ \small
-\begin{align}
-\mathcal{L} &= \int_{\mathbf{z}} \left( \prod_{i=1}^{M} q_i (z_i) \right) \log \frac{p(\mathbf{x}, \mathbf{z})} {\prod_{k=1}^{M} q_k(z_k) } d \mathbf{z} \nonumber \\
-&= \int_{\mathbf{z}} \left( \prod_{i=1}^{M} q_i (z_i) \right) \left( \log p(\mathbf{x}, \mathbf{z}) - \sum_{k=1}^{M} \log q_k(z_k) \right) d \mathbf{z} \nonumber \\
-&= \int_{z_j} q(z_j) \int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \left[ \log p(\mathbf{x}, \mathbf{z}) - \sum_{k=1}^{M} \log q_k(z_k) \right) d \mathbf{z} \nonumber \\
-&= \int_{z_j} q(z_j) \int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \log p(\mathbf{x}, \mathbf{z}) d \mathbf{z} \nonumber \\
-& - \int_{z_j} q(z_j) \int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k=1}^{M} \log q_k(z_k) d \mathbf{z} \label{eq1.8} \tag{1.8}
-\end{align}
+\begin{align*}
+& z = \mu + \varepsilon \odot \Sigma  \\
+\text{where:} \: & z \sim \mathcal{N}(z; \mu, \Sigma \Sigma^{\top}) \\
+& \varepsilon \sim \mathcal{N}(\varepsilon ; 0, 1) \\
+& \odot \: \text{is point-wise product}
+\end{align*}
 $$
 {% endraw %}
-Here we substitute  {% raw %} $ \int_{\mathbf{z}} d \mathbf{z}$ for $\int_{z_1} \int_{z_2} \dots \int_{z_M}  d z_1 d z_2 \dots d z_M$ {% endraw %}. 
+From now on, ($\ref{eq2.2}$) is used for referring both cases unless stated otherwise. <br>
 <br>
-On the other hand: 
-<br>
-$$ \small
-\begin{align}
-\int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \log p(\mathbf{x}, \mathbf{z}) dz_1 \dots dz_{j-1} dz_{j+1} \dots dz_M = \mathbb{E}_{q(\mathbf{z}_{-j})} \log p(\mathbf{x}, \mathbf{z}) \label{eq1.9} \tag{1.9}
-\end{align}
-$$
-<br>
-From ($\ref{eq1.8}$) and ($\ref{eq1.9}$): 
+With the transformation from distribution $q(\epsilon)$ to $q_{\theta}(z)$, [the probability contained in a differential area must be invariant under change of variables](https://en.wikipedia.org/wiki/Probability_density_function#Dependent_variables_and_change_of_variables), i.e. {% raw %} $ \abs{q_{\theta}(z)dz} = \abs{q(\varepsilon) d \varepsilon} $ {% endraw %}. Together with ($\ref{eq2.1}$), we have:
 <br>
 {% raw %}
-$$ \small
-\begin{align}
-\mathcal{L} &= \int_{z_j} q(z_j) \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j - \int_{z_j} q(z_j) \int_{\mathbf{z}_{-j }} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k=1}^{M} \log q_k(z_k) d z_1 d z_2 \dots d z_M \nonumber \\
-&= \int_{z_j} q(z_j) \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j 
-- \int_{z_j} q(z_j) \log q(z_j) \underbrace{\int_{\mathbf{z}_{-j}} \left( \prod_{i \neq j}q_i(z_i) \right) dz_1 \dots dz_M }_{=1} \nonumber \\
-&- \underbrace{\int_{z_j} q(z_j) dz_j }_{=1} \int_{\mathbf{z}_{-j}} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k \neq j} \log q_k (z_k) dz_1 \dots dz_{j-1} dz_{j+1} \dots dz_M \nonumber \\
-&= \int_{z_j} q(z_j) \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j - \int_{z_j} q(z_j) \log q(z_j) dz_j \nonumber \\
-&- \int_{\mathbf{z}_{-j}} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k \neq j} \log q_k(z_k) dz_1 \dots dz_{j-1} dz_{j+1} \dots dz_M \nonumber \\
-&= \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] - \log q(z_j) \right)  dz_j + C_{-j} \label{eq1.10} \tag{1.10} \\
-\text{where:} \: & C_{-j} \: \text{containts all constant quantities w.r.t} \: z_j \nonumber
-\end{align}
-$$
-{% endraw %}
-Using ($\ref{eq1.6}$), we can come up with another form: 
-<br>
-$$ \small
-\begin{align}
-\mathcal{L} &= \int_{\mathbf{z}_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(z_j, \mathbf{x} | \mathbf{z}_{-j}) + \log q(\mathbf{z}_{-j})] - \log q(z_j) \right) dz_j + C_{-j} \nonumber \\
-&= \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j})] - \log q(z_j) \right) dz_j \nonumber \\
-&+ \left( \int_{z_j} q(z_j) dz_j \right) \mathbb{E}_{q(\mathbf{z}_{-j})} [\log q(\mathbf{z}_{-j})] + C_{-j} \nonumber \\
-&= \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j})] - \log q(z_j) \right) dz_j + C_{-j}^{\prime} \label{eq1.11} \tag{1.11}
-\end{align}
-$$
-<br>
-Our objective now becomes: 
-<br>
-$$ \small
-\begin{align}
-& \underset{q(z_j)}{\max} \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(z_j, \mathbf{x} | \mathbf{z}_{-j}) ] - \log q(z_j) \right)  dz_j + C_{-j}^{\prime} \label{eq1.12} \tag{1.12} \\
-\text{s.t:} & \: \int_{z_j}q(z_j)dz_j = 1, \: \forall j \in \{1,2,\dots,M \} \nonumber
-\end{align}
-$$
-<br>
-Problem ($\ref{eq1.12}$) can be easily solved by Lagrange multiplier: 
-<br>
-$$ \small
-\begin{align}
-\max &\: \mathcal{L} - \sum_{j=1}^{M} \lambda_j \int_{z_j}q(z_j)dz_j \label{eq1.13} \tag{1.13}
-\end{align}
-$$
-<br>
-Taking derivative of ($\ref{eq1.13}$) w.r.t $q(z_j)$: 
-<br>
-$$ \small
-\begin{align}
-\frac{\partial \mathcal{L}}{\partial q(z_j)} &= \frac{\partial}{\partial q(z_j)} \left[ q(z_j) 
-\left( \mathbb{E}_{q(\mathbf{z}_{-j})} [\log p(z_j, \mathbf{x} | \mathbf{z}_{-j} ) -\log q(z_j) ] \right) - \lambda_j q(z_j) \right] \nonumber \\
-&= \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j}) ] - \log q(z_j) - 1 - \lambda_j \label{eq1.14} \tag{1.14}
-\end{align}
-$$
-<br>
-Set the partial derivative to $0$ to get the updating form of $q(z_j)$: 
-<br>
 $$ \small
 \begin{alignat}{2}
-& \log q(z_j) &&= \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j} )] - 1 - \lambda_j \nonumber \\
-& &&= \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j} )] + const \nonumber \\
-\implies & q(z_j) &&= \frac{\exp \left\{ \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j} )] \right\} }{Z_j} \nonumber \\
-\implies & q(z_j) && \propto \exp \left\{ \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(z_j, \mathbf{x} | \mathbf{z}_{-j} )] \right\} \nonumber \\
-& && \propto \exp \left\{ \mathbb{E}_{q(\mathbf{z}_{-j})}[\log p(\mathbf{x}, \mathbf{z})] \right\} \label{eq1.15} \tag{1.15} \\
-& \text{where:} \: && Z_j \: \text{is a normalization constant} \nonumber
+& \nabla_{\theta} \E_{q_{\theta}(z)} \left[ f(z) \right] &&= \: \nabla_{\theta} \int q_{\theta}(z)f(z)dz \nonumber \\
+=& \:  \nabla_{\theta} \int q(\varepsilon) f(z) d \varepsilon &&= \: \nabla_{\theta} \int q(\varepsilon) f(g(\varepsilon, \theta)) d \varepsilon \nonumber \\
+=& \: \nabla_{\theta} \E_{q(\varepsilon)} \left[ f(g(\varepsilon, \theta)) \right] &&= \: \E_{q(\varepsilon)} \left[ \nabla_{\theta} f(g(\varepsilon, \theta)) \right] \label{eq2.3}
 \end{alignat}
 $$
+{% endraw %}
+Here $\theta$ is the set of parameters and $g(\varepsilon, \theta)$ is the transformation. $q_{\theta}(z)$ and $q(\varepsilon)$ are density functions of distribution of $z$ and $\varepsilon$ respectively. For instance, when $z$ has normal distribution, $\theta$ would be $\{\mu, \sigma \}$ and $g(\varepsilon, \theta)$ would be equation (\ref{eq2.2}). <br>
 <br>
-Since $q(z_j)$ and $q(z_i)$ are independent for any $j \neq i, \: i, j \in \{1, 2, \dots, M \}$, maximizing EBLO w.r.t $\boldsymbol{\theta}$ can be done by alternately maximizing ELBO w.r.t $\theta_j$ for $j=1,2,\dots,M$. Therefore, under mean-field approximation, maximum of ELBO can be accomplished by iteratively updating variational distribution of each latent variable by rule ($\ref{eq1.15}$) until convergence. This algorithm's called coordinate ascent.
-
-### <a name="SVI"></a> Stochastic VI (SVI)
-
-Various VI models are not feasible for big datasets, for instance, MFVI's updating rule ($\ref{eq1.15}$) is exhausted for huge number of observations since it must process every single data point. Different from these approaches, SVI employs stochastic optimization for efficiently optimizing its objective under big data circumstance.
-<figure>
-<div style="text-align:center"> <img src="{{ '/assets/otvi/SVI.jpg' | relative_url }}" alt="SVI" width="30%"/> </div>
-</figure>
-<a name="Fig1.1"></a> <sub>*Fig1.1:* Graphical model of SVI: observations $x_i$, local underlying variables $z_i$s, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation.</sub>
+Gradient in ($\ref{eq2.3}$) now can be acquired using Monte Carlo estimation. Monte Carlo method allows us to estimate result of certain tasks by performing deterministic computation on large number of inputs that are sampled from a probability distribution on pre-defined domain. It eases the worry of analytically computing intractable quantity. For integral task, it is simple and straightforward:
 <br>
-<br>
-Instead of only considering local (per data point) latent variable $z_i$ and their corresponding variational parameter $\theta_i$, SVI introduces global latent variable $\mathbf{y}$ and global variational parameter $\boldsymbol{\phi}$. In detail, we have {% raw %} $ \\{ z_i \text{s}, \mathbf{y} \\} $ {% endraw %} as latent variables and {% raw %} $ \{ \theta_i, \boldsymbol{\phi} \} $ {% endraw %} as variational parameter for $i = 1, 2, \dots, N$ (recall that $N$ is number of observations). Furthermore, we assume the model depends on a hyper-paremeter $\alpha$. Unlike vanilla VI, SVI's objective is summed over contributions of all $N$ individual data points. This setting allows stochastic optimization work. Later we will learn that VAE also adopts it.
-<br>
-<br>
-Variational distribution follows below assumption: 
-<br>
+{% raw %}
 $$ \small
 \begin{align}
-& q(\mathbf{z}, \mathbf{y}) = q_{\boldsymbol{\phi}}(\mathbf{y}) \prod_{i=1}^{N} q_{\theta_i}(z_i) = q(\mathbf{y}) \prod_{i=1}^{N} q(z_i) 
-\label{eq1.16} \tag{1.16} \\
-\text{where:} & \: q(\mathbf{y}), \: q(z_i) \: \text{are abbreviation of} \: q_{\boldsymbol{\phi}}(\mathbf{y}), \: q_{\theta_i}(z_i) \: \text{respectively} \nonumber
+ \E_{q(z)} \left[ f(z) \right] &= \int f(z) q(z) dz \approx \frac{1}{L} \sum_{l=1}^{L} f(z_l) \label{eq2.4} \\
+\text{where:} \: & z_l \sim q(z) \: \text{for} \: l=1,2,\dots,L \nonumber
 \end{align}
 $$
-<br>
-Joint distribution is factorization of global term and local terms: 
-<br>
-$$ \small
-\begin{align}
-p(\mathbf{x}, \mathbf{z}, \mathbf{y} \mid \alpha) &= p(\mathbf{y} \mid \alpha) \prod_{i=1}^{N} p(x_i, z_i \mid \mathbf{y}, \alpha) 
-\label{eq1.17} \tag{1.17} \\
-p(x_i, z_i \mid \mathbf{y}, \alpha) &= p(x_i \mid z_i, \mathbf{y}, \alpha) p(z_i \mid \mathbf{y}, \alpha) \label{eq1.18} \tag{1.17}
-\end{align}
-$$ 
-<br>
-SVI's objective then becomes: 
-<br>
-$$ \small
-\begin{align}
-\mathcal{L} &= \mathbb{E}_{q(\mathbf{z}, \mathbf{y})} \left[\log \frac{p(\mathbf{x}, \mathbf{z}, \mathbf{y} \mid \alpha)}{q(\mathbf{z}, \mathbf{y})} \right] \nonumber \\
-&= \mathbb{E}_q \left[ \log p(\mathbf{x}, \mathbf{z}, \mathbf{y} \mid \alpha) \right] - \mathbb{E}_q \left[ \log q(\mathbf{z}, \mathbf{y}) \right] \tag*{($\mathbb{E}_q$ is abbreviation of  $\mathbb{E}_{q(\mathbf{z}, \mathbf{y})}$ )} \nonumber \\
-&= \mathbb{E}_q \left[ \log \left( p(\mathbf{y} \mid \alpha) \prod_{i=1}^{N} p(x_i, z_i \mid \mathbf{y}, \alpha) \right) \right] - \mathbb{E}_q \left[ \log \left( q(\mathbf{y}) \prod_{i=1}^{N} q(z_i) \right) \right] \nonumber \\
-&= \mathbb{E}_q \left[ \log p(\mathbf{y} \mid \alpha) \right] + \sum_{i=1}^{N} \mathbb{E}_q \left[ \log p(x_i, z_i \mid \mathbf{y}, \alpha) \right] - \mathbb{E}_q \left[ \log q(\mathbf{y}) \right] - \sum_{i=1}^{N} \mathbb{E}_q \left[ \log q(z_i) \right] \nonumber \\
-&= \mathbb{E}_q \left[ \log p(\mathbf{y} \mid \alpha) - \log q(\mathbf{y}) \right] + \sum_{i=1}^{N} \left[ \log p(x_i, z_i \mid \mathbf{y}, \alpha) - \log q(z_i) \right] \nonumber \\
-&= \mathbb{E}_q \left[ \log p(\mathbf{y} \mid \alpha) - \log q(\mathbf{y}) \right] + \sum_{i=1}^{N} \left[ \log p(x_i \mid z_i, \mathbf{y}, \alpha) + \log p(z_i \mid \mathbf{y}, \alpha) - \log q(z_i) \right] \label{eq1.19} \tag{1.19}
-\end{align}
-$$
-<br>
-Though coordinate ascent can optimize function ($\ref{eq1.19}$), stochastic gradient descent should be more efficient. Particularly, in each iteration, random-selected mini-batches of size $S$ are used to obtain stochastic estimate $\hat{\mathcal{L}}$ of ELBO: 
-<br>
-$$ \small
-\begin{align}
-\hat{\mathcal{L}} &= \mathbb{E}_q \left[ \log p(\mathbf{y} \mid \alpha) - \log q(\mathbf{y}) \right] + \frac{N}{S} \sum_{i=1}^{S} \left[ \log p(x_{i_s} \mid z_{i_s}, \mathbf{y}, \alpha) + \log p(z_{i_s} \mid \mathbf{y}, \alpha) - \log q(z_{i_s}) \right] \label{eq1.20} \tag{1.20}
-\end{align}
-$$
-<br>
-$i_s$s are indices of mini-batch that must be uniformly drawn at random. $S$ is often chosen such that $1 \leq S \ll N$.
-<br>
-<br>
-Computation cost on small batch-size $S$ is less expensive than on entire dataset. A noisy estimator of gradient of ELBO then can be achieved via $\hat{\mathcal{L}}$. As a result, optimal of the objective function can be acquired using stochastic gradient optimization. Several important results of SVI models have been published, one may refer to [Hensman *et al.*, 2012](https://arxiv.org/abs/1206.5162), [Khan *et al.*, 2018](https://arxiv.org/abs/1807.04489), [Hoffman *et al.*, 2013](http://jmlr.org/papers/v14/hoffman13a.html) for more details.
-<br>
-<br>
-Lastly, there is a trade-off between computation's efficiency and gradient estimator's variance. Large batch-size $S$ which consumes more computational resource reduces variance of gradient estimate. In this case, less noisy gradient allows us to have larger learning rate, thus it's faster to reach the convergence state and also more favored for global parameters to perform inference. On the other hand, small mini-batches relaxes the cost of iterating over local parameters. Various methods have been proposed to address this problem, notably can include *adaptive learning rate and mini-batch size* and *variance reduction*. It's worth to mention that alongside stochastic VI, there exists other interesting approaches to speed up convergence process such as *Collapsed*, *Sparse*, and *Distributed VI*. All of them leverage the structure of certain models to attain the goal [Zhang *et al.*, 2017](https://arxiv.org/abs/1711.05597).
+{% endraw %}
+The larger number of samples is, the more accurate estimation is. <br>
 
-[***Part 2***]()
+From ($\ref{eq2.3}$) and ($\ref{eq2.4}$):
+<br>
+{% raw %}
+$$ \small
+\begin{align}
+& \E_{q_{\theta}(z)} \left[ f(z) \right] \approx \frac{1}{L} \sum_{i=1}^{L} f(g(\varepsilon_l, \theta)) \nonumber \\
+& \nabla_{\theta} \E_{q_{\theta}(z)} \left[ f(z) \right] = \E_{q(\varepsilon)} \left[ \nabla_{\theta} f(g(\varepsilon, \theta)) \right]  \approx \frac{1}{L} \sum_{l=1}^{L} \left[ \nabla_{\theta} f(g(\varepsilon_l, \theta)) \right] \label{eq2.5} \\
+& \text{where:} \: \varepsilon_l \sim q(\varepsilon) \nonumber
+\end{align}
+$$
+{% endraw %}
+Sampling $\varepsilon$ clearly is easier than sampling $z$ directly, the problem ($\ref{eq2.1}$) turns out to be feasible. %Even better, the estimator ($\ref{eq2.5}$) is unbiased and practicable.
+
+\subsection{VAE} \label{VAEmodel}
+VAE adopts SVI and Amortized VI to make a powerful generative model. The term "generative" bases on the fact that VAE employs a neural network as \textit{generative network} alongside mentioned \textit{inference network}. 
+For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e. hidden variable $z$ has (parameterized) normal distribution. Other settings which are less common can be found at \cite{KingmaThesis}, \cite{VariationalBayes}.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.45\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{VAE}
+		\caption{Graphical model.}
+		\label{fig2.2a}
+	\end{subfigure}
+	%\hspace{2pt}
+	\begin{subfigure}[b]{0.45\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{VAEnet}
+		\caption{Deep neural networks model}
+		\label{fig2.2b}
+	\end{subfigure}
+	\captionsetup{width=.75\textwidth}
+	\caption{(a) Fig \ref{fig2.2a} shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\phiparam$ is parameters of variational distribution $q_{\phiparam}(z | x)$. $\thetaparam$ is parameter of generative model $p(z) p_{\thetaparam}(x | z) $. (b) Fig \ref{fig2.2b} presents VAE deep learning model. $q_{\phiparam}(z | x)$ and $p_{\thetaparam}(x | z)$ are replaced by neural networks.}
+	\label{fig2.2}
+\end{figure}
+
+Figure (\ref{fig2.2}) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\phiparam}(z | x)$ and generative model $p(z) p_{\thetaparam}(x | z)$ are performed by encoder network and decoder network respectively. The variational parameters $\phiparam$ and generative model's parameters $\thetaparam $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables (section \ref{VI}), VAE can take a single data point as input thanks to \textit{amortized} setting. \\ %i.e. given a single observation $x_i$, we have $z_i \sim q_{\phiparam}(z | x=x_i) = q_{\phiparam}(z | x_i)$. \\
+
+Similar to (\ref{eq1.4}) or (\ref{eq1.4a}), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is $\log p(\x) = \sum_{i=1}^{N} \log p(x_i)$. Therefore, we only concern about a single observation:
+\begin{align}
+\log p(x) &= \E_{z \sim q_{\phiparam} (z|x)} \left[ \log p(x) \right] \nonumber \\
+&= \E_{q_{\phiparam} (z|x)} \left[ \log \frac{p_{\thetaparam}(x, z)}{p(z|x)} \right] \nonumber \\
+&= \E_{q_{\phiparam} (z|x)} \left[ \log \frac{p_{\thetaparam}(x, z) q_{\phiparam}(z|x) }{p(z|x) q_{\phiparam}(z|x)} \right] \nonumber \\
+&= \E_{q_{\phiparam} (z|x)} \left[ \frac{q_{\phiparam}(z|x) }{p(z|x) } \right] + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x, z) - \log q_{\phiparam}(z|x) \right] \nonumber \\
+&= \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x, z) - \log q_{\phiparam}(z|x) \right] \nonumber \\
+&= \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x| z) + \log p(z) - \log q_{\phiparam}(z|x) \right] \nonumber \\
+&= \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x|z) \right] - \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z) \right)  \label{eq2.6}
+\end{align}
+\begin{align}
+\implies \log p(x) - \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) &= \underbrace{ -\text{KL}\left( q_{\phiparam}(z|x) \parallel p(z) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x|z) \right] }_{\ell} \tag{2.6a} \label{eq2.6a} 
+\end{align}
+
+Minimizing KL divergence between variational posterior and true posterior equivalents to maximizing ELBO $\ell$. The variational lower bound of a single data point $x_i$:
+\begin{align}
+\ell_i (\phiparam, \thetaparam) = - \text{KL}\left( q_{\phiparam}(z|x_i) \parallel p(z) \right) + \E_{q_{\phiparam} (z|x_i)} \left[ \log p_{\thetaparam}(x_i|z) \right] \label{eq2.7}
+\end{align}
+The objective function on entire data set should be:
+\begin{align}
+\mathcal{L} &= \sum_{i=1}^{N} \ell_i (\phiparam, \thetaparam) = - \sum_{i=1}^{N} \text{KL} \left( q_{\phiparam}(z|x_i) \parallel p(z) \right) + \sum_{i=1}^{N} \E_{q_{\phiparam} (z|x_i)} \left[ \log p_{\thetaparam} (x_i | z)  \right] \nonumber \\
+&= \E_{x \sim p(x)} \left[ - \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z)  \right) \right] + \E_{x \sim p(x)} \left[ \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam} (x | z)  \right]  \right] \label{eq2.8}
+\end{align}
+
+The quantity $ \text{KL}\left( q_{\phiparam}(z|x_i) \parallel p(z) \right) $ can be integrated analytically under certain assumption. Let's consider our deep latent Gaussian model:
+\begin{align}
+p(z) &= \mathcal{N} \left(z; 0, \mathbb{I} \right) \nonumber \\
+q_{\phiparam}(z | x) &= \mathcal{N}  \left(z; \mu(x), \sigma^2(x) \mathbb{I} \right) \nonumber \\
+\text{where:} & \: \mu, \sigma \: \text{are functions of} \: x \nonumber
+\end{align}
+We have:
+\begin{align}
+\text{KL}\left( q_{\phiparam}(z|x) \parallel p(z) \right) &= \E_{q_{\phiparam} (z | x)} \left[ \log q_{\phiparam} (z | x) - \log p(z) \right] \nonumber \\
+&= \int q_{\phiparam}(z|x) \log q_{\phiparam}(z|x)dz - \int q_{\phiparam}(z|x) \log p(z)dz \label{eq2.9}
+\end{align}
+Under Gaussian assumption, integrals in (\ref{eq2.9}) can be analytically computed:
+\begin{align}
+\int q_{\phiparam}(z|x) \log q_{\phiparam}(z|x)dz &= \int \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) \log \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) dz \nonumber \\
+&= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (1 + \log \sigma_{d}^2) \tag{2.10a} \label{eq2.10a}
+\end{align}
+and:
+\begin{align}
+\int q_{\phiparam}(z|x) \log p(z)dz &= \int \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) \log \mathcal{N} (z; 0, \mathbb{I}) dz \nonumber \\
+&= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (\mu_d^2 + \sigma_{d}^2) \tag{2.10b} \label{eq2.10b} \\
+\text{where:} \: D \: &\text{is dimensionality of} \; z \nonumber
+\end{align}
+Hence:
+\begin{align}
+- \text{KL}\left( q_{\phiparam}(z|x_i) \parallel p(z) \right) 
+= \frac{1}{2} \sum_{d=1}^{D} \left[1 + \log (\sigma_{d}^2 (x_i) )- \mu_{d}^2(x_i) - \sigma_{d}^2 (x_i) \right] \label{eq2.10}
+\end{align}
+
+The term $\E_{q_{\phiparam} (z|x_i)} \left[ \log p_{\thetaparam}(x_i|z) \right] $ is more tricky because we want both its (estimated) value and gradient w.r.t $\phiparam$. As we discuss in section \ref{Reparmeterize-MC}, using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $z$ from $q_{\phiparam} (z|x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I} )$, we sample $z$ as below:
+\begin{align}
+&z = g(\varepsilon, \mu, \sigma) = \mu (x) + \sigma (x) \odot \varepsilon \nonumber \\
+&\text{where:} \: \varepsilon \sim \mathcal{N} (0, \mathbb{I}) \nonumber
+\end{align}
+From (\ref{eq2.5}):
+\begin{align}
+& \E_{q_{\phiparam} (z|x_i)} \left[ p_{\thetaparam} (x_i|z) \right] \approx \frac{1}{L} \sum_{l=1}^{L} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} )) \nonumber \\
+& \nabla_{\phiparam} \E_{q_{\phiparam} (z|x_i)} \left[ p_{\thetaparam} (x_i|z) \right] \approx 
+\frac{1}{L} \sum_{l=1}^{L} \left[ \nabla_{\phi} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} )) \right] \label{eq2.11} \\
+\text{where:} & \: \varepsilon_{l} \sim \mathcal{N} (0, \mathbb{I}) \nonumber
+\end{align}
+One combines (\ref{eq2.10}) and (\ref{eq2.11}) to get estimate of ELBO:
+\begin{align}
+\ell_i \approx 
+\frac{1}{2} \sum_{d=1}^{D} \left[1 + \log (\sigma_{d}^2 (x_i) )- \mu_{d}^2(x_i) - \sigma_{d}^2 (x_i) \right] + 
+\frac{1}{L} \sum_{l=1}^{L} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} )) \label{eq2.12}
+\end{align}
+Finally, objective function of VAE:
+\begin{align}
+\underset{\phiparam, \thetaparam}{\max} \sum_{i=1}^{N} \left( \frac{1}{2} \sum_{d=1}^{D} \left[1 + \log (\sigma_{d}^2 (x_i) )- \mu_{d}^2(x_i) - \sigma_{d}^2 (x_i) \right] \right) + 
+\sum_{i=1}^{N} \left( \frac{1}{L} \sum_{l=1}^{L} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} ))  \right)
+\end{align}
+The first term is regularization, the second term is reconstruction cost. While regularization forces the model not to learn trivial latent space, reconstruction ensures the model outputs high quality samples that is close to input. 

@@ -281,4 +281,4 @@ Computation cost on small batch-size $S$ is less expensive than on entire datase
 <br>
 Lastly, there is a trade-off between computation's efficiency and gradient estimator's variance. Large batch-size $S$ which consumes more computational resource reduces variance of gradient estimate. In this case, less noisy gradient allows us to have larger learning rate, thus it's faster to reach the convergence state and also more favored for global parameters to perform inference. On the other hand, small mini-batches relaxes the cost of iterating over local parameters. Various methods have been proposed to address this problem, notably can include *adaptive learning rate and mini-batch size* and *variance reduction*. It's worth to mention that alongside stochastic VI, there exists other interesting approaches to speed up convergence process such as *Collapsed*, *Sparse*, and *Distributed VI*. All of them leverage the structure of certain models to attain the goal [Zhang *et al.*, 2017](https://arxiv.org/abs/1711.05597).
 
-[***Part 2***]()
+[***Part 2***](2019-08-25-OTandInference-p2.md)
