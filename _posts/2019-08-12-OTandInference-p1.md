@@ -8,7 +8,7 @@ toc: true
 tags:
   - VAE
   - OT
-excerpt: "First part of blog series about optimal transport and generative models, particularly variational method and VAE."
+excerpt: "First part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
 ---
 
 Recent research in generative models have borrowed ideas from classic probabilistic frameworks. Such a model is VAE, an improvement of variational inference. Similar to VI, VAE's objective is to minimize the KL divergence between parameterized posterior and true posterior with respect to a variational family. Alternatively, a number of works attempt to enhance feature-learning and data-generating power of VAE by using different probability divergences. Among these approaches, Wasserstein distance brought from Optimal Transport (OT) is particularly promising. This article will survey several VI models that utilize Wasserstein distance. <br>
@@ -223,9 +223,10 @@ Since $q(z_j)$ and $q(z_i)$ are independent for any $j \neq i, \: i, j \in \{1, 
 
 Various VI models are not feasible for big datasets, for instance, MFVI's updating rule ($\ref{eq1.15}$) is exhausted for huge number of observations since it must process every single data point. Different from these approaches, SVI employs stochastic optimization for efficiently optimizing its objective under big data circumstance.
 <br>
+<div style="text-align: center">
 <figure>
-  <img src="{{ '/assets/otvi/SVI.jpg' | relative_url }}" alt="SVI" style="width:20%">
-</figure>
+  <img src="{{ '/assets/otvi/SVI.jpg' | relative_url }}" alt="SVI" style="width:30%">
+</figure></div>
 <a name="Fig1.1"></a> <sub>*Fig1.1:* Graphical model of SVI: observations $x_i$, local underlying variables $z_i$s, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation.</sub>
 <br>
 <br>
