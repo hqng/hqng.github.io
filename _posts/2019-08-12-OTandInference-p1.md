@@ -1,12 +1,14 @@
 ---
 mathjax: true
 title: "Optimal Transport and Variational Inference (part 1)"
+classes: wide
 categories:
   - Variational Inference
 toc: true
 tags:
   - VAE
   - OT
+excerpt: "First part of blog series about optimal transport and generative models, particularly variational method and VAE."
 ---
 
 Recent research in generative models have borrowed ideas from classic probabilistic frameworks. Such a model is VAE, an improvement of variational inference. Similar to VI, VAE's objective is to minimize the KL divergence between parameterized posterior and true posterior with respect to a variational family. Alternatively, a number of works attempt to enhance feature-learning and data-generating power of VAE by using different probability divergences. Among these approaches, Wasserstein distance brought from Optimal Transport (OT) is particularly promising. This article will survey several VI models that utilize Wasserstein distance. <br>
@@ -219,12 +221,12 @@ Since $q(z_j)$ and $q(z_i)$ are independent for any $j \neq i, \: i, j \in \{1, 
 
 ### <a name="SVI"></a> Stochastic VI (SVI)
 
-Various VI models are not feasible for big datasets, for instance, MFVI's updating rule ($\ref{eq1.15}$) is exhausted for huge number of observations since it must process every single data point. Different from these approaches, SVI employs stochastic optimization for efficiently optimizing its objective under big data circumstance.<br>
+Various VI models are not feasible for big datasets, for instance, MFVI's updating rule ($\ref{eq1.15}$) is exhausted for huge number of observations since it must process every single data point. Different from these approaches, SVI employs stochastic optimization for efficiently optimizing its objective under big data circumstance.
 <br>
 <figure>
-  <img src="{{ '/assets/otvi/SVI.jpg' | relative_url }}" alt="SVI" style="width:60%" class="center">
+  <img src="{{ '/assets/otvi/SVI.jpg' | relative_url }}" alt="SVI" style="width:40%" class="center">
 </figure>
-<a name="Fig1.1"></a> <sub>*Fig1.1:* Graphical model of SVI: observations $x_i$, local underlying variables $z_i$s, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation.</sub><br>
+<a name="Fig1.1"></a> <sub>*Fig1.1:* Graphical model of SVI: observations $x_i$, local underlying variables $z_i$s, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation.</sub>
 <br>
 Instead of only considering local (per data point) latent variable $z_i$ and their corresponding variational parameter $\theta_i$, SVI introduces global latent variable $\mathbf{y}$ and global variational parameter $\boldsymbol{\phi}$. In detail, we have {% raw %} $ \\{ z_i \text{s}, \mathbf{y} \\} $ {% endraw %} as latent variables and {% raw %} $ \{ \theta_i, \boldsymbol{\phi} \} $ {% endraw %} as variational parameter for $i = 1, 2, \dots, N$ (recall that $N$ is number of observations). Furthermore, we assume the model depends on a hyper-paremeter $\alpha$. Unlike vanilla VI, SVI's objective is summed over contributions of all $N$ individual data points. This setting allows stochastic optimization work. Later we will learn that VAE also adopts it.
 <br>
