@@ -131,8 +131,8 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 }
 
 .column {
-  float: left;
-  width: 33.33%;
+  float: center;
+  width: 50%;
   padding: 5px;
 }
 
