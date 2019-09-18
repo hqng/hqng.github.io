@@ -11,7 +11,7 @@ tags:
 
 Many recent research in generative models have borrowed ideas from classic probabilistic frameworks. Such a model is VAE, an improvement of variational inference. Similar to VI, VAE's objective is to minimize the KL divergence between parameterized posterior and true posterior with respect to a variational family. Alternatively, a number of works attempt to enhance feature-learning and data-generating power of VAE by using different probability divergences. Among these approaches, Wasserstein distance brought from Optimal Transport (OT) is particularly promising. This article will survey several VI models that utilize Wasserstein distance. <br>
 
-# <a name="VI"></a> Variational Inference
+## <a name="VI"></a> Variational Inference
 
 We first revisit VI whose idea is the base of VAE and its variants. Assume we have a set $\mathbf{x} = \\{ x_1, x_2, \dots, x_N \\}$ contains $N$ observations of data. VI aims to understand data by inferring low-dimensional representation from these (often high-dimensional) observations. To do so, it introduces a set of $M$ latent variables $\mathbf{z} = \\{ z_1, z_2, \dots, z_M \\} \sim q(\mathbf{z})$ with prior density $q(\mathbf{z})$ and relates them to the observations through likelihood {% raw %} $ p(\mathbf{x} | \mathbf{z}) $ {% endraw %}:
 <br>
@@ -29,7 +29,7 @@ The posterior represents distribution of latent variables given the observations
 While $ p(\mathbf{x}, \mathbf{z}) $ can be fully observable, the integral term is computationally expensive, thus the posterior is intractable 
 ([Blei *et al.*, 2017](https://doi.org/10.1080/01621459.2017.1285773)). VI overcomes this difficulty by approximating intractable posterior with simpler distribution. Specifically, it parameterizes prior $q(\mathbf{z})$ with variational parameters $\boldsymbol{\theta} = \\{ \theta_1, \theta_2, ..., \theta_M \\} $ and then optimize them to achieve a good approximation of posterior in term of KL divergence.
 
-## <a name="VanillaVI"></a> Vanilla VI
+### <a name="VanillaVI"></a> Vanilla VI
 
 We now derive the optimization problem's objective of VI. Let's consider:
 <br>
@@ -99,7 +99,7 @@ $$
 <br>
 Note that $\log p(\mathbf{x})$ is a constant quantity w.r.t $\boldsymbol{\theta}$, to minimize $\text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x}))$ is equivalent to maximize the ELBO. One way of computing ELBO analytically is to restrict models to conjugate exponential family distribution. But we will focus on other approaches which are related to VAE.
 
-## <a name="MFVI"></a> Mean-Field VI (MFVI)
+### <a name="MFVI"></a> Mean-Field VI (MFVI)
 
 Choosing prior distribution leads to a trade-off between complexity and quality of posterior. We want an approximation that can express prior well yet must be simple enough to make itself tractable. A common choice is mean-field approximation, an adaption of mean-field theory in physics. Under mean-field assumption, MFVI factorizes $q_{\boldsymbol{\theta}}(\mathbf{z})$ into $M$ factors where each factor is governed by its own parameter and is independent of others:
 <br>
@@ -217,7 +217,7 @@ $$
 <br>
 Since $q(z_j)$ and $q(z_i)$ are independent for any $j \neq i, \: i, j \in \{1, 2, \dots, M \}$, maximizing EBLO w.r.t $\boldsymbol{\theta}$ can be done by alternately maximizing ELBO w.r.t $\theta_j$ for $j=1,2,\dots,M$. Therefore, under mean-field approximation, maximum of ELBO can be accomplished by iteratively updating variational distribution of each latent variable by rule ($\ref{eq1.15}$) until convergence. This algorithm's called coordinate ascent.
 
-## <a name="SVI"></a> Stochastic VI (SVI)
+### <a name="SVI"></a> Stochastic VI (SVI)
 
 Various VI models are not feasible for big datasets, for instance, MFVI's updating rule ($\ref{eq1.15}$) is exhausted for huge number of observations since it must process every single data point. Different from these approaches, SVI employs stochastic optimization for efficiently optimizing its objective under big data circumstance.<br>
 <br>
