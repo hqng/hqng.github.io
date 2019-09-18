@@ -140,17 +140,18 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 .row::after {
   content: "";
   clear: both;
-  display: inline-block;
+  display: table;
+  text-align: center;
 }
 </style>
 
-<div class="row" style="text-align: center;">
+<div class="row">
   <div class="column">
     <img src="{{ '/assets/otvi/VAE.jpg' | relative_url }}" alt="VAE" style="width: 100%;"/>
     <figcaption>fig2.2a Grapical model</figcaption>
   </div>
   <div class="column">
-    <img src="{{ '/assets/otvi/VAEnet.jpg' | relative_url }}" alt="VAEnet" style="width: 100%;">
+    <img src="{{ '/assets/otvi/VAEnet.jpg' | relative_url }}" alt="VAEnet" style="width: 100%;"/>
 	<figcaption>fig 2.2b Neural networks</figcaption>
   </div>
 </div>
