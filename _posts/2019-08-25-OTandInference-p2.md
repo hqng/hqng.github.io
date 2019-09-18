@@ -131,9 +131,10 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 }
 
 .column {
-  float: left;
-  width: 50%;
+  display: inline-block;
+  width: 20%;
   padding: 5px;
+  text-align: center;
 }
 
 /* Clearfix (clear floats) */
@@ -151,7 +152,7 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
     <figcaption>fig2.2a Grapical model</figcaption>
   </div>
   <div class="column">
-    <img src="{{ '/assets/otvi/VAEnet.jpg' | relative_url }}" alt="VAEnet" style="width: 100%;"/>
+    <img src="{{ '/assets/otvi/VAEnet.jpg' | relative_url }}" alt="VAEnet" style="width: 100%; vertical-align: middle;"/>
 	<figcaption>fig 2.2b Neural networks</figcaption>
   </div>
 </div>
