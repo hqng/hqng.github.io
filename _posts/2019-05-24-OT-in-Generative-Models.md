@@ -65,7 +65,7 @@ $$ \small
 &= \mathbb{E}_{q_{\boldsymbol{\theta}} (\mathbf{z})} \left[ \log \frac{q_{\boldsymbol{\theta}} (\mathbf{z})}{p(\mathbf{z} | \mathbf{x})} \right] = \text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x})) \label{eq1.4} \tag{1.4} \\
 \text{where:} \: \text{KL} (q \parallel p ) \: &\text{is Kullback-Leibler divergence between} \: q \: \text{and} \: p \nonumber
 \end{align}
-$$ <br>
+$$
 <br>
 Another way to express ($\ref{eq1.4}$) is: 
 <br>
@@ -138,7 +138,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 Here we substitute  {% raw %} $ \int_{\mathbf{z}} d \mathbf{z}$ for $\int_{z_1} \int_{z_2} \dots \int_{z_M}  d z_1 d z_2 \dots d z_M$ {% endraw %}. 
 <br>
 On the other hand: 
@@ -165,7 +164,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 Using ($\ref{eq1.6}$), we can come up with another form: 
 <br>
 $$ \small
