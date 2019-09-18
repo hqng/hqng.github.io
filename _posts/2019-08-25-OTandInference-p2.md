@@ -144,6 +144,12 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 	\label{fig2.2}
 \end{figure}
 
+<div style="text-align: center;">
+<p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;"><img src="{{ '/assets/otvi/VAE.jpg' | relative_url }}" alt="VAE" style="float: left; height: 15em; margin-right: 1%; margin-bottom: 0.5em;"/>fig2.2a Graphical model.</p>
+<p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;"><img src="{{ '/assets/otvi/VAEnet.jpg' | relative_url }}" alt="VAE" style="float: left; height: 15em; margin-right: 1%; margin-bottom: 0.5em;"/>fig2.2b Neural networks model.</p>
+<p style="clear: both;"/>
+</div>
+
 Figure (\ref{fig2.2}) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\phiparam}(z | x)$ and generative model $p(z) p_{\thetaparam}(x | z)$ are performed by encoder network and decoder network respectively. The variational parameters $\phiparam$ and generative model's parameters $\thetaparam $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables (section \ref{VI}), VAE can take a single data point as input thanks to \textit{amortized} setting. \\ %i.e. given a single observation $x_i$, we have $z_i \sim q_{\phiparam}(z | x=x_i) = q_{\phiparam}(z | x_i)$. \\
 
 Similar to (\ref{eq1.4}) or (\ref{eq1.4a}), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is $\log p(\x) = \sum_{i=1}^{N} \log p(x_i)$. Therefore, we only concern about a single observation:
