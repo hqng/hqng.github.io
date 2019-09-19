@@ -20,11 +20,13 @@ VAE is another scale-up variant of VI. It employs deep neural networks to perfor
 In VI models, each local variable is governed by its own variational parameter, e.g. in SVI, parameter $\theta_i$ corresponds to latent variable $z_i$. To maximize ELBO, we have to optimize objective function w.r.t all variational parameters. Consequently, the larger number of parameters is, the more expensive computational cost is.
 
 <div style="text-align: center;">
-<img src="{{ '/assets/otvi/AmortizedVI.jpg' | relative_url }}" alt="Amortized VI" width="25%" /> 
+<img src="{{ '/assets/otvi/AmortizedVI.jpg' | relative_url }}" alt="Amortized VI" width="20%" /> 
 </div>
+
 <div style="text-align: center;">
-<a name="Fig2.1"></a> <sub>*Fig2.1:* Graphical model of Amortized VI. Dashed line indicates variational approximation. </sub>
+<a name="fig2.1"></a> <sub> <i>Fig2.1: Graphical model of Amortized VI. Dashed line indicates variational approximation.</i> </sub>
 </div>
+
 <br>
 <br>
 Amortized VI reforms SVI structure to lower the cost. In particular, it  assumes that optimal $z_i$'s can be represented as a function of $x_i$s, $z_i = f(x_i)$, i.e. $z_i$s are features of $x_i$s. Of course, local variational parameters are removed. Employing a function whose parameters are shared across all data points allows past computation to support future computation. Once the function is estimated (say, after few optimization steps), local variables obviously can be computed by passing new data points to $f(\cdot)$. This is why we name it *amortized*. Function $f(\cdot)$ implements a deep neural network called *inference network* to make a powerful predictor.
@@ -135,7 +137,7 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 
 .column {
   display: inline-block;
-  width: 20%;
+  width: 25%;
   padding: 5px;
   text-align: center;
 }
@@ -153,7 +155,7 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
   <div class="column">
   </div>
   <div class="column">
-    <img src="{{ '/assets/otvi/VAE.jpg' | relative_url }}" alt="VAE" style="width: 100%;"/>
+    <img src="{{ '/assets/otvi/VAE.jpg' | relative_url }}" alt="VAE" style="width: 100%; vertical-align: middle;"/>
     <figcaption>fig2.2a Grapical model</figcaption>
   </div>
   <div class="column">
@@ -162,9 +164,11 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
   </div>
 </div>
 </html>
-<a name="Fig2.1"></a> <sub>(a) Fig \ref{fig2.2a} shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\phiparam$ is parameters of variational distribution $q_{\phiparam}(z | x)$. $\thetaparam$ is parameter of generative model $p(z) p_{\thetaparam}(x | z) $. (b) Fig \ref{fig2.2b} presents VAE deep learning model. $q_{\phiparam}(z | x)$ and $p_{\thetaparam}(x | z)$ are replaced by neural networks.</sub>
+<div style="text-align: center;">
+<a name="fig2.2"></a> <sub> *Fig2.2* (a) Fig 2.2a shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\phiparam$ is parameters of variational distribution {% raw %} $q_{\phiparam}(z | x)$. $\thetaparam$ {% endraw %} is parameter of generative model {% raw %} $p(z) p_{\thetaparam}(x | z) $ {% endraw %}. (b) Fig 2.2b presents VAE deep learning model. {% raw %} $q_{\phiparam}(z | x)$ and $p_{\thetaparam}(x | z)$ {% endraw %} are replaced by neural networks.</sub>
+</div>
 
-Figure (\ref{fig2.2}) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\phiparam}(z | x)$ and generative model $p(z) p_{\thetaparam}(x | z)$ are performed by encoder network and decoder network respectively. The variational parameters $\phiparam$ and generative model's parameters $\thetaparam $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables (section \ref{VI}), VAE can take a single data point as input thanks to \textit{amortized} setting. \\ %i.e. given a single observation $x_i$, we have $z_i \sim q_{\phiparam}(z | x=x_i) = q_{\phiparam}(z | x_i)$. \\
+[Figure 2.2](#fig2.2) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\phiparam}(z | x)$ and generative model $p(z) p_{\thetaparam}(x | z)$ are performed by encoder network and decoder network respectively. The variational parameters $\phiparam$ and generative model's parameters $\thetaparam $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables (section \ref{VI}), VAE can take a single data point as input thanks to \textit{amortized} setting.<br>
 
 Similar to (\ref{eq1.4}) or (\ref{eq1.4a}), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is $\log p(\x) = \sum_{i=1}^{N} \log p(x_i)$. Therefore, we only concern about a single observation:
 \begin{align}
