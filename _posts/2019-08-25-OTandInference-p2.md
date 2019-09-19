@@ -64,7 +64,7 @@ We illustrate normal distribution case since it is widely used in machine learni
 {% raw %}
 $$ \small
 \begin{align}
-& z = \mu + \varepsilon \sigma \label{eq2.2} \\
+& z = \mu + \varepsilon \sigma \label{eq2.2} \tag{2.2} \\
 \text{where:} \: & z \sim \mathcal{N}(z ; \mu, \sigma^2) \nonumber \\
 & \varepsilon \sim \mathcal{N}(\varepsilon ; 0, 1) \nonumber
 \end{align}
@@ -96,14 +96,14 @@ $$ \small
 \end{alignat}
 $$
 {% endraw %}
-Here $\theta$ is the set of parameters and $g(\varepsilon, \theta)$ is the transformation. $q_{\theta}(z)$ and $q(\varepsilon)$ are density functions of distribution of $z$ and $\varepsilon$ respectively. For instance, when $z$ has normal distribution, $\theta$ would be $\{\mu, \sigma \}$ and $g(\varepsilon, \theta)$ would be equation (\ref{eq2.2}). <br>
+Here $\theta$ is the set of parameters and $g(\varepsilon, \theta)$ is the transformation. $q_{\theta}(z)$ and $q(\varepsilon)$ are density functions of distribution of $z$ and $\varepsilon$ respectively. For instance, when $z$ has normal distribution, $\theta$ would be $\{\mu, \sigma \}$ and $g(\varepsilon, \theta)$ would be equation ($\ref{eq2.2}$). <br>
 <br>
 Gradient in ($\ref{eq2.3}$) now can be acquired using Monte Carlo estimation. Monte Carlo method allows us to estimate result of certain tasks by performing deterministic computation on large number of inputs that are sampled from a probability distribution on pre-defined domain. It eases the worry of analytically computing intractable quantity. For integral task, it is simple and straightforward:
 <br>
 {% raw %}
 $$ \small
 \begin{align}
- \E_{q(z)} \left[ f(z) \right] &= \int f(z) q(z) dz \approx \frac{1}{L} \sum_{l=1}^{L} f(z_l) \label{eq2.4} \\
+ \E_{q(z)} \left[ f(z) \right] &= \int f(z) q(z) dz \approx \frac{1}{L} \sum_{l=1}^{L} f(z_l) \label{eq2.4} \tag{2.4} \\
 \text{where:} \: & z_l \sim q(z) \: \text{for} \: l=1,2,\dots,L \nonumber
 \end{align}
 $$
@@ -116,7 +116,7 @@ From ($\ref{eq2.3}$) and ($\ref{eq2.4}$):
 $$ \small
 \begin{align}
 & \E_{q_{\theta}(z)} \left[ f(z) \right] \approx \frac{1}{L} \sum_{i=1}^{L} f(g(\varepsilon_l, \theta)) \nonumber \\
-& \nabla_{\theta} \E_{q_{\theta}(z)} \left[ f(z) \right] = \E_{q(\varepsilon)} \left[ \nabla_{\theta} f(g(\varepsilon, \theta)) \right]  \approx \frac{1}{L} \sum_{l=1}^{L} \left[ \nabla_{\theta} f(g(\varepsilon_l, \theta)) \right] \label{eq2.5} \\
+& \nabla_{\theta} \E_{q_{\theta}(z)} \left[ f(z) \right] = \E_{q(\varepsilon)} \left[ \nabla_{\theta} f(g(\varepsilon, \theta)) \right]  \approx \frac{1}{L} \sum_{l=1}^{L} \left[ \nabla_{\theta} f(g(\varepsilon_l, \theta)) \right] \label{eq2.5} \tag{2.5} \\
 & \text{where:} \: \varepsilon_l \sim q(\varepsilon) \nonumber
 \end{align}
 $$
@@ -167,7 +167,7 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 <a name="fig2.2"></a> <sub> <i> Fig2.2 (a) Fig 2.2a shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\phiparam$ is parameters of variational distribution {% raw %} $q_{\phiparam}(z | x)$. $\thetaparam$ {% endraw %} is parameter of generative model {% raw %} $p(z) p_{\thetaparam}(x | z) $ {% endraw %}. (b) Fig 2.2b presents VAE deep learning model. {% raw %} $q_{\phiparam}(z | x)$ and $p_{\thetaparam}(x | z)$ {% endraw %} are replaced by neural networks. </i> </sub>
 </div>
 <br>
-[Figure 2.2](#fig2.2) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\phiparam}(z | x)$ and generative model $p(z) p_{\thetaparam}(x | z)$ are performed by encoder network and decoder network respectively. The variational parameters $\phiparam$ and generative model's parameters $\thetaparam $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables (section \ref{VI}), VAE can take a single data point as input thanks to \textit{amortized} setting.
+[Figure 2.2](#fig2.2) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\phiparam}(z | x)$ and generative model $p(z) p_{\thetaparam}(x | z)$ are performed by encoder network and decoder network respectively. The variational parameters $\phiparam$ and generative model's parameters $\thetaparam $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables ([part 1](/variational%20inference/OTandInference-p1/#VI)), VAE can take a single data point as input thanks to *amortized* setting.
 <br>
 
 Similar to [eq1.4](/variational%20inference/OTandInference-p1/#eq1.4) or [eq1.4a](/variational%20inference/OTandInference-p1/#eq1.4a), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is {% raw %} $\log p(\x) = \sum_{i=1}^{N} \log p(x_i)$ {% endraw %}. Therefore, we only concern about a single observation:
@@ -181,7 +181,7 @@ $$ \small
 &= \E_{q_{\phiparam} (z|x)} \left[ \frac{q_{\phiparam}(z|x) }{p(z|x) } \right] + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x, z) - \log q_{\phiparam}(z|x) \right] \nonumber \\
 &= \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x, z) - \log q_{\phiparam}(z|x) \right] \nonumber \\
 &= \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x| z) + \log p(z) - \log q_{\phiparam}(z|x) \right] \nonumber \\
-&= \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x|z) \right] - \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z) \right)  \label{eq2.6}
+&= \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x|z) \right] - \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z) \right)  \label{eq2.6} \tag{2.6}
 \end{align}
 $$
 {% endraw %}
@@ -189,7 +189,7 @@ $$
 {% raw %}
 $$ \small
 \begin{align}
-\implies \log p(x) - \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) &= \underbrace{ -\text{KL}\left( q_{\phiparam}(z|x) \parallel p(z) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x|z) \right] }_{\ell} \tag{2.6a} \label{eq2.6a} 
+\implies \log p(x) - \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) &= \underbrace{ -\text{KL}\left( q_{\phiparam}(z|x) \parallel p(z) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x|z) \right] }_{\ell} \label{eq2.6a} \tag{2.6a} 
 \end{align}
 $$
 {% endraw %}
@@ -199,7 +199,7 @@ Minimizing KL divergence between variational posterior and true posterior equiva
 {% raw %}
 $$ \small
 \begin{align}
-\ell_i (\phiparam, \thetaparam) = - \text{KL}\left( q_{\phiparam}(z|x_i) \parallel p(z) \right) + \E_{q_{\phiparam} (z|x_i)} \left[ \log p_{\thetaparam}(x_i|z) \right] \label{eq2.7}
+\ell_i (\phiparam, \thetaparam) = - \text{KL}\left( q_{\phiparam}(z|x_i) \parallel p(z) \right) + \E_{q_{\phiparam} (z|x_i)} \left[ \log p_{\thetaparam}(x_i|z) \right] \label{eq2.7} \tag{2.7}
 \end{align}
 $$
 {% endraw %}
@@ -210,7 +210,7 @@ The objective function on entire data set should be:
 $$ \small
 \begin{align}
 \mathcal{L} &= \sum_{i=1}^{N} \ell_i (\phiparam, \thetaparam) = - \sum_{i=1}^{N} \text{KL} \left( q_{\phiparam}(z|x_i) \parallel p(z) \right) + \sum_{i=1}^{N} \E_{q_{\phiparam} (z|x_i)} \left[ \log p_{\thetaparam} (x_i | z)  \right] \nonumber \\
-&= \E_{x \sim p(x)} \left[ - \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z)  \right) \right] + \E_{x \sim p(x)} \left[ \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam} (x | z)  \right]  \right] \label{eq2.8}
+&= \E_{x \sim p(x)} \left[ - \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z)  \right) \right] + \E_{x \sim p(x)} \left[ \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam} (x | z)  \right]  \right] \label{eq2.8} \tag{2.8}
 \end{align}
 $$
 {% endraw %}
@@ -233,7 +233,7 @@ We have:
 $$ \small
 \begin{align}
 \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z) \right) &= \E_{q_{\phiparam} (z | x)} \left[ \log q_{\phiparam} (z | x) - \log p(z) \right] \nonumber \\
-&= \int q_{\phiparam}(z|x) \log q_{\phiparam}(z|x)dz - \int q_{\phiparam}(z|x) \log p(z)dz \label{eq2.9}
+&= \int q_{\phiparam}(z|x) \log q_{\phiparam}(z|x)dz - \int q_{\phiparam}(z|x) \log p(z)dz \label{eq2.9} \tag{2.9}
 \end{align}
 $$
 {% endraw %}
@@ -243,7 +243,7 @@ Under Gaussian assumption, integrals in (\ref{eq2.9}) can be analytically comput
 $$ \small
 \begin{align}
 \int q_{\phiparam}(z|x) \log q_{\phiparam}(z|x)dz &= \int \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) \log \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) dz \nonumber \\
-&= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (1 + \log \sigma_{d}^2) \tag{2.10a} \label{eq2.10a}
+&= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (1 + \log \sigma_{d}^2) \tag{2.10a} \label{eq2.10a} \tag{2.10a}
 \end{align}
 $$
 {% endraw %}
@@ -254,7 +254,7 @@ and:
 $$ \small
 \begin{align}
 \int q_{\phiparam}(z|x) \log p(z)dz &= \int \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) \log \mathcal{N} (z; 0, \mathbb{I}) dz \nonumber \\
-&= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (\mu_d^2 + \sigma_{d}^2) \tag{2.10b} \label{eq2.10b} \\
+&= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (\mu_d^2 + \sigma_{d}^2) \tag{2.10b} \label{eq2.10b} \tag{2.10b} \\
 \text{where:} \: D \: &\text{is dimensionality of} \; z \nonumber
 \end{align}
 $$
@@ -264,7 +264,7 @@ Hence:
 $$ \small
 \begin{align}
 - \text{KL}\left( q_{\phiparam}(z|x_i) \parallel p(z) \right) 
-= \frac{1}{2} \sum_{d=1}^{D} \left[1 + \log (\sigma_{d}^2 (x_i) )- \mu_{d}^2(x_i) - \sigma_{d}^2 (x_i) \right] \label{eq2.10}
+= \frac{1}{2} \sum_{d=1}^{D} \left[1 + \log (\sigma_{d}^2 (x_i) )- \mu_{d}^2(x_i) - \sigma_{d}^2 (x_i) \right] \label{eq2.10} \tag{2.10}
 \end{align}
 $$
 {% endraw %}
@@ -287,7 +287,7 @@ $$ \small
 \begin{align}
 & \E_{q_{\phiparam} (z|x_i)} \left[ p_{\thetaparam} (x_i|z) \right] \approx \frac{1}{L} \sum_{l=1}^{L} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} )) \nonumber \\
 & \nabla_{\phiparam} \E_{q_{\phiparam} (z|x_i)} \left[ p_{\thetaparam} (x_i|z) \right] \approx 
-\frac{1}{L} \sum_{l=1}^{L} \left[ \nabla_{\phi} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} )) \right] \label{eq2.11} \\
+\frac{1}{L} \sum_{l=1}^{L} \left[ \nabla_{\phi} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} )) \right] \label{eq2.11} \tag{2.11}\\
 \text{where:} & \: \varepsilon_{l} \sim \mathcal{N} (0, \mathbb{I}) \nonumber
 \end{align}
 $$
@@ -300,7 +300,7 @@ $$ \small
 \begin{align}
 \ell_i \approx 
 \frac{1}{2} \sum_{d=1}^{D} \left[1 + \log (\sigma_{d}^2 (x_i) )- \mu_{d}^2(x_i) - \sigma_{d}^2 (x_i) \right] + 
-\frac{1}{L} \sum_{l=1}^{L} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} )) \label{eq2.12}
+\frac{1}{L} \sum_{l=1}^{L} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} )) \label{eq2.12} \tag{2.12}
 \end{align}
 $$
 {% endraw %}
