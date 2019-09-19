@@ -169,7 +169,10 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 
 [Figure 2.2](#fig2.2) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\phiparam}(z | x)$ and generative model $p(z) p_{\thetaparam}(x | z)$ are performed by encoder network and decoder network respectively. The variational parameters $\phiparam$ and generative model's parameters $\thetaparam $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables (section \ref{VI}), VAE can take a single data point as input thanks to \textit{amortized} setting.<br>
 
-Similar to (\ref{eq1.4}) or (\ref{eq1.4a}), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is $\log p(\x) = \sum_{i=1}^{N} \log p(x_i)$. Therefore, we only concern about a single observation:
+Similar to [eq1.4](/_posts/2019-08-12-OTandInference-p1.md/#eq1.4) or [eq1.4a](https://hqng.github.io/variational%20inference/OTandInference-p1/#eq1.4a), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is {% raw %} $\log p(\x) = \sum_{i=1}^{N} \log p(x_i)$ {% endraw %}. Therefore, we only concern about a single observation:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \log p(x) &= \E_{z \sim q_{\phiparam} (z|x)} \left[ \log p(x) \right] \nonumber \\
 &= \E_{q_{\phiparam} (z|x)} \left[ \log \frac{p_{\thetaparam}(x, z)}{p(z|x)} \right] \nonumber \\
@@ -182,8 +185,13 @@ Similar to (\ref{eq1.4}) or (\ref{eq1.4a}), we can come up with objective functi
 \begin{align}
 \implies \log p(x) - \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) &= \underbrace{ -\text{KL}\left( q_{\phiparam}(z|x) \parallel p(z) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x|z) \right] }_{\ell} \tag{2.6a} \label{eq2.6a} 
 \end{align}
-
+$$
+{% edraw %}
+<br>
 Minimizing KL divergence between variational posterior and true posterior equivalents to maximizing ELBO $\ell$. The variational lower bound of a single data point $x_i$:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \ell_i (\phiparam, \thetaparam) = - \text{KL}\left( q_{\phiparam}(z|x_i) \parallel p(z) \right) + \E_{q_{\phiparam} (z|x_i)} \left[ \log p_{\thetaparam}(x_i|z) \right] \label{eq2.7}
 \end{align}
@@ -192,56 +200,108 @@ The objective function on entire data set should be:
 \mathcal{L} &= \sum_{i=1}^{N} \ell_i (\phiparam, \thetaparam) = - \sum_{i=1}^{N} \text{KL} \left( q_{\phiparam}(z|x_i) \parallel p(z) \right) + \sum_{i=1}^{N} \E_{q_{\phiparam} (z|x_i)} \left[ \log p_{\thetaparam} (x_i | z)  \right] \nonumber \\
 &= \E_{x \sim p(x)} \left[ - \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z)  \right) \right] + \E_{x \sim p(x)} \left[ \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam} (x | z)  \right]  \right] \label{eq2.8}
 \end{align}
-
+$$
+{% endraw %}
+<br>
 The quantity $ \text{KL}\left( q_{\phiparam}(z|x_i) \parallel p(z) \right) $ can be integrated analytically under certain assumption. Let's consider our deep latent Gaussian model:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 p(z) &= \mathcal{N} \left(z; 0, \mathbb{I} \right) \nonumber \\
 q_{\phiparam}(z | x) &= \mathcal{N}  \left(z; \mu(x), \sigma^2(x) \mathbb{I} \right) \nonumber \\
 \text{where:} & \: \mu, \sigma \: \text{are functions of} \: x \nonumber
 \end{align}
+$$
+{% endraw %}
+<br>
 We have:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z) \right) &= \E_{q_{\phiparam} (z | x)} \left[ \log q_{\phiparam} (z | x) - \log p(z) \right] \nonumber \\
 &= \int q_{\phiparam}(z|x) \log q_{\phiparam}(z|x)dz - \int q_{\phiparam}(z|x) \log p(z)dz \label{eq2.9}
 \end{align}
+$$
+{% endraw %}
 Under Gaussian assumption, integrals in (\ref{eq2.9}) can be analytically computed:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \int q_{\phiparam}(z|x) \log q_{\phiparam}(z|x)dz &= \int \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) \log \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) dz \nonumber \\
 &= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (1 + \log \sigma_{d}^2) \tag{2.10a} \label{eq2.10a}
 \end{align}
+$$
+{% endraw %}
+<br>
 and:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \int q_{\phiparam}(z|x) \log p(z)dz &= \int \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) \log \mathcal{N} (z; 0, \mathbb{I}) dz \nonumber \\
 &= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (\mu_d^2 + \sigma_{d}^2) \tag{2.10b} \label{eq2.10b} \\
 \text{where:} \: D \: &\text{is dimensionality of} \; z \nonumber
 \end{align}
+$$
+{% endraw %}
 Hence:
+{% raw %}
+$$ \small
 \begin{align}
 - \text{KL}\left( q_{\phiparam}(z|x_i) \parallel p(z) \right) 
 = \frac{1}{2} \sum_{d=1}^{D} \left[1 + \log (\sigma_{d}^2 (x_i) )- \mu_{d}^2(x_i) - \sigma_{d}^2 (x_i) \right] \label{eq2.10}
 \end{align}
+$$
+{% endraw %}
 
 The term $\E_{q_{\phiparam} (z|x_i)} \left[ \log p_{\thetaparam}(x_i|z) \right] $ is more tricky because we want both its (estimated) value and gradient w.r.t $\phiparam$. As we discuss in section \ref{Reparmeterize-MC}, using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $z$ from $q_{\phiparam} (z|x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I} )$, we sample $z$ as below:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 &z = g(\varepsilon, \mu, \sigma) = \mu (x) + \sigma (x) \odot \varepsilon \nonumber \\
 &\text{where:} \: \varepsilon \sim \mathcal{N} (0, \mathbb{I}) \nonumber
 \end{align}
+$$
+{% endraw %}
+<br>
 From (\ref{eq2.5}):
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 & \E_{q_{\phiparam} (z|x_i)} \left[ p_{\thetaparam} (x_i|z) \right] \approx \frac{1}{L} \sum_{l=1}^{L} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} )) \nonumber \\
 & \nabla_{\phiparam} \E_{q_{\phiparam} (z|x_i)} \left[ p_{\thetaparam} (x_i|z) \right] \approx 
 \frac{1}{L} \sum_{l=1}^{L} \left[ \nabla_{\phi} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} )) \right] \label{eq2.11} \\
 \text{where:} & \: \varepsilon_{l} \sim \mathcal{N} (0, \mathbb{I}) \nonumber
 \end{align}
+$$
+{% endraw %}
+<br>
 One combines (\ref{eq2.10}) and (\ref{eq2.11}) to get estimate of ELBO:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \ell_i \approx 
 \frac{1}{2} \sum_{d=1}^{D} \left[1 + \log (\sigma_{d}^2 (x_i) )- \mu_{d}^2(x_i) - \sigma_{d}^2 (x_i) \right] + 
 \frac{1}{L} \sum_{l=1}^{L} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} )) \label{eq2.12}
 \end{align}
+$$
+{% endraw %}
+<br>
 Finally, objective function of VAE:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \underset{\phiparam, \thetaparam}{\max} \sum_{i=1}^{N} \left( \frac{1}{2} \sum_{d=1}^{D} \left[1 + \log (\sigma_{d}^2 (x_i) )- \mu_{d}^2(x_i) - \sigma_{d}^2 (x_i) \right] \right) + 
 \sum_{i=1}^{N} \left( \frac{1}{L} \sum_{l=1}^{L} \log p_{\thetaparam} (x_i | g(\varepsilon_{l}, \mu_{i}, \sigma_{i} ))  \right)
 \end{align}
+$$
+{% endraw %}
+<br>
 The first term is regularization, the second term is reconstruction cost. While regularization forces the model not to learn trivial latent space, reconstruction ensures the model outputs high quality samples that is close to input. 

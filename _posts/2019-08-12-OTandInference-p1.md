@@ -68,6 +68,7 @@ $$ \small
 \text{where:} \: \text{KL} (q \parallel p ) \: &\text{is Kullback-Leibler divergence between} \: q \: \text{and} \: p \nonumber
 \end{align}
 $$
+<a name="eq1.4"></a>
 <br>
 Another way to express ($\ref{eq1.4}$) is: 
 <br>
@@ -90,6 +91,7 @@ $$ \small
 & \text{where:} \: p(\mathbf{z}) \: \text{is true distribution of} \: \mathbf{z} \nonumber
 \end{align}
 $$
+<a name="eq1.4a"></a>
 <br>
 From ($\ref{eq1.4}$), the posterior $p(\mathbf{z} | \mathbf{x})$ can be approximated by $q_{\boldsymbol{\theta}}(\mathbf{z})$ as long as we can find a parameters set $\boldsymbol{\theta}$ to have $\text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x})) = 0$. Although fulfilling that requirement is practically impossible, we could still reach the KL divergence's minima. Hence, VI simply turns computing task of intractable posterior into optimization problem with following objective: 
 <br>
@@ -226,11 +228,12 @@ Various VI models are not feasible for big datasets, for instance, MFVI's updati
 <div style="text-align: center;">
 <img src="{{ '/assets/otvi/SVI.jpg' | relative_url }}" alt="SVI" width="20%" /> 
 </div>
+
 <div style="text-align: center;">
-<a name="fig1.1"></a> <sub> *Fig1.1:* Graphical model of SVI: observations $x_i$, local underlying variables $z_i$s, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation. </sub>
+<a name="fig1.1"></a> <sub> <i> Fig1.1: Graphical model of SVI: observations $x_i$, local underlying variables $z_i$s, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation. <i> </sub>
 </div>
 <br>
-<br>
+
 Instead of only considering local (per data point) latent variable $z_i$ and their corresponding variational parameter $\theta_i$, SVI introduces global latent variable $\mathbf{y}$ and global variational parameter $\boldsymbol{\phi}$. In detail, we have {% raw %} $ \\{ z_i \text{s}, \mathbf{y} \\} $ {% endraw %} as latent variables and {% raw %} $ \{ \theta_i, \boldsymbol{\phi} \} $ {% endraw %} as variational parameter for $i = 1, 2, \dots, N$ (recall that $N$ is number of observations). Furthermore, we assume the model depends on a hyper-paremeter $\alpha$. Unlike vanilla VI, SVI's objective is summed over contributions of all $N$ individual data points. This setting allows stochastic optimization work. Later we will learn that VAE also adopts it.
 <br>
 <br>
