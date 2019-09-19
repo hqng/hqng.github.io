@@ -135,7 +135,7 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 }
 
 .column {
-  display: inline-block;
+  float: left;
   width: 25%;
   padding: 5px;
   text-align: center;
@@ -164,12 +164,12 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 </div>
 </html>
 <div style="text-align: center;">
-<a name="fig2.2"></a> <sub> *Fig2.2* (a) Fig 2.2a shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\phiparam$ is parameters of variational distribution {% raw %} $q_{\phiparam}(z | x)$. $\thetaparam$ {% endraw %} is parameter of generative model {% raw %} $p(z) p_{\thetaparam}(x | z) $ {% endraw %}. (b) Fig 2.2b presents VAE deep learning model. {% raw %} $q_{\phiparam}(z | x)$ and $p_{\thetaparam}(x | z)$ {% endraw %} are replaced by neural networks.</sub>
+<a name="fig2.2"></a> <sub> <i> Fig2.2 (a) Fig 2.2a shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\phiparam$ is parameters of variational distribution {% raw %} $q_{\phiparam}(z | x)$. $\thetaparam$ {% endraw %} is parameter of generative model {% raw %} $p(z) p_{\thetaparam}(x | z) $ {% endraw %}. (b) Fig 2.2b presents VAE deep learning model. {% raw %} $q_{\phiparam}(z | x)$ and $p_{\thetaparam}(x | z)$ {% endraw %} are replaced by neural networks. </i> </sub>
 </div>
 
 [Figure 2.2](#fig2.2) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\phiparam}(z | x)$ and generative model $p(z) p_{\thetaparam}(x | z)$ are performed by encoder network and decoder network respectively. The variational parameters $\phiparam$ and generative model's parameters $\thetaparam $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables (section \ref{VI}), VAE can take a single data point as input thanks to \textit{amortized} setting.<br>
 
-Similar to [eq1.4](/_posts/2019-08-12-OTandInference-p1.md/#eq1.4) or [eq1.4a](https://hqng.github.io/variational%20inference/OTandInference-p1/#eq1.4a), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is {% raw %} $\log p(\x) = \sum_{i=1}^{N} \log p(x_i)$ {% endraw %}. Therefore, we only concern about a single observation:
+Similar to [eq1.4](/variational%20inference/OTandInference-p1/#eq1.4) or [eq1.4a](https://hqng.github.io/variational%20inference/OTandInference-p1/#eq1.4a), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is {% raw %} $\log p(\x) = \sum_{i=1}^{N} \log p(x_i)$ {% endraw %}. Therefore, we only concern about a single observation:
 <br>
 {% raw %}
 $$ \small
@@ -186,7 +186,7 @@ $$ \small
 \implies \log p(x) - \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z|x) \right) &= \underbrace{ -\text{KL}\left( q_{\phiparam}(z|x) \parallel p(z) \right) + \E_{q_{\phiparam} (z|x)} \left[ \log p_{\thetaparam}(x|z) \right] }_{\ell} \tag{2.6a} \label{eq2.6a} 
 \end{align}
 $$
-{% edraw %}
+{% endraw %}
 <br>
 Minimizing KL divergence between variational posterior and true posterior equivalents to maximizing ELBO $\ell$. The variational lower bound of a single data point $x_i$:
 <br>
