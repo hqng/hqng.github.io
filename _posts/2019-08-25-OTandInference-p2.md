@@ -22,10 +22,8 @@ In VI models, each local variable is governed by its own variational parameter, 
 <div style="text-align: center;">
 <img src="{{ '/assets/otvi/AmortizedVI.jpg' | relative_url }}" alt="Amortized VI" width="25%" /> 
 </div>
-<sub>
-<div style="text-align: center;"> 
-<a name="Fig2.1"></a> *Fig2.1:* Graphical model of Amortized VI. Dashed line indicates variational approximation -- $\phi$.
-</sub>
+<div style="text-align: center;">
+<a name="Fig2.1"></a> <sub>*Fig2.1:* Graphical model of Amortized VI. Dashed line indicates variational approximation -- $\phi$. </sub>
 </div>
 
 Amortized VI reforms SVI structure to lower the cost. In particular, it  assumes that optimal $z_i$'s can be represented as a function of $x_i$s, $z_i = f(x_i)$, i.e. $z_i$s are features of $x_i$s. Of course, local variational parameters are removed. Employing a function whose parameters are shared across all data points allows past computation to support future computation. Once the function is estimated (say, after few optimization steps), local variables obviously can be computed by passing new data points to $f(\cdot)$. This is why we name it *amortized*. Function $f(\cdot)$ implements a deep neural network called *inference network* to make a powerful predictor.
