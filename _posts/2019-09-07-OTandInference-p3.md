@@ -102,13 +102,12 @@ We have the followed function only takes 2 values:
 <br>
 {% raw %}
 $$ \small
-\begin{equation*}
-	g_{\Gamma}(\gamma) = \sup_{\varphi, \psi} \left[ \int \varphi d \mu + \int \psi d \nu - \iint \varphi \oplus \psi d \gamma \right] = 
-	\begin{cases*}
-		0 \: & if $\gamma \in \Gamma$ \\
-		+\infty \: & otherwise
-	\end{cases*}
-\end{equation*}
+	g_{\Gamma}(\gamma) = \sup_{\varphi, \psi} \left[ \int \varphi d \mu + \int \psi d \nu - \iint \varphi \oplus \psi d \gamma \right] = \left\{
+	\begin{array}{lr}
+		0 \: & \text{if } \gamma \in \Gamma \\
+		+\infty \: & \text{otherwise}
+	\end{array}
+	\right.
 $$
 {% endraw %}
 
@@ -134,8 +133,8 @@ But we know that:
 $$ \small
 	\inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \iint \left( c - \varphi \oplus \psi \right) d \gamma = \left\{
 	\begin{array}{lr} 
-      0 \: & \text{if} c - \varphi \oplus \psi \geq 0 \\
-      -\infty \; & \text{otherwise}
+      0 \: & \text{if } c - \varphi \oplus \psi \geq 0 \\
+      -\infty \: & \text{otherwise}
     \end{array}
 	\right.
 $$
@@ -222,10 +221,11 @@ $$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y)$$
 <br>
 $$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y) \leq -\bar{\varphi}(x)$$
 <br>
-$$\implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ &#8718;
+$$\implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ 
+<p style="text-align:right">&#8718;</p>
 
-One interested in detailed proofs can refer to \cite{ComputationalOT} and \href{https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s}{Cuturi's talk}.
-Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form \cite{GAN-VAE-OT}, 1-Lipschitz constraint is fulfilled by weight-clipping \cite{WGAN} or penalizing gradient (WGAN-GP) \cite{WGAN-GP}.
+One interested in detailed proofs can refer to ([Gabriel Peyre and Marco Cuturi, 2018](https://arxiv.org/abs/1803.00567)) and [Cuturi's talk](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s).
+Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form ([Aude Genevay *et al,*, 2017](https://arxiv.org/abs/1706.01807)), 1-Lipschitz constraint is fulfilled by weight-clipping ([Martin Arjovsky *et al.*, 2017](https://arxiv.org/abs/1701.07875)) or penalizing gradient (WGAN-GP, [Ishaan Gulrajani *et al.*, 2017](https://papers.nips.cc/paper/7159-improved-training-of-wasserstein-gans)).
 
 \subsection{Empirical Wasserstein distance}
 
