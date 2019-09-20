@@ -148,7 +148,7 @@ $$ \small
 	(\star) \Leftrightarrow \sup_{\varphi \oplus \psi \leq c } \int \varphi d \mu + \int \psi d \nu
 \end{align*}
 $$
-{% endraw %} &#8718;
+{% endraw %} <p style="text-align:right">&#8718;</p>
 
 When cost function $c(x, y)$ is a metric $D^p(x,y)$, optimal transport cost is simplified to $p$*-Wasserstein distance* $W_p$:
 
@@ -221,81 +221,162 @@ $$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y)$$
 <br>
 $$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y) \leq -\bar{\varphi}(x)$$
 <br>
-$$\implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ 
-<p style="text-align:right">&#8718;</p>
+$$\implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ <p style="text-align:right">&#8718;</p>
 
 One interested in detailed proofs can refer to ([Gabriel Peyre and Marco Cuturi, 2018](https://arxiv.org/abs/1803.00567)) and [Cuturi's talk](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s).
 Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form ([Aude Genevay *et al,*, 2017](https://arxiv.org/abs/1706.01807)), 1-Lipschitz constraint is fulfilled by weight-clipping ([Martin Arjovsky *et al.*, 2017](https://arxiv.org/abs/1701.07875)) or penalizing gradient (WGAN-GP, [Ishaan Gulrajani *et al.*, 2017](https://papers.nips.cc/paper/7159-improved-training-of-wasserstein-gans)).
 
-\subsection{Empirical Wasserstein distance}
+## Empirical Wasserstein distance
 
-We have briefly covered basics of optimal transport. Solving OT is rather problematic except for certain cases, e.g. univariate or Gaussian measures. Our primary objective is to efficiently compute Wasserstein distance on empirical measures which appear in probabilistic models frequently.\\
+We have briefly covered basics of optimal transport. Solving OT is rather problematic except for certain cases, e.g. univariate or Gaussian measures. Our primary objective is to efficiently compute Wasserstein distance on empirical measures which appear in probabilistic models frequently.<br>
 
 We consider 2 measures $\mu=\sum_{i=1}^{n} a_{i} \delta_{x_{i}}$ and $\nu=\sum_{j=1}^{m} b_{j} \delta_{y_{j}}$ where $\delta_{x_{i}}$, $\delta_{y_{j}}$ are Dirac functions at $x_i$, $y_j$ respectively. In this particular case, cost function and coupling set are specified as:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 M_{X Y} \coloneqq& \left[D\left(x_{i}, y_{j}\right)^{p}\right]_{i j} \nonumber \\
 U(a, b) \coloneqq& \left\{P \in \mathbb{R}_{+}^{n \times m} | P \mathbf{1}_{m}=a, P^{T} \mathbf{1}_{n}=b\right\} \nonumber
 \end{align}
+$$
+{% endraw %}
+
 We then can substitute Frobenius inner product for integral in OT's primal form:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 & W_{p}^{p}(\mu, \nu)=\min _{P \in U(a, b)}\left\langle P, M_{X Y}\right\rangle \label{eq3.10} \\
 \text{where:} \: & \left\langle \cdot, \cdot \right\rangle \: \text{is \href{https://en.wikipedia.org/wiki/Frobenius_inner_product}{Frobenius inner product}} \nonumber
 \end{align}
+$$
+{% endraw %}
+
 Dual form:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 W_{p}^{p}(\mu, \nu)=\max _{\alpha \in \mathbb{R}^{n}, \beta \in \mathbb{R}^{m}} \alpha^{T} a+\beta^{T} b \label{eq3.11}
 \end{align}
+$$
+{% endraw %}
 
-One challenge is that solution of (\ref{eq3.10}),(\ref{eq3.11}) is unstable and not always unique (\href{https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s}{Cuturi's, 2019}). Additionally, $W_p^p$ is not differentiable, making training models by stochastic gradient optimization less feasible. Fortunately, entropic regularization that measures the level of uncertainty in a probability distribution can overcome these disadvantages:\\
+One challenge is that solution of ($\ref{eq3.10}$),($\ref{eq3.11}$) is unstable and not always unique ([Cuturi's, 2019](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s)). Additionally, $W_p^p$ is not differentiable, making training models by stochastic gradient optimization less feasible. Fortunately, entropic regularization that measures the level of uncertainty in a probability distribution can overcome these disadvantages:<br>
 
-\textbf{Entropic Regularization}:
-%For distribution $P(x)$
-%\begin{align*}
-%\mathcal{H}(P) \coloneqq - \sum_{i} P(x_i) \log P(x_i)
-%\end{align*}
+**Entropic Regularization**:
 For joint distribution $P(x, y)$ (in this section, we only concern about discrete distribution unless stated otherwise):
+<br>
+{% raw %}
+$$ \small
 \begin{align*}
 \mathcal{H}(P) \coloneqq - \sum_{i} \sum_{j} P(x_i,y_j) \log P(x_i,y_j)
 \end{align*}
-For particular $P \in U(a,b)$: $\mathcal{H}(P) = -\sum_{i,j=1}^{n,m} P(x_i,y_j) \left(\log P(x_i,y_j) -1 \right) = \sum_{i,j=1}^{n,m} P_{ij} \left(\log P_{ij} -1 \right) $ \\
+$$
+{% endraw %}
 
-\textbf{Regularized Wasserstein}:
+For particular $P \in U(a,b)$ : $\mathcal{H}(P) = -\sum_{i,j=1}^{n,m} P(x_i,y_j) \left(\log P(x_i,y_j) -1 \right) = \sum_{i,j=1}^{n,m} P_{ij} \left(\log P_{ij} -1 \right) $
+<br>
+
+**Regularized Wasserstein**:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 & W_{\epsilon}(\mu, \nu) = \min _{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle - \epsilon \mathcal{H}(P) \label{eq3.12} \\
 \text{where:} \: & \epsilon \geq 0 \: \text{is regularization coeficient} \nonumber
 \end{align}
+$$
+{% endraw %}
 
-Strong concavity property of entropic regularization ensures the solution of (\ref{eq3.12}) is unique. Moreover, it can achieve a differentiable solution using Sinkhorn's algorithm. To come up with Sinkhorn iteration, we need an additional proposition. \\
+Strong concavity property of entropic regularization ensures the solution of ($\ref{eq3.12}$) is unique. Moreover, it can achieve a differentiable solution using Sinkhorn's algorithm. To come up with Sinkhorn iteration, we need an additional proposition.<br>
 
-\textbf{Prop.} If $P_{\epsilon} \coloneqq \arg\min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle - \epsilon \mathcal{H}(P) $ then: $ \exists ! u \in \mathbb{R}_{+}^{n}, v \in \mathbb{R}_{+}^{m} $ such that: $$P_{\epsilon}=\operatorname{diag}(u) K \operatorname{diag}(v) \: \text{with} \: K \coloneqq e^{-M_{X Y} / \epsilon}$$
+**Prop.** If $P_{\epsilon} \coloneqq \arg\min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle - \epsilon \mathcal{H}(P) $ then: $ \exists ! u \in \mathbb{R}_{+}^{n}, v \in \mathbb{R}_{+}^{m} $ such that: 
+{% raw %} $$ P_{\epsilon}=\operatorname{diag}(u) K \operatorname{diag}(v) \: \text{with} \: K \coloneqq e^{-M_{X Y} / \epsilon} $$ {% endraw %}
 
-\begin{proof}
+*Proof*: <br>
 We have:
-$$ L(P, \alpha, \beta)=\sum_{i j} P_{i j} M_{i j} + \epsilon P_{i j}\left(\log P_{i j}-1\right)+\alpha^{T}(P \mathbf{1}-a)+\beta^{T}\left(P^{T} \mathbf{1}-b\right) $$
-$$ \frac{\partial L}{\partial P_{ij}} = M_{i j} + \epsilon \log P_{ij} + \alpha_i + \beta_j $$
+{% raw %} 
+$$ \small
+L(P, \alpha, \beta) = \sum_{i j} P_{i j} M_{i j} + \epsilon P_{i j}\left(\log P_{i j}-1\right)+\alpha^{T}(P \mathbf{1}-a)+\beta^{T}\left(P^{T} \mathbf{1}-b\right) 
+$$
+{% endraw %}
+<br>
+{% raw %} 
+$$ \small 
+\frac{\partial L}{\partial P_{ij}} = M_{i j} + \epsilon \log P_{ij} + \alpha_i + \beta_j 
+$$ 
+{% endraw %}
+<br>
 Set this partial derivative equal to $0$, we get:
-$$ P_{i j}=e^{\frac{\alpha_{i}}{\epsilon}} e^{-\frac{M_{i j}}{\epsilon}} e^{\frac{\beta_{j}}{\epsilon}}=u_{i} K_{i j} v_{j} $$
+<br>
+{% raw %} 
+$$ \small 
+P_{i j}=e^{\frac{\alpha_{i}}{\epsilon}} e^{-\frac{M_{i j}}{\epsilon}} e^{\frac{\beta_{j}}{\epsilon}}=u_{i} K_{i j} v_{j} 
+$$ 
+{% endraw %}
+<br>
 hence:
-$$ P_{\epsilon} \in U(a, b) \Leftrightarrow\left\{\begin{array}{ll}{\operatorname{diag}(u) K \operatorname{diag}(v) \mathbf{1}_{m}} & {=a} \\ {\operatorname{diag}(v) K^{T} \operatorname{diag}(u) \mathbf{1}_{n}} & {=b}\end{array}\right. $$
-$$\implies P_{\epsilon} \in U(a, b) \Leftrightarrow\left\{\begin{array}{ll}{\operatorname{diag}(u) K v} & {=a} \\ {\operatorname{diag}(v) K^{T} u } & {=b}\end{array} \right. $$
-$$\implies P_{\epsilon} \in U(a, b) \Leftrightarrow\left\{\begin{array}{ll}{u \odot K v} & {=a} \\ {v \odot K^{T} u } & {=b}\end{array} \right. $$
-$$\implies \left\{
-\begin{array}{ll}
-u &= a / Kv \\
-v &= b / K^Tu
-\end{array}
-\right. $$
-\end{proof}
+<br>
+{% raw %} 
+$$ \small
+P_{\epsilon} \in U(a, b) \Leftrightarrow \left\{ 
+	\begin{array}{ll}
+		{\operatorname{diag}(u) K \operatorname{diag}(v) \mathbf{1}_{m}} & {=a} \\ 
+		{\operatorname{diag}(v) K^{T} \operatorname{diag}(u) \mathbf{1}_{n}} & {=b}
+	\end{array}
+	\right. 
+$$ 
+{% endraw %}
+<br>
+{% raw %} 
+$$ \small
+\implies P_{\epsilon} \in U(a, b) \Leftrightarrow \left\{ 
+	\begin{array}{ll}
+		{\operatorname{diag}(u) K v} & {=a} \\ 
+		{\operatorname{diag}(v) K^{T} u } & {=b} 
+	\end{array} 
+	\right. 
+$$
+{% endraw %}
+<br>
+{% raw %} 
+$$ \small
+\implies P_{\epsilon} \in U(a, b) \Leftrightarrow \left\{ 
+	\begin{array}{ll}
+		{u \odot K v} & {=a} \\ 
+		{v \odot K^{T} u } & {=b}
+	\end{array} 
+	\right. 
+$$
+{% endraw %}
+<br>
+{% raw %} 
+$$ \small
+\implies \left\{
+	\begin{array}{ll}
+		u &= a / Kv \\
+		v &= b / K^Tu
+	\end{array}
+	\right. 
+$$
+{% endraw %} <p style="text-align:right">&#8718;</p>
 
-The above prop. suggests that if there exists a solution for regularized Wasserstein, it is unique and possibly computed once $u, v$ are available. As seen in the proof, these quantities can be approximated by repeating the last equation, in detail: \\ 
-\textbf{Sinkhorn's algorithm}: Input $M_{XY}, \epsilon, a, b$. Initialize $u, v$. Calculate $K = e^{-M_{XY}/\epsilon}$. Repeat until convergence:
+The above prop. suggests that if there exists a solution for regularized Wasserstein, it is unique and possibly computed once $u, v$ are available. As seen in the proof, these quantities can be approximated by repeating the last equation, in detail:<br> 
+
+**Sinkhorn's algorithm**: Input $M_{XY}, \epsilon, a, b$. Initialize $u, v$. Calculate $K = e^{-M_{XY}/\epsilon}$. Repeat until convergence:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 	\begin{array}{ll}
 		u &= a / Kv \\
 		v &= b / K^Tu
 	\end{array} \label{eq3.13}
 \end{align}
-Clearly, Sinkhorn iteration is differentiable. \\
+$$
+{% endraw %}
+Clearly, Sinkhorn iteration is differentiable.<br>
 
 Sinkhorn's algorithm involves with a number of other measures in OT but we will skip them since it is  irrelevant to the next section, Wasserstein distance in VI. One last thing to remember is that when regularization coefficient $\epsilon$ tends to infinity, Sinkhorn's distance turns into Maximum Mean Discrepancy (MMD) distance. <br>
 
