@@ -148,7 +148,7 @@ $$ \small
 	(\star) \Leftrightarrow \sup_{\varphi \oplus \psi \leq c } \int \varphi d \mu + \int \psi d \nu
 \end{align*}
 $$
-{% endraw %} <p style="text-align:right">&#8718;</p>
+{% endraw %} <div style="text-align:right"> &#8718; </div>
 
 When cost function $c(x, y)$ is a metric $D^p(x,y)$, optimal transport cost is simplified to $p$*-Wasserstein distance* $W_p$:
 
@@ -221,7 +221,8 @@ $$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y)$$
 <br>
 $$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y) \leq -\bar{\varphi}(x)$$
 <br>
-$$\implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ <p style="text-align:right">&#8718;</p>
+$$\implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ 
+<div style="text-align:right"> &#8718; </div>
 
 One interested in detailed proofs can refer to ([Gabriel Peyre and Marco Cuturi, 2018](https://arxiv.org/abs/1803.00567)) and [Cuturi's talk](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s).
 Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form ([Aude Genevay *et al,*, 2017](https://arxiv.org/abs/1706.01807)), 1-Lipschitz constraint is fulfilled by weight-clipping ([Martin Arjovsky *et al.*, 2017](https://arxiv.org/abs/1701.07875)) or penalizing gradient (WGAN-GP, [Ishaan Gulrajani *et al.*, 2017](https://papers.nips.cc/paper/7159-improved-training-of-wasserstein-gans)).
@@ -301,13 +302,11 @@ $$ \small
 L(P, \alpha, \beta) = \sum_{i j} P_{i j} M_{i j} + \epsilon P_{i j}\left(\log P_{i j}-1\right)+\alpha^{T}(P \mathbf{1}-a)+\beta^{T}\left(P^{T} \mathbf{1}-b\right) 
 $$
 {% endraw %}
-<br>
 {% raw %} 
 $$ \small 
 \frac{\partial L}{\partial P_{ij}} = M_{i j} + \epsilon \log P_{ij} + \alpha_i + \beta_j 
 $$ 
 {% endraw %}
-<br>
 Set this partial derivative equal to $0$, we get:
 <br>
 {% raw %} 
@@ -315,7 +314,6 @@ $$ \small
 P_{i j}=e^{\frac{\alpha_{i}}{\epsilon}} e^{-\frac{M_{i j}}{\epsilon}} e^{\frac{\beta_{j}}{\epsilon}}=u_{i} K_{i j} v_{j} 
 $$ 
 {% endraw %}
-<br>
 hence:
 <br>
 {% raw %} 
@@ -328,7 +326,6 @@ P_{\epsilon} \in U(a, b) \Leftrightarrow \left\{
 	\right. 
 $$ 
 {% endraw %}
-<br>
 {% raw %} 
 $$ \small
 \implies P_{\epsilon} \in U(a, b) \Leftrightarrow \left\{ 
@@ -350,7 +347,6 @@ $$ \small
 	\right. 
 $$
 {% endraw %}
-<br>
 {% raw %} 
 $$ \small
 \implies \left\{
@@ -360,7 +356,7 @@ $$ \small
 	\end{array}
 	\right. 
 $$
-{% endraw %} <p style="text-align:right">&#8718;</p>
+{% endraw %} <div style="text-align:right"> &#8718; </div>
 
 The above prop. suggests that if there exists a solution for regularized Wasserstein, it is unique and possibly computed once $u, v$ are available. As seen in the proof, these quantities can be approximated by repeating the last equation, in detail:<br> 
 
