@@ -147,8 +147,8 @@ $$ \small
 \begin{align*}
 	(\star) \Leftrightarrow \sup_{\varphi \oplus \psi \leq c } \int \varphi d \mu + \int \psi d \nu
 \end{align*}
-$$
-{% endraw %} <div style="text-align:right"> &#8718; </div>
+$$ &#8718;
+{% endraw %}  
 
 When cost function $c(x, y)$ is a metric $D^p(x,y)$, optimal transport cost is simplified to $p$*-Wasserstein distance* $W_p$:
 
@@ -221,8 +221,7 @@ $$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y)$$
 <br>
 $$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y) \leq -\bar{\varphi}(x)$$
 <br>
-$$\implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ 
-<div style="text-align:right"> &#8718; </div>
+$$\implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ &#8718;
 
 One interested in detailed proofs can refer to ([Gabriel Peyre and Marco Cuturi, 2018](https://arxiv.org/abs/1803.00567)) and [Cuturi's talk](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s).
 Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form ([Aude Genevay *et al,*, 2017](https://arxiv.org/abs/1706.01807)), 1-Lipschitz constraint is fulfilled by weight-clipping ([Martin Arjovsky *et al.*, 2017](https://arxiv.org/abs/1701.07875)) or penalizing gradient (WGAN-GP, [Ishaan Gulrajani *et al.*, 2017](https://papers.nips.cc/paper/7159-improved-training-of-wasserstein-gans)).
@@ -248,7 +247,7 @@ We then can substitute Frobenius inner product for integral in OT's primal form:
 $$ \small
 \begin{align}
 & W_{p}^{p}(\mu, \nu)=\min _{P \in U(a, b)}\left\langle P, M_{X Y}\right\rangle \label{eq3.10} \\
-\text{where:} \: & \left\langle \cdot, \cdot \right\rangle \: \text{is \href{https://en.wikipedia.org/wiki/Frobenius_inner_product}{Frobenius inner product}} \nonumber
+\text{where:} \: & \left\langle \cdot, \cdot \right\rangle \: \text{is [Frobenius inner product](https://en.wikipedia.org/wiki/Frobenius_inner_product) } \nonumber
 \end{align}
 $$
 {% endraw %}
@@ -277,7 +276,6 @@ $$
 {% endraw %}
 
 For particular $P \in U(a,b)$ : $\mathcal{H}(P) = -\sum_{i,j=1}^{n,m} P(x_i,y_j) \left(\log P(x_i,y_j) -1 \right) = \sum_{i,j=1}^{n,m} P_{ij} \left(\log P_{ij} -1 \right) $
-<br>
 
 **Regularized Wasserstein**:
 <br>
@@ -336,7 +334,6 @@ $$ \small
 	\right. 
 $$
 {% endraw %}
-<br>
 {% raw %} 
 $$ \small
 \implies P_{\epsilon} \in U(a, b) \Leftrightarrow \left\{ 
@@ -355,8 +352,8 @@ $$ \small
 		v &= b / K^Tu
 	\end{array}
 	\right. 
-$$
-{% endraw %} <div style="text-align:right"> &#8718; </div>
+$$ &#8718;
+{% endraw %}
 
 The above prop. suggests that if there exists a solution for regularized Wasserstein, it is unique and possibly computed once $u, v$ are available. As seen in the proof, these quantities can be approximated by repeating the last equation, in detail:<br> 
 
