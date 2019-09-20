@@ -243,7 +243,7 @@ Under Gaussian assumption, integrals in ($\ref{eq2.9}$) can be analytically comp
 $$ \small
 \begin{align}
 \int q_{\boldsymbol{\phi}}(z|x) \log q_{\boldsymbol{\phi}}(z|x)dz &= \int \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) \log \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) dz \nonumber \\
-&= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (1 + \log \sigma_{d}^2) \tag{2.10a} \label{eq2.10a} \tag{2.10a}
+&= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (1 + \log \sigma_{d}^2) \label{eq2.10a} \tag{2.10a}
 \end{align}
 $$
 {% endraw %}
@@ -254,7 +254,7 @@ and:
 $$ \small
 \begin{align}
 \int q_{\boldsymbol{\phi}}(z|x) \log p(z)dz &= \int \mathcal{N} (z; \mu, \sigma^2 \mathbb{I}) \log \mathcal{N} (z; 0, \mathbb{I}) dz \nonumber \\
-&= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (\mu_d^2 + \sigma_{d}^2) \tag{2.10b} \label{eq2.10b} \tag{2.10b} \\
+&= - \frac{D}{2} \log (2\pi) - \frac{1}{2} \sum_{d=1}^{D} (\mu_d^2 + \sigma_{d}^2) \label{eq2.10b} \tag{2.10b} \\
 \text{where:} \: D \: &\text{is dimensionality of} \; z \nonumber
 \end{align}
 $$
