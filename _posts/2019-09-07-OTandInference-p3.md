@@ -135,8 +135,8 @@ $$ \small
 \begin{equation*}
 	\inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \iint \left( c - \varphi \oplus \psi \right) d \gamma =
 	\begin{cases*}
-	0 \: & if $c - \varphi \oplus \psi \geq 0$ \\
-	-\infty \; & otherwise
+		\displaystyle 0 \: & if $c - \varphi \oplus \psi \geq 0$ \\
+		\displaystyle -\infty \; & otherwise
 	\end{cases*}
 \end{equation*}
 $$
