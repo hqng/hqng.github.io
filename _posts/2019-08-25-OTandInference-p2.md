@@ -41,7 +41,7 @@ Let's estimate the following gradient which later shows up in VAE:
 {% raw %}
 $$ \small
 \begin{align}
-\nabla_{\theta} \mathbb{E}_{q_{\theta}(z)} \left[ f(z) \right] = \nabla_{\theta} \int q_{\theta}(z)f(z)dz \label{eq2.1} \tag(2.1)
+\nabla_{\theta} \mathbb{E}_{q_{\theta}(z)} \left[ f(z) \right] = \nabla_{\theta} \int q_{\theta}(z)f(z)dz \label{eq2.1} \tag{2.1}
 \end{align}
 $$
 {% endraw %}
@@ -94,7 +94,7 @@ $$ \small
 \begin{alignat}{2}
 & \nabla_{\theta} \mathbb{E}_{q_{\theta}(z)} \left[ f(z) \right] &&= \: \nabla_{\theta} \int q_{\theta}(z)f(z)dz \nonumber \\
 =& \:  \nabla_{\theta} \int q(\varepsilon) f(z) d \varepsilon &&= \: \nabla_{\theta} \int q(\varepsilon) f(g(\varepsilon, \theta)) d \varepsilon \nonumber \\
-=& \: \nabla_{\theta} \mathbb{E}_{q(\varepsilon)} \left[ f(g(\varepsilon, \theta)) \right] &&= \: \mathbb{E}_{q(\varepsilon)} \left[ \nabla_{\theta} f(g(\varepsilon, \theta)) \right] \label{eq2.3} \tag(2.3)
+=& \: \nabla_{\theta} \mathbb{E}_{q(\varepsilon)} \left[ f(g(\varepsilon, \theta)) \right] &&= \: \mathbb{E}_{q(\varepsilon)} \left[ \nabla_{\theta} f(g(\varepsilon, \theta)) \right] \label{eq2.3} \tag{2.3}
 \end{alignat}
 $$
 {% endraw %}
@@ -273,7 +273,7 @@ $$ \small
 $$
 {% endraw %}
 <br>
-The term {% raw %} $ \mathbb{E}_{q_{ \boldsymbol{\phi} } (z|x_i)} \left[ \log p_{\boldsymbol{\theta}}(x_i|z) \right] $ {% endraw %} is more tricky because we want both its (estimated) value and gradient w.r.t {% raw %} $ \boldsymbol{ \phi } $ {% endraw %}. As we discuss in section [Reparmeterize-MC](#Reparmeterize-MC), using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $z$ from {% raw %} $q_{\boldsymbol{\phi}} (z|x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I} )$ {% endraw %}, we sample $z$ as below:
+The term {% raw %} $ \mathbb{E}_{q_{ \boldsymbol{\phi} } (z|x_i)} \left[ \log p_{\boldsymbol{\theta}}(x_i|z) \right] $ {% endraw %} is more tricky because we want both its (estimated) value and gradient w.r.t {% raw %} $ \boldsymbol{ \phi } $ {% endraw %}. As we discuss in section [Reparmeterize-MC](#Reparmeterize-MC), using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $z$ from {% raw %} $q_{ \boldsymbol{\phi} } (z|x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I} )$ {% endraw %}, we sample $z$ as below:
 <br>
 {% raw %}
 $$ \small
