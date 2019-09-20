@@ -134,9 +134,13 @@ But we know that:
 $$ \small
 	\inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \iint \left( c - \varphi \oplus \psi \right) d \gamma =
 	\begin{cases*}
-		0 \: & if $c - \varphi \oplus \psi \geq 0$ \\\\
+		0 \: & if c - \varphi \oplus \psi \geq 0 \\
 		-\infty \; & otherwise
 	\end{cases*}
+	\begin{array}{lr} 
+      0 \: & if c - \varphi \oplus \psi \geq 0 \\
+      -\infty \; & otherwise
+    \end{array}
 $$
 {% endraw %}
 
@@ -165,35 +169,64 @@ $$
 
 Equations ($\ref{eq3.4}$) and ($\ref{eq3.5}$) are primal and duality forms respectively.<br>
 
-Assume $\varphi$ is known, we would like to find a good $\psi$ to solve (\ref{3.5}). Under this assumption, $\psi$ must satisfy below condition:
+Assume $\varphi$ is known, we would like to find a good $\psi$ to solve ($\ref{3.5}$). Under this assumption, $\psi$ must satisfy below condition:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \psi(y) \leq & \: D^p(x,y) - \varphi(x) \: \forall x, y \nonumber \\
 \Leftrightarrow \psi(y) \leq & \: \inf_{x} D^p(x,y) - \varphi(x) \eqqcolon \bar{\varphi}_x(y)  \label{eq3.6}
 \end{align}
-The R.H.S of (\ref{eq3.6}) is called $D^p$-transform (of $\varphi$), of course we might exchange $\varphi$ for $\psi$ and get the $D^p$-transform of $\psi$ instead. The duality of $p$-Wasserstein now can be rewritten in semi-duality form:
+$$
+{% endraw %}
+
+The R.H.S of ($\ref{eq3.6}$) is called $D^p$-transform (of $\varphi$), of course we might exchange $\varphi$ for $\psi$ and get the $D^p$-transform of $\psi$ instead. The duality of $p$-Wasserstein now can be rewritten in semi-duality form:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 W_p^p (\mu, \nu) = \sup_{\varphi} \int \varphi d \mu + \int \bar{\varphi} d \nu \label{eq3.7}
 \end{align}
+$$
+{% endraw %}
 
-Recall the definition of \textbf{$D^p$-concavity}: a function $\varphi (x)$ is $D^p$-concave if there exists $\phi(y)$ such that: $\varphi(x) = \bar{\phi}(x)$ (where $\varphi,\: \phi$ are "well-defined" on $\Omega$). Thus, if $\varphi$ is $D^p$-concave: $\exists \phi \: \text{s.t.} \: \varphi(x) = \bar{\phi}(x) \implies \bar{\varphi}(y) = \phi(y) \implies \bar{\bar{\varphi}}(x) = \bar{\phi}(x) = \varphi(x) $. Put the constraint into (\ref{eq3.7}):
+Recall the definition of **$D^p$-concavity**: a function $\varphi (x)$ is $D^p$-concave if there exists $\phi(y)$ such that: $\varphi(x) = \bar{\phi}(x)$ (where $\varphi,\: \phi$ are "well-defined" on $\Omega$). Thus, if $\varphi$ is $D^p$-concave: $\exists \phi \: \text{s.t.} \: \varphi(x) = \bar{\phi}(x) \implies \bar{\varphi}(y) = \phi(y) \implies \bar{\bar{\varphi}}(x) = \bar{\phi}(x) = \varphi(x) $. Put the constraint into ($\ref{eq3.7}$):
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 W_p^p (\mu, \nu) = \sup_{\varphi \: \text{is $D^p$-concave}} \int \varphi d \mu + \int \bar{\varphi} d \nu \label{eq3.8}
 \end{align}
+$$
+{% endraw %}
 
 In machine learning, we often take $p=1$ and use 1-Wasserstein distance to measure the discrepancy between distributions, the duality form becomes:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \mathbf{W_1}(\mu, \nu) = \sup_{\varphi \: \text{is 1-Lipschitz}} \int_{\Omega} \varphi (d\mu - d\nu) \label{eq3.9}
 \end{align}
-To arrive (\ref{eq3.9}), we must show that: $p=1$ and $\varphi$ is concave $\Leftrightarrow$ $\bar{\varphi} = - \varphi$ and $\varphi$ is 1-Lipshitz
-\begin{proof}
-Define $\bar{\varphi}_x(y) \coloneqq D(x,y) - \varphi(x)$, obviously: \\
+$$
+{% endraw %}
+
+To arrive ($\ref{eq3.9}$), we must show that: $p=1$ and $\varphi$ is concave $\Leftrightarrow$ $\bar{\varphi} = - \varphi$ and $\varphi$ is 1-Lipshitz
+
+*Proof*: <br>
+Define $\bar{\varphi}_x(y) \coloneqq D(x,y) - \varphi(x)$, obviously:
+<br>
 $$\bar{\varphi}_x(y) - \bar{\varphi}_x(y^{\prime}) = D(x,y) - D(x,y^{\prime}) \leq D(y,y^{\prime}) \implies \varphi_x(y) \: \text{is 1-Lipschitz}$$
-$\implies \bar{\varphi}(y) = \inf_{x}\bar{\varphi}_x(y) \: \text{is 1-Lipschitz}$ \\
-$\implies \bar{\varphi}(y) - \bar{\varphi}(x) \leq D(x,y)$ $\implies -\bar{\varphi}(x) \leq D(x,y) - \bar{\varphi}(y)$ \\
-$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y)$ \\
-$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y) \leq -\bar{\varphi}(x)$ \\
-$\implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$ 
-\end{proof}
+<br>
+$$\implies \bar{\varphi}(y) = \inf_{x}\bar{\varphi}_x(y) \: \text{is 1-Lipschitz}$$
+<br>
+$$ \implies \bar{\varphi}(y) - \bar{\varphi}(x) \leq D(x,y)$ $\implies -\bar{\varphi}(x) \leq D(x,y) - \bar{\varphi}(y)$$
+<br>
+$$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y)$$
+<br>
+$$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y) \leq -\bar{\varphi}(x)$$
+<br>
+$$\implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ &#8718;
+
 One interested in detailed proofs can refer to \cite{ComputationalOT} and \href{https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s}{Cuturi's talk}.
 Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form \cite{GAN-VAE-OT}, 1-Lipschitz constraint is fulfilled by weight-clipping \cite{WGAN} or penalizing gradient (WGAN-GP) \cite{WGAN-GP}.
 
