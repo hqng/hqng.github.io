@@ -17,13 +17,12 @@ excerpt: "Third part of blog series about optimal transport, Wasserstein distanc
 ## <a name="OT"></a> Optimal Transport (OT)
 
 Although VAE has potentials in representation learning and generative models, it may suffer from two problems: (1) uninformative features, and (2) variance over-estimation in latent space. The cause of these problems is KL divergence.
-
-*(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p4/#eq2.8)) might be too restrictive. Particularly,  encourages  to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
-
+<br>
 
 *(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p2/#eq2.8)) might be too restrictive. Particularly, {% raw %} $ \E\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\phiparam}(z \| x) \parallel p(z) \right) \right] $ {% endraw %} encourages $ q\_{\phiparam}(z \| x) $ to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
 
-*(2) Variance Over-Estimation in Latent Space*: VAE tends to over\-fit data due to the fact that the regularization term is not strong enough compared with the reconstruction cost. As a result of over\-fitting, variance of variational distribution tends toward infinity. One can put more weight on the regularization, i.e. adding coefficient $\beta > 1$ to {% raw %} $ \E\_{x \sim p(x)} \left[ - \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z)  \right) \right] $ {% endraw %}, but it comes back to problem (1).
+*(2) Variance Over-Estimation in Latent Space*: VAE tends to over-fit data due to the fact that the regularization term is not strong enough compared with the reconstruction cost. As a result of over-fitting, variance of variational distribution tends toward infinity. One can put more weight on the regularization, i.e. adding coefficient $\beta > 1$ to {% raw %} $ \E\_{x \sim p(x)} \left[ - \text{KL}\left( q_{\phiparam}(z \| x) \parallel p(z)  \right) \right] $ {% endraw %}, but it comes back to problem (1).
+<br>
 
 For more intellectual analysis on these drawbacks, one can check out [Info-VAE](https://ermongroup.github.io/blog/a-tutorial-on-mmd-variational-autoencoders/). Additionally, KL divergence itself has disadvantages. It is troublesome when comparing distributions that are extremely different. For example, consider 2 distributions $p(x)$ and $q(x)$ in figure \ref{fig3.1}, their masses are distributed in disparate shapes, each assigns zero probability to different families of sets
 
@@ -52,7 +51,7 @@ $$ \small
 $$
 {% endraw %}
 <br>
-where $T_{\#}\mu$ is [*push-forward*](https://en.wikipedia.org/wiki/Pushforward_measure) operator, intuitively it moves entire distribution $\mu$ to $\nu$. Since $T$ does not always exist, Kantorovich consider probability couplings instead.<br>
+where $T_{\\#} \mu$ is [*push-forward*](https://en.wikipedia.org/wiki/Pushforward_measure) operator, intuitively it moves entire distribution $\mu$ to $\nu$. Since $T$ does not always exist, Kantorovich consider probability couplings instead.<br>
 
 **Kantorovich's Problem (Primal)**: Given $\mu$, $\nu$ in $\mathcal{P}(\Omega)$; a cost function $c$ on $\Omega \times \Omega$, the problem is to find a coupling $\gamma \in \Gamma$ such that:
 <br>
@@ -97,56 +96,77 @@ $$ \small
 $$
 {% endraw %}
 <br>
+
+*Proof:* <br>
+We have the followed function only takes 2 values:
+<br>
 {% raw %}
-$$
-\begin{proof}
- test
-\end{proof}
+$$ \small
+\begin{equation*}
+	g_{\Gamma}(\gamma) = \sup_{\varphi, \psi} \left[ \int \varphi d \mu + \int \psi d \nu - \iint \varphi \oplus \psi d \gamma \right] = 
+	\begin{cases*}
+		0 \: & if $\gamma \in \Gamma$ \\
+		+\infty \: & otherwise
+	\end{cases*}
+\end{equation*}
 $$
 {% endraw %}
 
+Put it into ($\ref{eq3.2}$), the problem can be transformed to:
+<br>
+{% raw %}
+$$ \small
+\begin{align*}
+	\text{(\ref{eq3.2})} \Leftrightarrow & \inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \iint c d \gamma + g_{\Gamma}(\gamma) \\
+	\Leftrightarrow & \inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \left[ \iint c d \gamma + \sup_{\varphi, \psi} \left( \int \varphi d \mu + \int \psi d \nu - \iint \varphi \oplus \psi d \gamma \right) \right] \\
+	\Leftrightarrow & \inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \sup_{\varphi, \psi} 
+	\left[ \iint \left( c - \varphi \oplus \psi \right) d \gamma + \int \varphi d \mu + \int \psi d \nu \right] \\
+	\Leftrightarrow &  \sup_{\varphi, \psi} \inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } 
+	\left[ \iint \left( c - \varphi \oplus \psi \right) d \gamma + \int \varphi d \mu + \int \psi d \nu \right] \\
+	\Leftrightarrow & \sup_{\varphi, \psi} \left[ \inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \iint \left( c - \varphi \oplus \psi \right) d \gamma + \int \varphi d \mu + \int \psi d \nu \right] \tag{$\star$}
+\end{align*}
+$$
+{% endraw %}
 
-*Proof:* <br>
-	We have the followed function only takes 2 values: 
-	\begin{equation*}
-	 	g_{\Gamma}(\gamma) = \sup_{\varphi, \psi} \left[ \int \varphi d \mu + \int \psi d \nu - \iint \varphi \oplus \psi d \gamma \right] = 
-		\begin{cases*}
-			0 \: & if $\gamma \in \Gamma$ \\
-			+\infty \: & otherwise
-		\end{cases*}
-	\end{equation*}
-	Put it into (\ref{eq3.2}), the problem can be transformed to:
-	\begin{align*}
-		\text{(\ref{eq3.2})} \Leftrightarrow & \inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \iint c d \gamma + g_{\Gamma}(\gamma) \\
-		\Leftrightarrow & \inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \left[ \iint c d \gamma + \sup_{\varphi, \psi} \left( \int \varphi d \mu + \int \psi d \nu - \iint \varphi \oplus \psi d \gamma \right) \right] \\
-		\Leftrightarrow & \inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \sup_{\varphi, \psi} 
-		\left[ \iint \left( c - \varphi \oplus \psi \right) d \gamma + \int \varphi d \mu + \int \psi d \nu \right] \\
-		\Leftrightarrow &  \sup_{\varphi, \psi} \inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } 
-		\left[ \iint \left( c - \varphi \oplus \psi \right) d \gamma + \int \varphi d \mu + \int \psi d \nu \right] \\
-		\Leftrightarrow & \sup_{\varphi, \psi} \left[ \inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \iint \left( c - \varphi \oplus \psi \right) d \gamma + \int \varphi d \mu + \int \psi d \nu \right] \tag{$\star$}
-	\end{align*}
-	But we know that:
-	\begin{equation*}
-		\inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \iint \left( c - \varphi \oplus \psi \right) d \gamma =
-		\begin{cases*}
-		0 \: & if $c - \varphi \oplus \psi \geq 0$ \\
-		-\infty \; & otherwise
-		\end{cases*}
-	\end{equation*}
-	Hence:
-	\begin{align*}
-		(\star) \Leftrightarrow \sup_{\varphi \oplus \psi \leq c } \int \varphi d \mu + \int \psi d \nu
-	\end{align*}
-\end{proof}
+But we know that:
+<br>
+{% raw %}
+$$ \small
+\begin{equation*}
+	\inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \iint \left( c - \varphi \oplus \psi \right) d \gamma =
+	\begin{cases*}
+	0 \: & if $c - \varphi \oplus \psi \geq 0$ \\
+	-\infty \; & otherwise
+	\end{cases*}
+\end{equation*}
+$$
+{% endraw %}
 
-When cost function $c(x, y)$ is a metric $D^p(x,y)$, optimal transport cost is simplified to \textit{$p$-Wasserstein distance} $W_p$: \\
+Hence:
+<br>
+{% raw %}
+$$ \small
+\begin{align*}
+	(\star) \Leftrightarrow \sup_{\varphi \oplus \psi \leq c } \int \varphi d \mu + \int \psi d \nu
+\end{align*}
+$$
+{% endraw %}
+&#8718;
 
-\textbf{$p$-Wasserstein distance}:
+When cost function $c(x, y)$ is a metric $D^p(x,y)$, optimal transport cost is simplified to $p$*-Wasserstein distance* $W_p$:
+
+**$p$-Wasserstein distance**:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 W_p (\mu, \nu) & \coloneqq \left( \inf_{\gamma \in \Gamma(\mu, \nu)} \iint D^p(x,y) d \gamma(x, y) \right)^{1/p} \label{eq3.4} \\
 W_p^p (\mu, \nu) & \coloneqq \sup_{\varphi (x) + \psi (y) \leq D^p(x,y)} \int \varphi d \mu + \int \psi d \nu \label{eq3.5}
 \end{align}
-Equations (\ref{eq3.4}) and (\ref{eq3.5}) are primal and duality forms respectively. \\
+$$
+{% endraw %}
+
+Equations ($\ref{eq3.4}$) and ($\ref{eq3.5}$) are primal and duality forms respectively.<br>
 
 Assume $\varphi$ is known, we would like to find a good $\psi$ to solve (\ref{3.5}). Under this assumption, $\psi$ must satisfy below condition:
 \begin{align}
