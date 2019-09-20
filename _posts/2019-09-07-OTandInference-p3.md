@@ -132,13 +132,13 @@ But we know that:
 <br>
 {% raw %}
 $$ \small
-\begin{equation*}
+\begin{align*}
 	\inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \iint \left( c - \varphi \oplus \psi \right) d \gamma =
 	\begin{cases*}
 		\displaystyle 0 \: & if $c - \varphi \oplus \psi \geq 0$ \\
 		\displaystyle -\infty \; & otherwise
 	\end{cases*}
-\end{equation*}
+\end{align*}
 $$
 {% endraw %}
 
