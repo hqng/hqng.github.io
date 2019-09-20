@@ -18,6 +18,9 @@ excerpt: "Third part of blog series about optimal transport, Wasserstein distanc
 
 Although VAE has potentials in representation learning and generative models, it may suffer from two problems: (1) uninformative features, and (2) variance over-estimation in latent space. The cause of these problems is KL divergence.
 
+*(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p4/#eq2.8)) might be too restrictive. Particularly,  encourages  to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
+
+
 *(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p4/#eq2.8)) might be too restrictive. Particularly, {% raw %} $ \E\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z) \right) \right] $ {% endraw %} encourages $ q_{\phiparam}(z|x) $ to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
 
 *(2) Variance Over-Estimation in Latent Space*: VAE tends to over\-fit data due to the fact that the regularization term is not strong enough compared with the reconstruction cost. As a result of over\-fitting, variance of variational distribution tends toward infinity. One can put more weight on the regularization, i.e. adding coefficient $\beta > 1$ to {% raw %} $ \E\_{x \sim p(x)} \left[ - \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z)  \right) \right] $ {% endraw %}, but it comes back to problem (1).
