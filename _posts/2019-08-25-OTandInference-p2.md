@@ -57,7 +57,7 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-This often results in very high variance estimate and impractical [Blei *et al.*, 2012](https://arxiv.org/abs/1312.6114). Fortunately, reparameterization trick can resolve the problem. <br>
+This often results in very high variance estimate and impractical ([Blei *et al.*, 2012](https://arxiv.org/abs/1312.6114)). Fortunately, reparameterization trick can resolve the problem. <br>
 <br>
 The idea of reparameterization is to transform one distribution into another form by additive/multiplicative location-scale transformations, these are basically [co-ordinate transformations](http://blog.shakirm.com/2015/10/machine-learning-trick-of-the-day-4-reparameterisation-tricks/). This way, we can express diverse and flexible class of distributions in combination of multiple simpler terms. <br>
 <br>
@@ -128,7 +128,7 @@ Sampling $\varepsilon$ clearly is easier than sampling $z$ directly, the problem
 ### <a name="VAEmodel"> VAE
 
 VAE adopts SVI and Amortized VI to make a powerful generative model. The term "generative" bases on the fact that VAE employs a neural network as *generative network* alongside mentioned *inference network*. 
-For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e. hidden variable $z$ has (parameterized) normal distribution. Other settings which are less common can be found at [Kingma's Thesis](), [Kingma and Welling, 2014](https://arxiv.org/abs/1312.6114).
+For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e. hidden variable $z$ has (parameterized) normal distribution. Other settings which are less common can be found at ([Kingma's Thesis, 2017]()), ([Kingma and Welling, 2014](https://arxiv.org/abs/1312.6114)).
 
 <html>
 <style>
