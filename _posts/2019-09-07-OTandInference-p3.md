@@ -132,13 +132,11 @@ But we know that:
 <br>
 {% raw %}
 $$ \small
-\begin{align*}
 	\inf_{\gamma \in \mathcal{P}_{+}(\Omega \times \Omega) } \iint \left( c - \varphi \oplus \psi \right) d \gamma =
 	\begin{cases*}
-		\displaystyle 0 \: & if $c - \varphi \oplus \psi \geq 0$ \\
-		\displaystyle -\infty \; & otherwise
+		0 \: & if $c - \varphi \oplus \psi \geq 0$ \\\\
+		-\infty \; & otherwise
 	\end{cases*}
-\end{align*}
 $$
 {% endraw %}
 
@@ -150,8 +148,7 @@ $$ \small
 	(\star) \Leftrightarrow \sup_{\varphi \oplus \psi \leq c } \int \varphi d \mu + \int \psi d \nu
 \end{align*}
 $$
-{% endraw %}
-&#8718;
+{% endraw %} &#8718;
 
 When cost function $c(x, y)$ is a metric $D^p(x,y)$, optimal transport cost is simplified to $p$*-Wasserstein distance* $W_p$:
 
