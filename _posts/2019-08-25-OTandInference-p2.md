@@ -273,7 +273,7 @@ $$ \small
 $$
 {% endraw %}
 <br>
-The term XXX is more tricky because we want both its (estimated) value and gradient w.r.t $\boldsymbol{\phi}$.
+The term $\mathbb{E}_{q} $ is more tricky because we want both its (estimated) value and gradient w.r.t $\boldsymbol{\phi}$.
 As we discuss in section [Reparmeterize-MC](#Reparmeterize-MC), using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $z$ from {% raw %} $q_{ \boldsymbol{\phi} } (z|x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I} )$ {% endraw %}, we sample $z$ as below:
 <br>
 {% raw %}
