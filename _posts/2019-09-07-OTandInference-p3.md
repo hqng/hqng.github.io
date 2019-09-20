@@ -16,9 +16,10 @@ excerpt: "Third part of blog series about optimal transport, Wasserstein distanc
 
 ## <a name="OT"></a> Optimal Transport (OT)
 
-Although VAE has potentials in representation learning and generative models, it may suffer from two problems: (1) uninformative features, and (2) variance over-estimation in latent space. The cause of these problems is KL divergence.<br>
+Although VAE has potentials in representation learning and generative models, it may suffer from two problems: (1) uninformative features, and (2) variance over-estimation in latent space. The cause of these problems is KL divergence.
+<br>
 
-*(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p4/#2.8)) might be too restrictive. Particularly, $ \E\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z) \right) \right] $ encourages $ q_{\phiparam}(z|x) $ to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
+*(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p4/#eq2.8)) might be too restrictive. Particularly, $ \E\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z) \right) \right] $ encourages $ q_{\phiparam}(z|x) $ to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
 
 *(2) Variance Over-Estimation in Latent Space*: VAE tends to over-fit data due to the fact that the regularization term is not strong enough compared with the reconstruction cost. As a result of over-fitting, variance of variational distribution tends toward infinity. One can put more weight on the regularization, i.e. adding coefficient $\beta > 1$ to $ \E\_{x \sim p(x)} \left[ - \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z)  \right) \right] $, but it comes back to problem (1). <br>
 
@@ -37,36 +38,65 @@ In order to get $\text{KL} ( p \parallel q) = \E_{x \sim p(x)} \left[ \log \frac
 
 ## <a name="Wasserstein"></a> OT and Wasserstein distance
 
-Optimal transport is first introduced by Monge in 1781, Kantorovich later proposed a relaxation of the problem in early 20th century. We will revisit these mathematical formalism, then come up with Wasserstein distance, a special optimal transport cost that is widely used in recent generative models. \\
+Optimal transport is first introduced by Monge in 1781, Kantorovich later proposed a relaxation of the problem in early 20th century. We will revisit these mathematical formalism, then come up with Wasserstein distance, a special optimal transport cost that is widely used in recent generative models.<br>
 
-\textbf{Monge's Problem}: Given measurable space $\Omega$; a cost function $c: \Omega \times \Omega \rightarrow \mathbb{R} $, $\mu$ and $\nu$ are 2 probability measures in $\mathcal{P}(\Omega)$. Monge's problem is to find a map $T: \Omega \rightarrow \Omega$ such that:
+**Monge's Problem**: Given measurable space $\Omega$; a cost function $c: \Omega \times \Omega \rightarrow \mathbb{R} $, $\mu$ and $\nu$ are 2 probability measures in $\mathcal{P}(\Omega)$. Monge's problem is to find a map $T: \Omega \rightarrow \Omega$ such that:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \inf_{T_{\#}\mu = \nu} \int_{\Omega} c(x, T(x)) d\mu (x) \label{eq3.1}
 \end{align}
-where $T_{\#}\mu$ is \href{https://en.wikipedia.org/wiki/Pushforward_measure}{\textit{push-forward} } operator, intuitively it moves entire distribution $\mu$ to $\nu$. Since $T$ does not always exist, Kantorovich consider probability couplings instead. \\
+$$
+{% endraw %}
+<br>
+where $T_{\#}\mu$ is [*push-forward*](https://en.wikipedia.org/wiki/Pushforward_measure) operator, intuitively it moves entire distribution $\mu$ to $\nu$. Since $T$ does not always exist, Kantorovich consider probability couplings instead.<br>
 
-\textbf{Kantorovich's Problem (Primal)}: Given $\mu$, $\nu$ in $\mathcal{P}(\Omega)$; a cost function $c$ on $\Omega \times \Omega$, the problem is to find a coupling $\gamma \in \Gamma$ such that:
+**Kantorovich's Problem (Primal)**: Given $\mu$, $\nu$ in $\mathcal{P}(\Omega)$; a cost function $c$ on $\Omega \times \Omega$, the problem is to find a coupling $\gamma \in \Gamma$ such that:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \inf_{\gamma \in \Gamma(\mu, \nu)} \iint_{\Omega \times \Omega} c(x, y) d\gamma(x, y) \label{eq3.2}
 \end{align}
-where $\Gamma$ is the set of probability couplings: 
+$$
+{% endraw %}
+<br>
+where $\Gamma$ is the set of probability couplings:
+<br>
+{% raw %}
+$$ \small 
 \begin{align*}
 \Gamma(\mu, \nu) \coloneqq \: & \{ \gamma \in \mathcal{P}(\Omega \times \Omega) \mid \forall A, B \subset \Omega, \\
  &\gamma(A \times \Omega) = \mu(A), \\
  &\gamma(B \times \Omega) = \nu(B) \} 
 \end{align*}
-
-Problem (\ref{eq3.2}) is primal form, it can be derived to duality formula: given 2 real-valued functions $\varphi$, $\psi$ on $\Omega$:
+$$
+{% endraw %}
+<br>
+Problem ($\ref{eq3.2}$) is primal form, it can be derived to duality formula: given 2 real-valued functions $\varphi$, $\psi$ on $\Omega$:
+<br>
+{% raw %}
+$$ \small
 \begin{align*}
 (\varphi \oplus \psi) (x, y) \coloneqq \varphi (x) + \psi(y)
 \end{align*}
-then minimum of Kantorovich's problem is equal to:\\
+$$
+{% endraw %}
+then minimum of Kantorovich's problem is equal to:
 
-\textbf{Kantorovich's Problem (Duality)}: 
+**Kantorovich's Problem (Duality)**:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 \sup_{\varphi \oplus \psi \leq c } \int \varphi d \mu(x) + \int \psi d \nu (y) \label{eq3.3}
 \end{align}
-
+$$
+{% endraw %}
+<br>
+{% raw %}
+$$
 \begin{proof}
 	We have the followed function only takes 2 values: 
 	\begin{equation*}
@@ -99,6 +129,8 @@ then minimum of Kantorovich's problem is equal to:\\
 		(\star) \Leftrightarrow \sup_{\varphi \oplus \psi \leq c } \int \varphi d \mu + \int \psi d \nu
 	\end{align*}
 \end{proof}
+$$
+{% endraw %}
 
 When cost function $c(x, y)$ is a metric $D^p(x,y)$, optimal transport cost is simplified to \textit{$p$-Wasserstein distance} $W_p$: \\
 
