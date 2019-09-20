@@ -22,7 +22,7 @@ VAE is another scale-up variant of VI. It employs deep neural networks to perfor
 In VI models, each local variable is governed by its own variational parameter, e.g. in SVI, parameter $\theta_i$ corresponds to latent variable $z_i$. To maximize ELBO, we have to optimize objective function w.r.t all variational parameters. Consequently, the larger number of parameters is, the more expensive computational cost is.
 
 <div style="text-align: center;">
-<img src="{{ '/assets/otvi/AmortizedVI.jpg' | relative_url }}" alt="Amortized VI" width="20%" /> 
+<img src="{{ '/assets/otvi/AmortizedVI.png' | relative_url }}" alt="Amortized VI" width="20%" /> 
 </div>
 
 <div style="text-align: center;">
@@ -156,11 +156,11 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
   <div class="column">
   </div>
   <div class="column">
-    <img src="{{ '/assets/otvi/VAE.jpg' | relative_url }}" alt="VAE" style="width: 100%;"/>
+    <img src="{{ '/assets/otvi/VAE.png' | relative_url }}" alt="VAE" style="width: 100%;"/>
     <figcaption>fig2.2a Grapical model</figcaption>
   </div>
-  <div class="column">
-    <img src="{{ '/assets/otvi/VAEnet.jpg' | relative_url }}" alt="VAEnet" style="width: 100%; vertical-align: bottom	;"/>
+  <div class="column" style="vertical-align: bottom;">
+    <img src="{{ '/assets/otvi/VAEnet.png' | relative_url }}" alt="VAEnet" style="width: 100%;"/>
 	<figcaption>fig 2.2b Neural networks</figcaption>
   </div>
 </div>
@@ -216,6 +216,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
+<a name="eq2.8"></a>
 <br>
 The quantity $ \text{KL}\left( q_{\boldsymbol{\phi}}(z|x_i) \parallel p(z) \right) $ can be integrated analytically under certain assumption. Let's consider our deep latent Gaussian model:
 <br>

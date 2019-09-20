@@ -18,26 +18,24 @@ excerpt: "Third part of blog series about optimal transport, Wasserstein distanc
 
 Although VAE has potentials in representation learning and generative models, it may suffer from two problems: (1) uninformative features, and (2) variance over-estimation in latent space. The cause of these problems is KL divergence.<br>
 
-*(1) Uninformative Latent Code*: previous research show that the regularization term in (\ref{eq2.8}) might be too restrictive. Particularly, $ \E\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z) \right) \right] $ encourages $ q_{\phiparam}(z|x) $ to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
+*(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p4/#2.8)) might be too restrictive. Particularly, $ \E\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\phiparam}(z|x) \parallel p(z) \right) \right] $ encourages $ q_{\phiparam}(z|x) $ to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
 
 *(2) Variance Over-Estimation in Latent Space*: VAE tends to over-fit data due to the fact that the regularization term is not strong enough compared with the reconstruction cost. As a result of over-fitting, variance of variational distribution tends toward infinity. One can put more weight on the regularization, i.e. adding coefficient $\beta > 1$ to $ \E\_{x \sim p(x)} \left[ - \text{KL}\left( q_{\phiparam}(z|x) \parallel p(z)  \right) \right] $, but it comes back to problem (1). <br>
 
-For more intellectual analysis on these drawbacks, one can check out [Info-VAE](https://ermongroup.github.io/blog/a-tutorial-on-mmd-variational-autoencoders/). Additionally, KL divergence itself has disadvantages. It is troublesome when comparing distributions that are extremely different. For example, consider 2 distributions $p(x)$ and $q(x)$ in figure \ref{fig3.1}, their masses are distributed in disparate shapes, each assigns zero probability to different families of sets.
-
+For more intellectual analysis on these drawbacks, one can check out [Info-VAE](https://ermongroup.github.io/blog/a-tutorial-on-mmd-variational-autoencoders/). Additionally, KL divergence itself has disadvantages. It is troublesome when comparing distributions that are extremely different. For example, consider 2 distributions $p(x)$ and $q(x)$ in figure \ref{fig3.1}, their masses are distributed in disparate shapes, each assigns zero probability to different families of sets
 
 <div style="text-align: center;">
-<img src="{{ '/assets/otvi/KLdrawback.png' | relative_url }}" alt="Amortized VI" width="30%" /> 
+<img src="{{ '/assets/otvi/KLdrawback.png' | relative_url }}" alt="Amortized VI" width="40%" /> 
 </div>
 
 <div style="text-align: center;">
 <a name="fig3.1"></a> <sub> <i>Fig3.1: Example of 2 distributions that have drastically different masses.</i> </sub>
 </div>
-<br/>
+<br>
 
+In order to get $\text{KL} ( p \parallel q) = \E_{x \sim p(x)} \left[ \log \frac{p(x)}{q(x)} \right] $, we have to compute ratio $ \frac{p(x)}{q(x)}$ for all the points, but $q(x)$ doesn't even have density with respect to ambient space (thin line connects masses in figure [3.1](#fig3.1)). If we are interested in $\text{KL} ( q \parallel p) = \E_{x \sim q(x)} \left[ \log \frac{q(x)}{p(x)} \right] $, when $q(x) \rightarrow 0$ and $p(x) > 0 $, the divergence shrinks to $0$, it means KL cannot measure the difference between distribution properly. In contrast, optimal transport does have this problem.<br>
 
-In order to get $\text{KL} ( p \parallel q) = \E_{x \sim p(x)} \left[ \log \frac{p(x)}{q(x)} \right] $, we have to compute ratio $ \frac{p(x)}{q(x)}$ for all the points, but $q(x)$ doesn't even have density with respect to ambient space (thin line connects masses in figure \ref{fig3.1}). If we are interested in $\text{KL} ( q \parallel p) = \E_{x \sim q(x)} \left[ \log \frac{q(x)}{p(x)} \right] $, when $q(x) \rightarrow 0$ and $p(x) > 0 $, the divergence shrinks to $0$, it means KL cannot measure the difference between distribution properly. In contrast, optimal transport does have this problem.
-
-\subsection{OT and Wasserstein distance} \label{Wasserstein}
+## <a name="Wasserstein"></a> OT and Wasserstein distance
 
 Optimal transport is first introduced by Monge in 1781, Kantorovich later proposed a relaxation of the problem in early 20th century. We will revisit these mathematical formalism, then come up with Wasserstein distance, a special optimal transport cost that is widely used in recent generative models. \\
 
