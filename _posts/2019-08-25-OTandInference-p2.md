@@ -11,6 +11,8 @@ tags:
 excerpt: "Second part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
 ---
 
+## [***Part 1***](/variational%20inference/OTandInference-p1/)
+
 ## <a name="VAE"></a> Variational Auto-encoders (VAE)
 
 VAE is another scale-up variant of VI. It employs deep neural networks to perform large datasets of high-dimensional samples such as images. Apart from representation learning, VAE is more advanced than VI at ability of reconstructing high quality samples.
@@ -271,7 +273,7 @@ $$ \small
 $$
 {% endraw %}
 <br>
-The term {% raw %} $\mathbb{E}_{q_{\boldsymbol{\phi}} (z|x_i)} \left[ \log p_{\boldsymbol{\theta}}(x_i|z) \right] $ {% endraw %} is more tricky because we want both its (estimated) value and gradient w.r.t {% raw %} $\boldsymbol{\phi}$ {% endraw %}. As we discuss in section \ref{Reparmeterize-MC}, using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $z$ from {% raw %} $q_{\boldsymbol{\phi}} (z|x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I} )$ {% endraw %}, we sample $z$ as below:
+The term {% raw %} $\mathbb{E}_{q_{\boldsymbol{\phi}} (z|x_i)} \left[ \log p_{\boldsymbol{\theta}}(x_i|z) \right] $ {% endraw %} is more tricky because we want both its (estimated) value and gradient w.r.t {% raw %} $\boldsymbol{\phi}$ {% endraw %}. As we discuss in section [Reparmeterize-MC](#Reparmeterize-MC), using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $z$ from {% raw %} $q_{\boldsymbol{\phi}} (z|x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I} )$ {% endraw %}, we sample $z$ as below:
 <br>
 {% raw %}
 $$ \small
@@ -318,4 +320,6 @@ $$ \small
 $$
 {% endraw %}
 <br>
-The first term is regularization, the second term is reconstruction cost. While regularization forces the model not to learn trivial latent space, reconstruction ensures the model outputs high quality samples that is close to input. 
+The first term is regularization, the second term is reconstruction cost. While regularization forces the model not to learn trivial latent space, reconstruction ensures the model outputs high quality samples that is close to input.
+
+## [***Part 3***](/variational%20inference/OTandInference-p3/)
