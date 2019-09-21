@@ -95,11 +95,16 @@ In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on late
 \end{algorithm}
 \end{center}
 
-In later case, a \href{https://www.stat.purdue.edu/~panc/research/dr/talks/Characteristic_Kernel.pdf}{\textit{characteristic}} positive-definite kernel $k: \mathcal{Z} \times \mathcal{Z} \rightarrow \mathcal{X}$ is used to define MMD:
+In later case, a [*characteristic*](https://www.stat.purdue.edu/~panc/research/dr/talks/Characteristic_Kernel.pdf) positive-definite kernel $k: \mathcal{Z} \times \mathcal{Z} \rightarrow \mathcal{X}$ is used to define MMD:
+<br>
+{% raw %}
+$$ \small
 \begin{align*}
 	& \operatorname{MMD}_{k}\left(P_{Z}, Q_{Z}\right)=\left\|\int_{\mathcal{Z}} k(z, \cdot) d P_{Z}(z)-\int_{\mathcal{Z}} k(z, \cdot) d Q_{Z}(z)\right\|_{\mathcal{H}_{k}} \\
 	\text{where:} & \: {\mathcal{H}_{k}} \: \text{is the RKHS}
 \end{align*}
+$$
+{% endraw %}
 Since MMD has an unbiased U-statistic estimator, it allows estimating gradient. Training procedure of MMD-based: \\
 \begin{center}
 \begin{algorithm}[H] \label{alg4.2}
@@ -121,54 +126,67 @@ Since MMD has an unbiased U-statistic estimator, it allows estimating gradient. 
 While decoder of VAE could not be deterministic (otherwise it falls back to ordinary auto-encoder),
 $Q_\phi(Z|X)$ in algorithms \ref{alg4.1}, \ref{alg4.2} can be non-random, i.e. WAE's decoder can deterministically map each $x_i$ to $\tilde{z}_i$.
 
-\subsection{Sinkhorn AE}
+### Sinkhorn AE
 
-Sinkhorn AE \cite{SAE} has the same objective as WAE except the regularization on latent space. In stead of GAN-based or MMD-based, SAE minimize a Wasserstein distance between $Q_Z$ and $P_Z$, i.e. $\mathcal{D}_Z$ is Wasserstein distance. But computing Wasserstein on continuous distribution is difficult, SAE overcomes this problem by considering samples from such distribution as Dirac deltas. Since expectation of Dirac function defines a discrete distribution, it allows us to approximate Wasserstein distance by differentiable Sinkhorn iteration (section \ref{OT}). \\
+Sinkhorn AE ([Giorgio Patrini *et al.*, 2019](https://openreview.net/pdf?id=BygNqoR9tm)) has the same objective as WAE except the regularization on latent space. In stead of GAN-based or MMD-based, SAE minimize a Wasserstein distance between $Q_Z$ and $P_Z$, i.e. $\mathcal{D}_Z$ is Wasserstein distance. But computing Wasserstein on continuous distribution is difficult, SAE overcomes this problem by considering samples from such distribution as Dirac deltas. Since expectation of Dirac function defines a discrete distribution, it allows us to approximate Wasserstein distance by differentiable Sinkhorn iteration (section [optimal transport](/variational%20inference/OTandInference-p3/#OT)). <br>
 
-Given 2 discrete distributions on support of $M$ points $\hat{P} = \frac{1}{M} \sum_{i=1}^{M} \delta_{z_{i}}$, $\hat{Q}= \frac{1}{M} \sum_{i=1}^{M} \delta_{\tilde{z}_{i}}$. Follow (\ref{eq3.10}), empirical Wasserstein distance associated with cost function $c'$ is:
+Given 2 discrete distributions on support of $M$ points $\hat{P} = \frac{1}{M} \sum_{i=1}^{M} \delta_{z_{i}}$, $\hat{Q}= \frac{1}{M} \sum_{i=1}^{M} \delta_{\tilde{z}_{i}}$. Follow [3.10](/variational%20inference/OTandInference-p3/#eq3.10), empirical Wasserstein distance associated with cost function $c'$ is:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 	& W_{c'} (\hat{Q}, \hat{P}) = \frac{1}{M} \min_{R \in S_M} \left\langle R, C' \right\rangle \label{eq4.2} \\
 	\text{where: } & C'_{ij} = c'(\tilde{z}_i, z_j) \nonumber \\
 	& S_M = \{ R \in \mathbb{R}_{\geq 0}^{M \times M} \mid R\mathbf{1} = \mathbf{1}, R^T\mathbf{1} = \mathbf{1} \} \nonumber
 \end{align}
+$$
+{% endraw %}
 Adding entropic regularization $\mathcal{H}(R) = - \sum_{i,j=1}^{M,M} R_{i,j} \log R_{i, j} $ to this distance, we arrive with Sinkhorn distance:
+<br>
+{% raw %}
+$$ \small
 \begin{align}
 	& S_{c', \epsilon} (\hat{Q}, \hat{P}) = \min_{R \in S_M} \left\langle R, C' \right\rangle - \epsilon \mathcal{H}(R) \label{eq4.3} \\
 	\text{where: } & \epsilon > 0 \text{ is coefficient} \nonumber
 \end{align}
+$$
+{% endraw %}
 From theoretical perspective, SAE works thanks to below theorems.
 
-\begin{mytheorem} \label{thrm4.2}
-	If $G(Z|X)$ is deterministic and $\gamma-Lipschitz$ then:
-	\begin{align*}
-		W_p(P_X, P_G) \leq W_p(P_X, G_{\#} Q_Z) + \gamma W_p(Q_Z, P_Z)
-	\end{align*}
-	If $G(Z|X) $ is stochastic, the result holds with $\gamma = \sup_{\mathcal{P} \neq \mathcal{Q} } \frac{ W_p (G(X|Z)_{\#} \mathcal{P}, W_p (G(X|Z)_{\#} \mathcal{Q}  ) }{W_p(\mathcal{P}, \mathcal{Q}) }$
-\end{mytheorem}
+<a name="thrm4.2"></a> **Theorem 4.2**: *If $G(Z|X)$ is deterministic and $\gamma-Lipschitz$ then:*
+<br>
+{% raw %}
+$$ \small
+\begin{align*}
+	W_p(P_X, P_G) \leq W_p(P_X, G_{\#} Q_Z) + \gamma W_p(Q_Z, P_Z)
+\end{align*}
+$$
+{% endraw %}
+*If $G(Z|X) $ is stochastic, the result holds with $\gamma = \sup_{\mathcal{P} \neq \mathcal{Q} } \frac{ W_p (G(X|Z)_{\\#} \mathcal{P}, W_p (G(X|Z)_{\\#} \mathcal{Q})} {W_p(\mathcal{P}, \mathcal{Q})}$ *
 
-%It means that the Wasserstein distance between data and generative model distributions is bounded by a upper bound, R.H.S. Minimizing this bound leads to minimizing discrepancy between $P_X$ and $P_G$. %This theorem is generalization of theorem \ref{thrm4.1}.
+<a name="thrm4.3"></a> **Theorem 4.3**: *Let $P_X$ is not anatomic and $G(X|Z)$ is deterministic. Then for every continuous cost c:*
+<br>
+{% raw %}
+$$ \small
+\begin{align*}
+	W_c(P_X, P_G) = \inf_{Q(Z | X) \text{ dertministic: } Q_Z=P_Z} \E_{X \sim P_X} \E_{Z \sim Q(Z|X)} c(X, G(Z))
+\end{align*}
+$$
+{% endraw %}
+* Using the cost $c(x,y) = \norm{x - y}_2^p $, the equation holds with $W_p^p(P_X,P_G)$ in place of $W_c(P_X,P_G)$ *
 
-\begin{mytheorem} \label{thrm4.3}
-	Let $P_X$ is not anatomic and $G(X|Z)$ is deterministic. Then for every continuous cost c:
-	\begin{align*}
-		W_c(P_X, P_G) = \inf_{Q(Z | X) \text{ dertministic: } Q_Z=P_Z} \E_{X \sim P_X} \E_{Z \sim Q(Z|X)} c(X, G(Z))
-	\end{align*}
-	Using the cost $c(x,y) = \norm{x -y}_2^p $, the equation holds with $W_p^p(P_X,P_G)$ in place of $W_c(P_X,P_G)$
-\end{mytheorem}
+<a name="thrm4.4"></a> **Theorem 4.4**: *Suppose perfect reconstruction, that is, $P_X = (G \circ Q)_{\\#}P_X $. Then:*
+<br>
+{% raw %}
+$$ \small
+\begin{align*}
+	\text{i)} \: P_Z = Q_Z \implies P_X = P_G \\
+	\text{ii)} \: P_Z \neq Q_Z \implies P_X \neq P_G
+\end{align*}
+$$
+{% endraw %}
 
-%It means that "the Wasserstein distance between 2 distributions can be measured as the infimum on joint distribution". This theorem is stronger than \ref{thrm4.1} (see proof in appendices of \cite{SAE}). It allows us to arrive with regularization term of SAE's objective.
-
-\begin{mytheorem} \label{thrm4.4}
-	Suppose perfect reconstruction, that is, $P_X = (G \circ Q)_{\#}P_X $. Then:
-	\begin{align*}
-		\text{i)} \: P_Z = Q_Z \implies P_X = P_G \\
-		\text{ii)} \: P_Z \neq Q_Z \implies P_X \neq P_G
-	\end{align*}
-\end{mytheorem}
-
-%It means that under perfect-reconstruction assumption, matching aggregated posterior and prior is: \textit{i)} sufficient and \textit{ii)} necessary to model data distribution.
-
-By theorem \ref{thrm4.2}, Wasserstein distance between data and generative model distributions has an upper bound, minimizing this bound leads to minimizing discrepancy between $P_X$ and $P_G$. Furthermore, the upper bound includes Wasserstein distance between aggregated posterior and the prior, we can estimate this distance by Sinkhorn on their samples. Theorem \ref{thrm4.3} allows us to have an deterministic auto-encoders, i.e. both $G(X|Z)$ and $Q(Z|X)$ are deterministic. The last one, theorem \ref{thrm4.4} means that under perfect-reconstruction assumption, matching aggregated posterior and prior is: \textit{i)} sufficient and \textit{ii)} necessary to model data distribution. This theorem reminds us to choose proper prior. Previous research have shown that the choice of prior should encourage geometric properties of latent space since it provide remarkable performance of representation learning. The authors consider few options: spherical, Dirichlet prior. \\
+By theorem [4.2](#thrm4.2), Wasserstein distance between data and generative model distributions has an upper bound, minimizing this bound leads to minimizing discrepancy between $P_X$ and $P_G$. Furthermore, the upper bound includes Wasserstein distance between aggregated posterior and the prior, we can estimate this distance by Sinkhorn on their samples. Theorem [4.3](#thrm4.3) allows us to have an deterministic auto-encoders, i.e. both $G(X|Z)$ and $Q(Z|X)$ are deterministic. The last one, theorem [4.4](#thrm4.4) means that under perfect-reconstruction assumption, matching aggregated posterior and prior is: *(i)* sufficient and *(ii)* necessary to model data distribution. This theorem reminds us to choose proper prior. Previous research have shown that the choice of prior should encourage geometric properties of latent space since it provide remarkable performance of representation learning. The authors consider few options: spherical, Dirichlet prior.<br>
 
 Finally, Sinkhorn algorithm for estimating Wasserstein distance of $Q_Z$ and $P_Z$:
 
@@ -186,8 +204,8 @@ Finally, Sinkhorn algorithm for estimating Wasserstein distance of $Q_Z$ and $P_
 	\end{algorithm}
 \end{center}
 
-\newpage
-\subsection{Sliced-WAE}
+
+### Sliced-WAE
 
 Sliced-WAE \cite{S-WAE} is another way to minimize the discrepancy between aggregated posterior and prior distributions. Similar to SAE, Sliced-WAE measures this discrepancy by Wasserstein distance but utilizes different approximation algorithm. It is based on the fact that computing this distance of univariate distributions is analytically simple. Hence, Sliced-WAE approximates Wasserstein distance on high-dimensional space through 2 steps: 1) projecting its distributions into sets of one-dimensional distributions, 2) estimating the original distance via Wasserstein distances of projected representations. \\
 

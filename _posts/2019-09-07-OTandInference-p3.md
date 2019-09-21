@@ -242,7 +242,7 @@ $$
 {% endraw %}
 
 We then can substitute Frobenius inner product for integral in OT's primal form:
-<br>
+<a name="eq3.10"></a> <br>
 {% raw %}
 $$ \small
 \begin{align}
