@@ -9,18 +9,20 @@ tags:
   - VAE
   - OT
 excerpt: "Third part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
+output:
+  html_document: default
 include-before:
-- '\newcommand{\eqdef}{\xlongequal{\text{def}}}'
-- '\DeclarePairedDelimiter\abs{\lvert}{\rvert}'
-- '\DeclarePairedDelimiter\norm{\lVert}{\rVert}'
-- '\DeclarePairedDelimiter\ceil{\lceil}{\rceil}'
-- '\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}'
-- '\DeclareMathOperator{\E}{\mathbb{E}}'
-- '\DeclareMathOperator{\x}{\mathbf{x}}'
-- '\DeclareMathOperator{\y}{\mathbf{y}}'
-- '\DeclareMathOperator{\z}{\mathbf{z}}'
-- '\DeclareMathOperator{\thetaparam}{\boldsymbol{\theta}}'
-- '\DeclareMathOperator{\phiparam}{\boldsymbol{\phi}}'
+- '$\newcommand{\eqdef}{\xlongequal{\text{def}}}$'
+- '$\DeclarePairedDelimiter\abs{\lvert}{\rvert}$'
+- '$\DeclarePairedDelimiter\norm{\lVert}{\rVert}$'
+- '$\DeclarePairedDelimiter\ceil{\lceil}{\rceil}$'
+- '$\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}$'
+- '$\DeclareMathOperator{\E}{\mathbb{E}}$'
+- '$\DeclareMathOperator{\x}{\mathbf{x}}$'
+- '$\DeclareMathOperator{\y}{\mathbf{y}}$'
+- '$\DeclareMathOperator{\z}{\mathbf{z}}$'
+- '$\DeclareMathOperator{\thetaparam}{\boldsymbol{\theta}}$'
+- '$\DeclareMathOperator{\phiparam}{\boldsymbol{\phi}}$'
 - '$\newcommand{\coloneqq}{\mathrel{=}}$'
 ---
 
