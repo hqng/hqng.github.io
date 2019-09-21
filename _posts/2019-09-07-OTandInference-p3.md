@@ -290,7 +290,7 @@ $$
 
 Strong concavity property of entropic regularization ensures the solution of ($\ref{eq3.12}$) is unique. Moreover, it can achieve a differentiable solution using Sinkhorn's algorithm. To come up with Sinkhorn iteration, we need an additional proposition.<br>
 
-**Prop.** If $P_{\epsilon} \coloneqq \arg\min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle - \epsilon \mathcal{H}(P) $ then: $ \exists ! u \in \mathbb{R}_{+}^{n}, v \in \mathbb{R}_{+}^{m} $ such that: 
+**Prop.** If {% raw %} $P_{\epsilon} \coloneqq \arg \min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle \- \epsilon \mathcal{H}(P) $ {% endraw %} then: {% raw %} $ \exists ! u \in \mathbb{R}\_{+}^{n}, v \in \mathbb{R}\_{+}^{m} $ {% endraw %} such that: 
 {% raw %} $$ P_{\epsilon}=\operatorname{diag}(u) K \operatorname{diag}(v) \: \text{with} \: K \coloneqq e^{-M_{X Y} / \epsilon} $$ {% endraw %}
 
 *Proof*: <br>
