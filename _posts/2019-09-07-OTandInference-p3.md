@@ -171,7 +171,7 @@ Assume $\varphi$ is known, we would like to find a good $\psi$ to solve ($\ref{3
 $$ \small
 \begin{align}
 \psi(y) \leq & \: D^p(x,y) - \varphi(x) \: \forall x, y \nonumber \\
-\Leftrightarrow \psi(y) \leq & \: \inf_{x} D^p(x,y) - \varphi(x) \eqqcolon \bar{\varphi}_x(y)  \label{eq3.6} \tag{3.6}
+\Leftrightarrow \psi(y) \leq & \: \inf_{x} D^p(x,y) - \varphi(x) =\mathrel{\vcenter{:}} \bar{\varphi}_x(y)  \label{eq3.6} \tag{3.6}
 \end{align}
 $$
 {% endraw %}
