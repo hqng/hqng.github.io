@@ -9,7 +9,7 @@ tags:
   - VAE
   - OT
 excerpt: "Third part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
-included-before:
+include-before:
 - '\newcommand{\eqdef}{\xlongequal{\text{def}}}'
 - '\DeclarePairedDelimiter\abs{\lvert}{\rvert}'
 - '\DeclarePairedDelimiter\norm{\lVert}{\rVert}'
