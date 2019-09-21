@@ -247,7 +247,7 @@ We then can substitute Frobenius inner product for integral in OT's primal form:
 $$ \small
 \begin{align}
 & W_{p}^{p}(\mu, \nu)=\min _{P \in U(a, b)}\left\langle P, M_{X Y}\right\rangle \label{eq3.10} \tag{3.10} \\
-\text{where:} \: & \left\langle \cdot, \cdot \right\rangle \: \text{is [Frobenius inner product](https://en.wikipedia.org/wiki/Frobenius_inner_product) } \nonumber
+\text{where:} \: & \left\langle \cdot, \cdot \right\rangle \: \text{is } [Frobenius inner product](https://en.wikipedia.org/wiki/Frobenius_inner_product) \nonumber
 \end{align}
 $$
 {% endraw %}
