@@ -8,7 +8,7 @@ toc: true
 tags:
   - VAE
   - OT
-excerpt: "Second part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
+excerpt: "The second part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
 ---
 
 ## [***Part 1***](/variational%20inference/OTandInference-p1/)

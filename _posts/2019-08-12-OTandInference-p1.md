@@ -8,7 +8,7 @@ toc: true
 tags:
   - VAE
   - OT
-excerpt: "First part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
+excerpt: "The first part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
 ---
 
 Recent research in generative models have borrowed ideas from classic probabilistic frameworks. Such a model is VAE, an improvement of variational inference. Similar to VI, VAE's objective is to minimize the KL divergence between parameterized posterior and true posterior with respect to a variational family. Alternatively, a number of works attempt to enhance feature-learning and data-generating power of VAE by using different probability divergences. Among these approaches, Wasserstein distance brought from Optimal Transport (OT) is particularly promising. This article will survey several VI models that utilize Wasserstein distance. <br>

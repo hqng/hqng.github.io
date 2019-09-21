@@ -8,7 +8,7 @@ toc: true
 tags:
   - VAE
   - OT
-excerpt: "Third part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
+excerpt: "The third part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
 ---
 
 ## [***Part 2***](/variational%20inference/OTandInference-p2/)
@@ -165,7 +165,7 @@ $$
 
 Equations ($\ref{eq3.4}$) and ($\ref{eq3.5}$) are primal and duality forms respectively.<br>
 
-Assume $\varphi$ is known, we would like to find a good $\psi$ to solve ($\ref{3.5}$). Under this assumption, $\psi$ must satisfy below condition:
+Assume $\varphi$ is known, we would like to find a good $\psi$ to solve ($\ref{eq3.5}$). Under this assumption, $\psi$ must satisfy below condition:
 <br>
 {% raw %}
 $$ \small
@@ -247,7 +247,7 @@ We then can substitute Frobenius inner product for integral in OT's primal form:
 $$ \small
 \begin{align}
 & W_{p}^{p}(\mu, \nu)=\min _{P \in U(a, b)}\left\langle P, M_{X Y}\right\rangle \label{eq3.10} \tag{3.10} \\
-\text{where:} \: & \left\langle \cdot, \cdot \right\rangle \: \text{is } \href{https://en.wikipedia.org/wiki/Frobenius_inner_product}{Frobenius inner product} \nonumber
+\text{where:} \: & \left\langle \cdot, \cdot \right\rangle \: \text{is } \href{https://en.wikipedia.org/wiki/Frobenius_inner_product}{\text{Frobenius inner product}} \nonumber
 \end{align}
 $$
 {% endraw %}
