@@ -46,7 +46,7 @@ Optimal transport is first introduced by Monge in 1781, Kantorovich later propos
 {% raw %}
 $$ \small
 \begin{align}
-\inf_{T_{\#}\mu = \nu} \int_{\Omega} c(x, T(x)) d\mu (x) \label{eq3.1}
+\inf_{T_{\#}\mu = \nu} \int_{\Omega} c(x, T(x)) d\mu (x) \label{eq3.1} \tag{3.1}
 \end{align}
 $$
 {% endraw %}
@@ -58,7 +58,7 @@ where $T_{\\#} \mu$ is [*push-forward*](https://en.wikipedia.org/wiki/Pushforwar
 {% raw %}
 $$ \small
 \begin{align}
-\inf_{\gamma \in \Gamma(\mu, \nu)} \iint_{\Omega \times \Omega} c(x, y) d\gamma(x, y) \label{eq3.2}
+\inf_{\gamma \in \Gamma(\mu, \nu)} \iint_{\Omega \times \Omega} c(x, y) d\gamma(x, y) \label{eq3.2} \tag{3.2}
 \end{align}
 $$
 {% endraw %}
@@ -80,7 +80,7 @@ Problem ($\ref{eq3.2}$) is primal form, it can be derived to duality formula: gi
 {% raw %}
 $$ \small
 \begin{align*}
-(\varphi \oplus \psi) (x, y) \coloneqq \varphi (x) + \psi(y)
+(\varphi \oplus \psi) (x, y) \mathrel{\vcenter{:}}= \varphi (x) + \psi(y)
 \end{align*}
 $$
 {% endraw %}
@@ -91,7 +91,7 @@ then minimum of Kantorovich's problem is equal to:
 {% raw %}
 $$ \small
 \begin{align}
-\sup_{\varphi \oplus \psi \leq c } \int \varphi d \mu(x) + \int \psi d \nu (y) \label{eq3.3}
+\sup_{\varphi \oplus \psi \leq c } \int \varphi d \mu(x) + \int \psi d \nu (y) \label{eq3.3} \tag{3.3}
 \end{align}
 $$
 {% endraw %}
@@ -157,8 +157,8 @@ When cost function $c(x, y)$ is a metric $D^p(x,y)$, optimal transport cost is s
 {% raw %}
 $$ \small
 \begin{align}
-W_p (\mu, \nu) & \coloneqq \left( \inf_{\gamma \in \Gamma(\mu, \nu)} \iint D^p(x,y) d \gamma(x, y) \right)^{1/p} \label{eq3.4} \\
-W_p^p (\mu, \nu) & \coloneqq \sup_{\varphi (x) + \psi (y) \leq D^p(x,y)} \int \varphi d \mu + \int \psi d \nu \label{eq3.5}
+W_p (\mu, \nu) & \mathrel{\vcenter{:}}= \left( \inf_{\gamma \in \Gamma(\mu, \nu)} \iint D^p(x,y) d \gamma(x, y) \right)^{1/p} \label{eq3.4} \tag{3.4} \\
+W_p^p (\mu, \nu) & \mathrel{\vcenter{:}}= \sup_{\varphi (x) + \psi (y) \leq D^p(x,y)} \int \varphi d \mu + \int \psi d \nu \label{eq3.5} \tag{3.5}
 \end{align}
 $$
 {% endraw %}
@@ -171,7 +171,7 @@ Assume $\varphi$ is known, we would like to find a good $\psi$ to solve ($\ref{3
 $$ \small
 \begin{align}
 \psi(y) \leq & \: D^p(x,y) - \varphi(x) \: \forall x, y \nonumber \\
-\Leftrightarrow \psi(y) \leq & \: \inf_{x} D^p(x,y) - \varphi(x) \eqqcolon \bar{\varphi}_x(y)  \label{eq3.6}
+\Leftrightarrow \psi(y) \leq & \: \inf_{x} D^p(x,y) - \varphi(x) \eqqcolon \bar{\varphi}_x(y)  \label{eq3.6} \tag{3.6}
 \end{align}
 $$
 {% endraw %}
@@ -181,7 +181,7 @@ The R.H.S of ($\ref{eq3.6}$) is called $D^p$-transform (of $\varphi$), of course
 {% raw %}
 $$ \small
 \begin{align}
-W_p^p (\mu, \nu) = \sup_{\varphi} \int \varphi d \mu + \int \bar{\varphi} d \nu \label{eq3.7}
+W_p^p (\mu, \nu) = \sup_{\varphi} \int \varphi d \mu + \int \bar{\varphi} d \nu \label{eq3.7} \tag{3.7}
 \end{align}
 $$
 {% endraw %}
@@ -191,7 +191,7 @@ Recall the definition of **$D^p$-concavity**: a function $\varphi (x)$ is $D^p$-
 {% raw %}
 $$ \small
 \begin{align}
-W_p^p (\mu, \nu) = \sup_{\varphi \: \text{is $D^p$-concave}} \int \varphi d \mu + \int \bar{\varphi} d \nu \label{eq3.8}
+W_p^p (\mu, \nu) = \sup_{\varphi \: \text{is $D^p$-concave}} \int \varphi d \mu + \int \bar{\varphi} d \nu \label{eq3.8} \tag{3.8}
 \end{align}
 $$
 {% endraw %}
@@ -201,7 +201,7 @@ In machine learning, we often take $p=1$ and use 1-Wasserstein distance to measu
 {% raw %}
 $$ \small
 \begin{align}
-\mathbf{W_1}(\mu, \nu) = \sup_{\varphi \: \text{is 1-Lipschitz}} \int_{\Omega} \varphi (d\mu - d\nu) \label{eq3.9}
+\mathbf{W_1}(\mu, \nu) = \sup_{\varphi \: \text{is 1-Lipschitz}} \int_{\Omega} \varphi (d\mu - d\nu) \label{eq3.9} \tag{3.9}
 \end{align}
 $$
 {% endraw %}
@@ -209,7 +209,7 @@ $$
 To arrive ($\ref{eq3.9}$), we must show that: $p=1$ and $\varphi$ is concave $\Leftrightarrow$ $\bar{\varphi} = - \varphi$ and $\varphi$ is 1-Lipshitz
 
 *Proof*: <br>
-Define $\bar{\varphi}_x(y) \coloneqq D(x,y) - \varphi(x)$, obviously:
+Define $\bar{\varphi}_x(y) \mathrel{\vcenter{:}}= D(x,y) - \varphi(x)$, obviously:
 <br>
 $$\bar{\varphi}_x(y) - \bar{\varphi}_x(y^{\prime}) = D(x,y) - D(x,y^{\prime}) \leq D(y,y^{\prime}) \implies \varphi_x(y) \: \text{is 1-Lipschitz}$$
 <br>
@@ -235,8 +235,8 @@ We consider 2 measures $\mu=\sum_{i=1}^{n} a_{i} \delta_{x_{i}}$ and $\nu=\sum_{
 {% raw %}
 $$ \small
 \begin{align}
-M_{X Y} \coloneqq& \left[D\left(x_{i}, y_{j}\right)^{p}\right]_{i j} \nonumber \\
-U(a, b) \coloneqq& \left\{P \in \mathbb{R}_{+}^{n \times m} | P \mathbf{1}_{m}=a, P^{T} \mathbf{1}_{n}=b\right\} \nonumber
+M_{X Y} \mathrel{\vcenter{:}}=& \left[D\left(x_{i}, y_{j}\right)^{p}\right]_{i j} \nonumber \\
+U(a, b) \mathrel{\vcenter{:}}=& \left\{P \in \mathbb{R}_{+}^{n \times m} | P \mathbf{1}_{m}=a, P^{T} \mathbf{1}_{n}=b\right\} \nonumber
 \end{align}
 $$
 {% endraw %}
@@ -246,7 +246,7 @@ We then can substitute Frobenius inner product for integral in OT's primal form:
 {% raw %}
 $$ \small
 \begin{align}
-& W_{p}^{p}(\mu, \nu)=\min _{P \in U(a, b)}\left\langle P, M_{X Y}\right\rangle \label{eq3.10} \\
+& W_{p}^{p}(\mu, \nu)=\min _{P \in U(a, b)}\left\langle P, M_{X Y}\right\rangle \label{eq3.10} \tag{3.10} \\
 \text{where:} \: & \left\langle \cdot, \cdot \right\rangle \: \text{is [Frobenius inner product](https://en.wikipedia.org/wiki/Frobenius_inner_product) } \nonumber
 \end{align}
 $$
@@ -257,7 +257,7 @@ Dual form:
 {% raw %}
 $$ \small
 \begin{align}
-W_{p}^{p}(\mu, \nu)=\max _{\alpha \in \mathbb{R}^{n}, \beta \in \mathbb{R}^{m}} \alpha^{T} a+\beta^{T} b \label{eq3.11}
+W_{p}^{p}(\mu, \nu)=\max _{\alpha \in \mathbb{R}^{n}, \beta \in \mathbb{R}^{m}} \alpha^{T} a+\beta^{T} b \label{eq3.11} \tag{3.11}
 \end{align}
 $$
 {% endraw %}
@@ -270,7 +270,7 @@ For joint distribution $P(x, y)$ (in this section, we only concern about discret
 {% raw %}
 $$ \small
 \begin{align*}
-\mathcal{H}(P) \coloneqq - \sum_{i} \sum_{j} P(x_i,y_j) \log P(x_i,y_j)
+\mathcal{H}(P) \mathrel{\vcenter{:}}= - \sum_{i} \sum_{j} P(x_i,y_j) \log P(x_i,y_j)
 \end{align*}
 $$
 {% endraw %}
@@ -282,7 +282,7 @@ For particular $P \in U(a,b)$ : $\mathcal{H}(P) = -\sum_{i,j=1}^{n,m} P(x_i,y_j)
 {% raw %}
 $$ \small
 \begin{align}
-& W_{\epsilon}(\mu, \nu) = \min _{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle - \epsilon \mathcal{H}(P) \label{eq3.12} \\
+& W_{\epsilon}(\mu, \nu) = \min _{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle - \epsilon \mathcal{H}(P) \label{eq3.12} \tag{3.12} \\
 \text{where:} \: & \epsilon \geq 0 \: \text{is regularization coeficient} \nonumber
 \end{align}
 $$
@@ -290,8 +290,8 @@ $$
 
 Strong concavity property of entropic regularization ensures the solution of ($\ref{eq3.12}$) is unique. Moreover, it can achieve a differentiable solution using Sinkhorn's algorithm. To come up with Sinkhorn iteration, we need an additional proposition.<br>
 
-**Prop.** If {% raw %} $P_{\epsilon} \coloneqq \arg \min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle \- \epsilon \mathcal{H}(P) $ {% endraw %} then: {% raw %} $ \exists ! u \in \mathbb{R}\_{+}^{n}, v \in \mathbb{R}\_{+}^{m} $ {% endraw %} such that: 
-{% raw %} $$ P_{\epsilon}=\operatorname{diag}(u) K \operatorname{diag}(v) \: \text{with} \: K \coloneqq e^{-M_{X Y} / \epsilon} $$ {% endraw %}
+**Prop.** If {% raw %} $P_{\epsilon} \mathrel{\vcenter{:}}= \arg \min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle \- \epsilon \mathcal{H}(P) $ {% endraw %} then: {% raw %} $ \exists ! u \in \mathbb{R}\_{+}^{n}, v \in \mathbb{R}\_{+}^{m} $ {% endraw %} such that: 
+{% raw %} $$ P_{\epsilon}=\operatorname{diag}(u) K \operatorname{diag}(v) \: \text{with} \: K \mathrel{\vcenter{:}}= e^{-M_{X Y} / \epsilon} $$ {% endraw %}
 
 *Proof*: <br>
 We have:
@@ -365,7 +365,7 @@ $$ \small
 	\begin{array}{ll}
 		u &= a / Kv \\
 		v &= b / K^Tu
-	\end{array} \label{eq3.13}
+	\end{array} \label{eq3.13} \tag{3.13}
 \end{align}
 $$
 {% endraw %}
