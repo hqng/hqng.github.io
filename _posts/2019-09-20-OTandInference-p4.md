@@ -162,7 +162,7 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-*If $G(Z|X) $ is stochastic, the result holds with $\gamma = \sup_{\mathcal{P} \neq \mathcal{Q} } \frac{ W_p (G(X|Z)_{\\#} \mathcal{P}, W_p (G(X|Z)_{\\#} \mathcal{Q})} {W_p(\mathcal{P}, \mathcal{Q})}$ *
+*If $G(Z\|X) $ is stochastic, the result holds with $\gamma = \sup_{\mathcal{P} \neq \mathcal{Q}} \frac{ W_p (G(X\|Z)_{\\#} \mathcal{P}, W_p (G(X\|Z)_{\\#} \mathcal{Q})} {W_p(\mathcal{P}, \mathcal{Q})}$ *
 
 <a name="thrm4.3"></a> **Theorem 4.3**: *Let $P_X$ is not anatomic and $G(X|Z)$ is deterministic. Then for every continuous cost c:*
 <br>
@@ -186,7 +186,7 @@ $$ \small
 $$
 {% endraw %}
 
-By theorem [4.2](#thrm4.2), Wasserstein distance between data and generative model distributions has an upper bound, minimizing this bound leads to minimizing discrepancy between $P_X$ and $P_G$. Furthermore, the upper bound includes Wasserstein distance between aggregated posterior and the prior, we can estimate this distance by Sinkhorn on their samples. Theorem [4.3](#thrm4.3) allows us to have an deterministic auto-encoders, i.e. both $G(X|Z)$ and $Q(Z|X)$ are deterministic. The last one, theorem [4.4](#thrm4.4) means that under perfect-reconstruction assumption, matching aggregated posterior and prior is: *(i)* sufficient and *(ii)* necessary to model data distribution. This theorem reminds us to choose proper prior. Previous research have shown that the choice of prior should encourage geometric properties of latent space since it provide remarkable performance of representation learning. The authors consider few options: spherical, Dirichlet prior.<br>
+By theorem [4.2](#thrm4.2), Wasserstein distance between data and generative model distributions has an upper bound, minimizing this bound leads to minimizing discrepancy between $P_X$ and $P_G$. Furthermore, the upper bound includes Wasserstein distance between aggregated posterior and the prior, we can estimate this distance by Sinkhorn on their samples. Theorem [4.3](#thrm4.3) allows us to have an deterministic auto-encoders, i.e. both $G(X\|Z)$ and $Q(Z\|X)$ are deterministic. The last one, theorem [4.4](#thrm4.4) means that under perfect-reconstruction assumption, matching aggregated posterior and prior is: *(i)* sufficient and *(ii)* necessary to model data distribution. This theorem reminds us to choose proper prior. Previous research have shown that the choice of prior should encourage geometric properties of latent space since it provide remarkable performance of representation learning. The authors consider few options: spherical, Dirichlet prior.<br>
 
 Finally, Sinkhorn algorithm for estimating Wasserstein distance of $Q_Z$ and $P_Z$:
 
