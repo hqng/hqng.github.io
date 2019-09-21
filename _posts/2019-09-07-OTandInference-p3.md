@@ -9,20 +9,6 @@ tags:
   - VAE
   - OT
 excerpt: "Third part of blog series about optimal transport, Wasserstein distance and generative models, variational inference and VAE."
-include-before:
-- '$\newcommand{\eqdef}{\xlongequal{\text{def}}}$'
-- '$\DeclarePairedDelimiter\abs{\lvert}{\rvert}$'
-- '$\DeclarePairedDelimiter\norm{\lVert}{\rVert}$'
-- '$\DeclarePairedDelimiter\ceil{\lceil}{\rceil}$'
-- '$\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}$'
-- '$\DeclareMathOperator{\E}{\mathbb{E}}$'
-- '$\DeclareMathOperator{\x}{\mathbf{x}}$'
-- '$\DeclareMathOperator{\y}{\mathbf{y}}$'
-- '$\DeclareMathOperator{\z}{\mathbf{z}}$'
-- '$\DeclareMathOperator{\thetaparam}{\boldsymbol{\theta}}$'
-- '$\DeclareMathOperator{\phiparam}{\boldsymbol{\phi}}$'
-- '$\newcommand{\coloneqq}{\mathrel{:}=}$'
-- '$\newcommand{\E}{\mathbb{E}}$'
 ---
 
 ## [***Part 2***](/variational%20inference/OTandInference-p2/)
@@ -33,9 +19,9 @@ include-before:
 Although VAE has potentials in representation learning and generative models, it may suffer from two problems: (1) uninformative features, and (2) variance over-estimation in latent space. The cause of these problems is KL divergence.
 <br>
 
-*(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p2/#eq2.8)) might be too restrictive. Particularly, {% raw %} $ \E\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\phiparam}(z \| x) \parallel p(z) \right) \right] $ {% endraw %} encourages $ q\_{\phiparam}(z \| x) $ to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
+*(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p2/#eq2.8)) might be too restrictive. Particularly, {% raw %} $ \mathbb{E}\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\boldsymbol{\phi}}(z \| x) \parallel p(z) \right) \right] $ {% endraw %} encourages $ q\_{\boldsymbol{\phi}}(z \| x) $ to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
 
-*(2) Variance Over-Estimation in Latent Space*: VAE tends to over-fit data due to the fact that the regularization term is not strong enough compared with the reconstruction cost. As a result of over-fitting, variance of variational distribution tends toward infinity. One can put more weight on the regularization, i.e. adding coefficient $\beta > 1$ to {% raw %} $ \E\_{x \sim p(x)} \left[ - \text{KL}\left( q_{\phiparam}(z \| x) \parallel p(z)  \right) \right] $ {% endraw %}, but it comes back to problem (1).
+*(2) Variance Over-Estimation in Latent Space*: VAE tends to over-fit data due to the fact that the regularization term is not strong enough compared with the reconstruction cost. As a result of over-fitting, variance of variational distribution tends toward infinity. One can put more weight on the regularization, i.e. adding coefficient $\beta > 1$ to {% raw %} $ \mathbb{E}\_{x \sim p(x)} \left[ - \text{KL}\left( q_{\boldsymbol{\phi}}(z \| x) \parallel p(z)  \right) \right] $ {% endraw %}, but it comes back to problem (1).
 <br>
 
 For more intellectual analysis on these drawbacks, one can check out [Info-VAE](https://ermongroup.github.io/blog/a-tutorial-on-mmd-variational-autoencoders/). Additionally, KL divergence itself has disadvantages. It is troublesome when comparing distributions that are extremely different. For example, consider 2 distributions $p(x)$ and $q(x)$ in figure \ref{fig3.1}, their masses are distributed in disparate shapes, each assigns zero probability to different families of sets
@@ -49,7 +35,7 @@ For more intellectual analysis on these drawbacks, one can check out [Info-VAE](
 </div>
 <br>
 
-In order to get $\text{KL} ( p \parallel q) = \E_{x \sim p(x)} \left[ \log \frac{p(x)}{q(x)} \right] $, we have to compute ratio $ \frac{p(x)}{q(x)}$ for all the points, but $q(x)$ doesn't even have density with respect to ambient space (thin line connects masses in figure [3.1](#fig3.1)). If we are interested in $\text{KL} ( q \parallel p) = \E_{x \sim q(x)} \left[ \log \frac{q(x)}{p(x)} \right] $, when $q(x) \rightarrow 0$ and $p(x) > 0 $, the divergence shrinks to $0$, it means KL cannot measure the difference between distribution properly. In contrast, optimal transport does have this problem.<br>
+In order to get $\text{KL} ( p \parallel q) = \mathbb{E}\_{x \sim p(x)} \left[ \log \frac{p(x)}{q(x)} \right] $, we have to compute ratio $ \frac{p(x)}{q(x)}$ for all the points, but $q(x)$ doesn't even have density with respect to ambient space (thin line connects masses in figure [3.1](#fig3.1)). If we are interested in $\text{KL} ( q \parallel p) = \mathbb{E}\_{x \sim q(x)} \left[ \log \frac{q(x)}{p(x)} \right] $, when $q(x) \rightarrow 0$ and $p(x) > 0 $, the divergence shrinks to $0$, it means KL cannot measure the difference between distribution properly. In contrast, optimal transport does have this problem.<br>
 
 ## <a name="Wasserstein"></a> OT and Wasserstein distance
 
@@ -82,7 +68,7 @@ where $\Gamma$ is the set of probability couplings:
 {% raw %}
 $$ \small 
 \begin{align*}
-\Gamma(\mu, \nu) \coloneqq \: & \{ \gamma \in \mathcal{P}(\Omega \times \Omega) \mid \forall A, B \subset \Omega, \\
+\Gamma(\mu, \nu) \mathrel{\vcenter{:}}= \: & \{ \gamma \in \mathcal{P}(\Omega \times \Omega) \mid \forall A, B \subset \Omega, \\
  &\gamma(A \times \Omega) = \mu(A), \\
  &\gamma(B \times \Omega) = \nu(B) \} 
 \end{align*}
