@@ -106,6 +106,8 @@ In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on late
 	Encoder $Q_\phi$, decoder $G_\theta$, latent discriminator $D_\gamma$
 \WHILE{($\phi$, $\theta$) not converged}
 	\STATE Sample $\{ x_1, \dots, x_n \}$ from training set
+	\STATE Sample $\{ z_1, \dots, z_n \}$ from $P_Z$
+	\STATE Sample $\tilde{z}_i$ from $Q_\phi (Z|x_i)$ for $i=1,\dots,n$
 \ENDWHILE
 \IF{$p < r$} 
 	\STATE $q = $ \CALL{Partition}{$A, p, r$}
