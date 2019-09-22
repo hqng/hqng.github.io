@@ -273,7 +273,7 @@ $$ \small
 \begin{align}
 	& SW_2 (p_X, p_Y) \leq W_2 (p_X, p_Y) \leq \alpha SW_2^\beta (p_X, p_Y) \nonumber \\
 	\text{where: } & \alpha \text{ is a constant} \nonumber \\
-	& \beta = (2(d+1))^{-1} \: \text{ (refer } [Bousquet](https://arxiv.org/abs/1705.07642) \text{ for proof)} \nonumber
+	& \beta = (2(d+1))^{-1} \: \text{ (refer } \href{https://arxiv.org/abs/1705.07642}{Bousquet} \text{ for proof)} \nonumber
 \end{align}
 $$
 {% endraw %}
