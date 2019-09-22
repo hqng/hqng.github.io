@@ -167,20 +167,20 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-*If $G(Z\|X) $ is stochastic, the result holds with $\gamma = \sup_{\mathcal{P} \neq \mathcal{Q}} \frac{ W_p (G(X\|Z)\_{\\#} \mathcal{P}, W_p (G(X\|Z)\_{\\#} \mathcal{Q})} {W_p(\mathcal{P}, \mathcal{Q})}$ *
+<i> If $G(Z\|X) $ is stochastic, the result holds with $\gamma = \sup_{\mathcal{P} \neq \mathcal{Q}} \frac{ W_p (G(X\|Z)\_{\\#} \mathcal{P}, W_p (G(X\|Z)\_{\\#} \mathcal{Q})} {W_p(\mathcal{P}, \mathcal{Q})}$ </i>
 
 <a name="thrm4.3"></a> **Theorem 4.3**: *Let $P_X$ is not anatomic and $G(X|Z)$ is deterministic. Then for every continuous cost c:*
 <br>
 {% raw %}
 $$ \small
 \begin{align*}
-	W_c(P_X, P_G) = \inf_{Q(Z | X) \text{ dertministic: } Q_Z=P_Z} \E_{X \sim P_X} \E_{Z \sim Q(Z|X)} c(X, G(Z))
+	W_c(P_X, P_G) = \inf_{Q(Z | X) \text{ dertministic: } Q_Z=P_Z} \mathbb{E}{X \sim P_X} \mathbb{E}{Z \sim Q(Z|X)} c(X, G(Z))
 \end{align*}
 $$
 {% endraw %}
-* Using the cost $c(x,y) = \norm{x - y}_2^p $, the equation holds with $W_p^p(P_X,P_G)$ in place of $W_c(P_X,P_G)$ *
+<i> Using the cost $c(x,y) = {\lVert}{x - y}{\rVert}_2^p $, the equation holds with $W_p^p(P_X,P_G)$ in place of $W_c(P_X,P_G)$ </i>
 
-<a name="thrm4.4"></a> **Theorem 4.4**: *Suppose perfect reconstruction, that is, $P_X = (G \circ Q)_{\\#}P_X $. Then:*
+<a name="thrm4.4"></a> **Theorem 4.4**: <i>Suppose perfect reconstruction, that is, $P_X = (G \circ Q)_{\\#}P_X $. Then:</i>
 <br>
 {% raw %}
 $$ \small
@@ -266,7 +266,7 @@ $$ \small
 $$
 {% endraw %}
 
-When $c = \norm{x-y}_2^2$, we are allowed to approximate $W_2$ by $SW_2$ because of following inequalities:
+When $c = {\lVert}{x-y}{\rVert}_2^2$, we are allowed to approximate $W_2$ by $SW_2$ because of following inequalities:
 <br>
 {% raw %}
 $$ \small
@@ -305,7 +305,7 @@ Combine ($\ref{eq4.4a}$), ($\ref{eq4.6}$) and ($\ref{eq4.7}$) together, the disc
 {% raw %}
 $$ \small
 \begin{align}
-	SW_c(Q_Z, P_Z) \approx \frac{1}{\abs{\Theta}} \sum_{\theta_l \in \Theta} W_c(\mathcal{R}q_Z(\cdot;\theta_l), \mathcal{R}p_Z(\cdot;\theta_l)) \label{eq4.8} \\
+	SW_c(Q_Z, P_Z) \approx \frac{1}{{\lvert}{\Theta}{\rvert}} \sum_{\theta_l \in \Theta} W_c(\mathcal{R}q_Z(\cdot;\theta_l), \mathcal{R}p_Z(\cdot;\theta_l)) \label{eq4.8} \\
 	\text{where: } \Theta \text{ is finite set and } \Theta \subset \mathbb{S}^{d-1} \nonumber
 \end{align}
 $$
@@ -360,12 +360,12 @@ $$
 {% endraw %}
 
 The Wasserstein distance of joint-distributions can be estimated by its empirical Wasserstein distance (thus Monte Carlo estimator of its gradient can be obtained) because of next theorem:
-<a name="thrm4.5"></a> **Theorem 4.5**: * Let $W_c(p_n, q_n)$ is the Wasserstein distance between two empirical distributions $p^{\*}, q^{\*}$. For $n$ tends to infinity, there exists a positive number $s$ such that: *
+<a name="thrm4.5"></a> **Theorem 4.5**: <i>Let $W_c(p_n, q_n)$ is the Wasserstein distance between two empirical distributions $p^{\*}, q^{\*}$. For $n$ tends to infinity, there exists a positive number $s$ such that: </i>
 <br>
 {% raw %}
 $$ \small
 \begin{align*}
-	\E_{pq}\left[ W_c(p_n, q_n) \right] \lesssim W_c(p,q) + n^{-1/s}
+	\mathbb{E}{pq}\left[ W_c(p_n, q_n) \right] \lesssim W_c(p,q) + n^{-1/s}
 \end{align*}
 $$
 {% endraw %}
@@ -379,7 +379,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-It is clear that $\E\_{pq}[\tilde{\mathcal{L}}\_c(p_n, q_n)] = 0 $ if $p=q$ and furthermore, $\lim_{n \rightarrow \infty}\tilde{\mathcal{L}}_c(p_n, q_n) = \mathcal{L}(p,q) $. <br>
+It is clear that $\mathbb{E}\_{pq}[\tilde{\mathcal{L}}\_c(p_n, q_n)] = 0 $ if $p=q$ and furthermore, $\lim_{n \rightarrow \infty}\tilde{\mathcal{L}}_c(p_n, q_n) = \mathcal{L}(p,q) $. <br>
 
 As we have seen in previous sections, $\tilde{\mathcal{L}}_c(p_n, q_n)$ can be approximated by Sinkhorn algorithm ($\ref{alg4.3}$). Since Sinkhorn iteration is differentiable, we have:
 <br>
