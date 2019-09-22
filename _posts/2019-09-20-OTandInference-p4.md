@@ -102,17 +102,11 @@ In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on late
 \begin{algorithm}
 \caption{GAN based}
 \begin{algorithmic}
-\REQUIRE Regularization coefficient $\lambda > 0$, \\
-	Encoder $Q_\phi$, decoder $G_\theta$, latent discriminator $D_\gamma$
-\WHILE{($\phi$, $\theta$) not converged}
-    \STATE Sample $\{ x_1, \dots, x_n \}$ from training set
-	\STATE Sample $\{ z_1, \dots, z_n \}$ from $P_Z$
-	\STATE Sample $\tilde{z}_i$ from $Q_\phi (Z|x_i)$ for $i=1,\dots,n$
-	\STATE Update $D_\gamma$ by ascending: \\
-	    \qquad $\frac{\lambda}{n} \sum_{i=1}^{n} \log D_{\gamma}\left(z_{i}\right)+\log\left(1-D_{\gamma}\left(\tilde{z}_{i}\right)\right) $
-	\STATE Update $Q_\phi, \: G_\theta$ by descending: \\
-	    \qquad $\frac{1}{n} \sum_{i=1}^{n} c\left(x_{i}, G_{\theta}\left(\tilde{z}_{i}\right)\right)-\lambda \cdot \log D_{\gamma}\left(\tilde{z}_{i}\right)$
-\ENDWHILE
+\IF{$p < r$} 
+	\STATE $q = $ \CALL{Partition}{$A, p, r$}
+	\STATE \CALL{Quicksort}{$A, p, q - 1$}
+	\STATE \CALL{Quicksort}{$A, q + 1, r$}
+\ENDIF
 \end{algorithmic}
 \end{algorithm}
 " %}
