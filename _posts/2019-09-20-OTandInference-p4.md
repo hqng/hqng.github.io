@@ -422,30 +422,31 @@ Note that when $f$ satisfies above condition, $C_f^{p,q}(\cdot,\cdot)$ in fact i
 
 We have studied several variational inference/autoencoders approaches which involve with Wasserstein distance. The experiments confirm their capability of learning representations that have geometric properties. Moreover, they allow special setting of model such as deterministic encoders, hence their encoder is less blur.
 
-<html>
-<body>
-<div>
-<pre id="test-basics" style="display:none">
-    \begin{algorithm}
-    \caption{Test atoms}
-    \begin{algorithmic}
-    \STATE \textbf{Specials:} \{ \} \$ \& \# \% \_
-    \STATE \textbf{Bools:} \AND \OR \NOT \TRUE \FALSE
-    \STATE \textbf{Carriage return:} first line \\ second line
-    \STATE \textbf{Text-symbols:} \textbackslash
-    \STATE \textbf{Quote-symbols:} `single quotes', ``double quotes''
-    \STATE \textbf{Math:} $(\mathcal{C}_m)$, $i \gets i + 1$, $E=mc^2$, \( x^n + y^n = z^n \), $\$$, \(\$\)
-    \END{ALGORITHMIC}
-    \END{ALGORITHM}
-</pre>
-<script type="text/javascript">
-    var testBasics = document.getElementById("test-basics").textContent;
-    pseudocode.render(testBasics, document.body, {
-        lineNumber: false,
-    });
-</script>
-</div>
-</body>
-</html>
+{% include pseudocode.html id="1" code="
+\begin{algorithm}
+\caption{Quicksort}
+\begin{algorithmic}
+\PROCEDURE{Quicksort}{$A, p, r$}
+    \IF{$p < r$} 
+        \STATE $q = $ \CALL{Partition}{$A, p, r$}
+        \STATE \CALL{Quicksort}{$A, p, q - 1$}
+        \STATE \CALL{Quicksort}{$A, q + 1, r$}
+    \ENDIF
+\ENDPROCEDURE
+\PROCEDURE{Partition}{$A, p, r$}
+    \STATE $x = A[r]$
+    \STATE $i = p - 1$
+    \FOR{$j = p$ \TO $r - 1$}
+        \IF{$A[j] < x$}
+            \STATE $i = i + 1$
+            \STATE exchange
+            $A[i]$ with     $A[j]$
+        \ENDIF
+        \STATE exchange $A[i]$ with $A[r]$
+    \ENDFOR
+\ENDPROCEDURE
+\end{algorithmic}
+\end{algorithm}
+" %}
 
 **OK**
