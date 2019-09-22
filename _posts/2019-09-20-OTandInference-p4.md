@@ -109,11 +109,6 @@ In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on late
 	\STATE Sample $\{ z_1, \dots, z_n \}$ from $P_Z$
 	\STATE Sample $\tilde{z}_i$ from $Q_\phi (Z|x_i)$ for $i=1,\dots,n$
 \ENDWHILE
-\IF{$p < r$} 
-	\STATE $q = $ \CALL{Partition}{$A, p, r$}
-	\STATE \CALL{Quicksort}{$A, p, q - 1$}
-	\STATE \CALL{Quicksort}{$A, q + 1, r$}
-\ENDIF
 \end{algorithmic}
 \end{algorithm}
 " %}
