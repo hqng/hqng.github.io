@@ -226,7 +226,7 @@ For a fixed $\theta \in \mathbb{S}^{d-1}$, $\mathcal{R}p_X(\cdot; \theta) = \int
 </div>
 
 <div style="text-align: center;">
-<a name="fig4.1"></a> <sub> <i> Fig4.1: Distribution slicing. (Source: <a href="https://arxiv.org/abs/1804.01947"> Kolouri *et al.*, 2018. </a>). </i> </sub>
+<a name="fig4.1"></a> <sub> <i> Fig4.1: Distribution slicing. (Source: <a href="https://arxiv.org/abs/1804.01947"> Kolouri et al., 2018. </a>). </i> </sub>
 </div>
 <br>
 
@@ -290,7 +290,7 @@ On the other hand, if $p_X$ and $p_Y$ are already known, ($\ref{eq4.6}$) can be 
 </div>
 
 <div style="text-align: center;">
-<a name="fig4.2"></a> <sub> <i> Fig4.2: Top row: one-dimensional distribution densities are known (top left), the Wasserstein distance then can be analytically computed (top right). Bottom row: only samples of distributions are available (bottom left), then $a_m = c(x_{i[m]}. y_{j[m]} ) $ where $x_{i[m]}. y_{j[m]}$ are sorted in ascending order (bottom right). (Source: <a href="https://arxiv.org/abs/1804.01947"> Kolouri *et al.*, 2018. </a>). </i> </sub>
+<a name="fig4.2"></a> <sub> <i> Fig4.2: Top row: one-dimensional distribution densities are known (top left), the Wasserstein distance then can be analytically computed (top right). Bottom row: only samples of distributions are available (bottom left), then $a_m = c(x_{i[m]}. y_{j[m]} ) $ where $x_{i[m]}. y_{j[m]}$ are sorted in ascending order (bottom right). (Source: <a href="https://arxiv.org/abs/1804.01947"> Kolouri et al., 2018. </a>). </i> </sub>
 </div>
 <br>
 
@@ -351,7 +351,7 @@ $$
 {% endraw %}
 
 The Wasserstein distance of joint-distributions can be estimated by its empirical Wasserstein distance (thus Monte Carlo estimator of its gradient can be obtained) because of next theorem:
-<a name="thrm4.5"></a> **Theorem 4.5**: *Let $W_c(p_n, q_n)$ is the Wasserstein distance between two empirical distributions $p^*, q^*$. For $n$ tends to infinity, there exists a positive number $s$ such that:*
+<a name="thrm4.5"></a> **Theorem 4.5**: * Let $W_c(p_n, q_n)$ is the Wasserstein distance between two empirical distributions $p^{\*}, q^{\*}$. For $n$ tends to infinity, there exists a positive number $s$ such that: *
 <br>
 {% raw %}
 $$ \small
@@ -370,7 +370,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-It is clear that $\E_{pq}[\tilde{\mathcal{L}}_c(p_n, q_n)] = 0 $ if $p=q$ and furthermore, $\lim_{n \rightarrow \infty}\tilde{\mathcal{L}}_c(p_n, q_n) = \mathcal{L}(p,q) $. <br>
+It is clear that $\E\_{pq}[\tilde{\mathcal{L}}\_c(p_n, q_n)] = 0 $ if $p=q$ and furthermore, $\lim_{n \rightarrow \infty}\tilde{\mathcal{L}}_c(p_n, q_n) = \mathcal{L}(p,q) $. <br>
 
 As we have seen in previous sections, $\tilde{\mathcal{L}}_c(p_n, q_n)$ can be approximated by Sinkhorn algorithm ($\ref{alg4.3}$). Since Sinkhorn iteration is differentiable, we have:
 <br>
