@@ -108,8 +108,8 @@ In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on late
 	\STATE Sample $\{ x_1, \dots, x_n \}$ from training set
 	\STATE Sample $\{ z_1, \dots, z_n \}$ from $P_Z$
 	\STATE Sample $\tilde{z}_i$ from $Q_\phi (Z|x_i)$ for $i=1,\dots,n$
-	\STATE Update $D_\gamma$ by ascending: \\
-	    \qquad $\frac{\lambda}{n} \sum_{i=1}^{n} \log D_{\gamma}\left(z_{i}\right)+\log\left(1-D_{\gamma}\left(\tilde{z}_{i}\right)\right) $
+	\STATE Update $D_\gamma$ by ascending:
+	\STATE \qquad $\frac{\lambda}{n} \sum_{i=1}^{n} \log D_{\gamma}\left(z_{i}\right)+\log\left(1-D_{\gamma}\left(\tilde{z}_{i}\right)\right) $
 \ENDWHILE
 \end{algorithmic}
 \end{algorithm}
