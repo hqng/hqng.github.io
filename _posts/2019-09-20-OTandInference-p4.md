@@ -77,7 +77,8 @@ In the paper, $c$ is set as $L_2-norm$. Recall that gradients of latent variable
 
 In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on latent samples. It turns into min-max problem, similar to GAN, but on latent space instead:
 <a name="alg4.1"></a> <br>
-{% include pseudocode.html id="alg4.1" code="
+
+{% include pseudocode.html id="41" code="
 \begin{algorithm}
 \caption{GAN-based}
 \begin{algorithmic}
@@ -95,6 +96,35 @@ In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on late
 \end{algorithmic}
 \end{algorithm}
 " %}
+
+<br>
+{% include pseudocode.html id="1" code="
+\begin{algorithm}
+\caption{Quicksort}
+\begin{algorithmic}
+\PROCEDURE{Quicksort}{$A, p, r$}
+    \IF{$p < r$} 
+        \STATE $q = $ \CALL{Partition}{$A, p, r$}
+        \STATE \CALL{Quicksort}{$A, p, q - 1$}
+        \STATE \CALL{Quicksort}{$A, q + 1, r$}
+    \ENDIF
+\ENDPROCEDURE
+\PROCEDURE{Partition}{$A, p, r$}
+    \STATE $x = A[r]$
+    \STATE $i = p - 1$
+    \FOR{$j = p$ \TO $r - 1$}
+        \IF{$A[j] < x$}
+            \STATE $i = i + 1$
+            \STATE exchange
+            $A[i]$ with     $A[j]$
+        \ENDIF
+        \STATE exchange $A[i]$ with $A[r]$
+    \ENDFOR
+\ENDPROCEDURE
+\end{algorithmic}
+\end{algorithm}
+" %}
+
 
 In later case, a [*characteristic*](https://www.stat.purdue.edu/~panc/research/dr/talks/Characteristic_Kernel.pdf) positive-definite kernel $k: \mathcal{Z} \times \mathcal{Z} \rightarrow \mathcal{X}$ is used to define MMD:
 <br>
@@ -423,31 +453,3 @@ Note that when $f$ satisfies above condition, $C_f^{p,q}(\cdot,\cdot)$ in fact i
 
 We have studied several variational inference/autoencoders approaches which involve with Wasserstein distance. The experiments confirm their capability of learning representations that have geometric properties. Moreover, they allow special setting of model such as deterministic encoders, hence their encoder is less blur.
 
-{% include pseudocode.html id="1" code="
-\begin{algorithm}
-\caption{Quicksort}
-\begin{algorithmic}
-\PROCEDURE{Quicksort}{$A, p, r$}
-    \IF{$p < r$} 
-        \STATE $q = $ \CALL{Partition}{$A, p, r$}
-        \STATE \CALL{Quicksort}{$A, p, q - 1$}
-        \STATE \CALL{Quicksort}{$A, q + 1, r$}
-    \ENDIF
-\ENDPROCEDURE
-\PROCEDURE{Partition}{$A, p, r$}
-    \STATE $x = A[r]$
-    \STATE $i = p - 1$
-    \FOR{$j = p$ \TO $r - 1$}
-        \IF{$A[j] < x$}
-            \STATE $i = i + 1$
-            \STATE exchange
-            $A[i]$ with     $A[j]$
-        \ENDIF
-        \STATE exchange $A[i]$ with $A[r]$
-    \ENDFOR
-\ENDPROCEDURE
-\end{algorithmic}
-\end{algorithm}
-" %}
-
-**OK**
