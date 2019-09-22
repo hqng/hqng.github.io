@@ -77,7 +77,7 @@ In the paper, $c$ is set as $L_2-norm$. Recall that gradients of latent variable
 
 In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on latent samples. It turns into min-max problem, similar to GAN, but on latent space instead:
 <a name="alg4.1"></a> <br>
-{% include pseudocode.html id="alg41" code="
+{% include pseudocode.html id="alg4.1" code="
 \begin{algorithm}
 \caption{GAN-based}
 \begin{algorithmic}
@@ -108,7 +108,7 @@ $$
 {% endraw %}
 Since MMD has an unbiased U-statistic estimator, it allows estimating gradient. Training procedure of MMD-based:
 <a name="alg4.2"></a> <br>
-{% include pseudocode.html id="alg42" code="
+{% include pseudocode.html id="alg4.2" code="
 \begin{algorithm}
 \caption{MMD-based}
 \begin{algorithmic}
@@ -194,21 +194,22 @@ $$
 By [theorem 4.2](#thrm4.2), Wasserstein distance between data and generative model distributions has an upper bound, minimizing this bound leads to minimizing discrepancy between $P_X$ and $P_G$. Furthermore, the upper bound includes Wasserstein distance between aggregated posterior and the prior, we can estimate this distance by Sinkhorn on their samples. Theorem [4.3](#thrm4.3) allows us to have an deterministic auto-encoders, i.e. both $G(X\|Z)$ and $Q(Z\|X)$ are deterministic. The last one, [theorem 4.4](#thrm4.4) means that under perfect-reconstruction assumption, matching aggregated posterior and prior is: *(i)* sufficient and *(ii)* necessary to model data distribution. This theorem reminds us to choose proper prior. Previous research have shown that the choice of prior should encourage geometric properties of latent space since it provide remarkable performance of representation learning. The authors consider few options: spherical, Dirichlet prior.<br>
 
 Finally, Sinkhorn algorithm for estimating Wasserstein distance of $Q_Z$ and $P_Z$:
-
-\begin{center}
-	\begin{algorithm}[H] \label{alg4.3}
-		\SetAlgoLined
-		\KwIn{$ \{z_i \}_{i=1}^m, \: \{ \tilde{z}_i \}_{i=1}^m , \: \epsilon > 0, \: L > 0 \: \forall i,j $ \\
-		$C_{ij} = c(z_i, \tilde{z}_j), \: K=e^{-C/\epsilon}, \: u \leftarrow \mathbf{1} $}
-		\textbf{Repeat $L$ times:}\\
-			\qquad $ v \leftarrow \mathbf{1}/(K^Tu) $ \quad \#element-wise division \\
-			\qquad $ u \leftarrow \mathbf{1}/(Kv) $ \\
-		$R \leftarrow \operatorname{Diag}(u) K \operatorname{Diag}(v) $ \\
-		\KwOut{$\frac{1}{M} \langle C,R \rangle $}
-		\caption{Sharp Sinkhorn}
-	\end{algorithm}
-\end{center}
-
+<a name="alg4.3"></a> <br>
+{% include pseudocode.html id="alg4.3" code="
+\begin{algorithm}
+\caption{Sharp Sinkhorn}
+\begin{algorithmic}
+\REQUIRE $\{z_i \}_{i=1}^m, \: \{ \tilde{z}_i \}_{i=1}^m , \: \epsilon > 0, \: L > 0 \: \forall i,j $ \\
+	$C_{ij} = c(z_i, \tilde{z}_j), \: K=e^{-C/\epsilon}, \: u \leftarrow \mathbf{1}$
+\FOR{$L$ times}
+	\STATE $\qquad v \leftarrow \mathbf{1}/(K^Tu) \quad$ \#element-wise division
+	\STATE $\qquad u \leftarrow \mathbf{1}/(Kv) $
+\ENDFOR
+\STATE $R \leftarrow \operatorname{Diag}(u) K \operatorname{Diag}(v) $
+\RETURN $\frac{1}{M} \langle C,R \rangle $
+\end{algorithmic}
+\end{algorithm}
+" %}
 
 ### Sliced-WAE
 
@@ -311,23 +312,26 @@ $$
 {% endraw %}
 
 Finally, Sliced-WAE algorithm for training procedure:
-\begin{center}
-	\begin{algorithm}[H] \label{alg4.4}
-		\SetAlgoLined
-		\KwIn{Regularization coefficient $\lambda$, number of random projections $L$ \\
-		Encoder $\phi$, decoder $\psi$}
-		\While{$\phi$, $\psi$ not converged}{
-			Sample $\{x_1, \dots, x_M \}$ from training set \;
-			Sample $\{z_1, \dots, z_M \}$ from prior $P_Z$ \;
-			Sample $\{\theta_1, \dots, \theta_L \}$ from $\mathbb{S}^{K-1}$ \;
-			Sort $\theta_l \cdot z_m$ s.t. $\theta_l \cdot z_{i[m]} \leq \theta_l \cdot z_{i[m+1]} $ \;
-			Sort $\theta_l \cdot \phi(x_m)$ s.t. $\theta_l \cdot \phi(x_{j[m]}) \leq \theta_l \cdot \phi(x_{j[m+1]}) $ \;
-			Update $\phi$ and $\psi$ by descending:\\
-			$\qquad \sum_{m=1}^{M}c(x_m, \psi(\phi(x_m))) + \lambda \sum_{l=1}^{L} \sum_{m=1}^{M} c(\theta_l \cdot z_{i[m]}, \theta_l \cdot \phi(x_{j[m+1]}) ) $
-		}
-		\caption{Sliced-WAE}
-	\end{algorithm}
-\end{center}
+<a name="alg4.4"></a> <br>
+{% include pseudocode.html id="alg4.4" code="
+\begin{algorithm}
+\caption{Sliced-WAE}
+\begin{algorithmic}
+\REQUIRE Regularization coefficient $\lambda$, \\
+	number of random projections $L$ \\
+	Encoder $\phi$, decoder $\psi$
+\WHILE{$\phi$, $\psi$ not converged}
+	\STATE Sample $\{x_1, \dots, x_M \}$ from training set
+	\STATE Sample $\{z_1, \dots, z_M \}$ from prior $P_Z$
+	\STATE Sample $\{\theta_1, \dots, \theta_L \}$ from $\mathbb{S}^{K-1}$
+	\STATE Sort $\theta_l \cdot z_m$ s.t. $\theta_l \cdot z_{i[m]} \leq \theta_l \cdot z_{i[m+1]}$
+	\STATE Sort $\theta_l \cdot \phi(x_m)$ s.t. $\theta_l \cdot \phi(x_{j[m]}) \leq \theta_l \cdot \phi(x_{j[m+1]})$
+	\STATE Update $\phi$ and $\psi$ by descending:
+	\STATE $\qquad \sum_{m=1}^{M}c(x_m, \psi(\phi(x_m))) + \lambda \sum_{l=1}^{L} \sum_{m=1}^{M} c(\theta_l \cdot z_{i[m]}, \theta_l \cdot \phi(x_{j[m+1]}))$
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+" %}
 
 ### Wasserstein VI (WVI)
 
