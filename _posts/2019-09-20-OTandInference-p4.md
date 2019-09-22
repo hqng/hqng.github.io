@@ -77,30 +77,9 @@ In the paper, $c$ is set as $L_2-norm$. Recall that gradients of latent variable
 
 In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on latent samples. It turns into min-max problem, similar to GAN, but on latent space instead:
 <a name="alg4.1"></a> <br>
-
-{% include pseudocode.html id="2" code="
-\begin{algorithm}
-\caption{GAN based}
-\begin{algorithmic}
-\REQUIRE Regularization coefficient $\lambda > 0$, \\
-	Encoder $Q_\phi$, decoder $G_\theta$, latent discriminator $D_\gamma$
-\WHILE{($\phi$, $\theta$) not converged}
-    \STATE Sample $\{ x_1, \dots, x_n \}$ from training set
-	\STATE Sample $\{ z_1, \dots, z_n \}$ from $P_Z$
-	\STATE Sample $\tilde{z}_i$ from $Q_\phi (Z|x_i)$ for $i=1,\dots,n$
-	\STATE Update $D_\gamma$ by ascending: \\
-	    \qquad $\frac{\lambda}{n} \sum_{i=1}^{n} \log D_{\gamma}\left(z_{i}\right)+\log\left(1-D_{\gamma}\left(\tilde{z}_{i}\right)\right) $
-	\STATE Update $Q_\phi, \: G_\theta$ by descending: \\
-	    \qquad $\frac{1}{n} \sum_{i=1}^{n} c\left(x_{i}, G_{\theta}\left(\tilde{z}_{i}\right)\right)-\lambda \cdot \log D_{\gamma}\left(\tilde{z}_{i}\right)$
-\ENDWHILE
-\end{algorithmic}
-\end{algorithm}
-" %}
-
-<br>
 {% include pseudocode.html id="alg41" code="
 \begin{algorithm}
-\caption{GAN based}
+\caption{GAN-based}
 \begin{algorithmic}
 \REQUIRE Regularization coefficient $\lambda > 0$, \\
 	Encoder $Q_\phi$, decoder $G_\theta$, latent discriminator $D_\gamma$
@@ -117,7 +96,6 @@ In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on late
 \end{algorithm}
 " %}
 
-
 In later case, a [*characteristic*](https://www.stat.purdue.edu/~panc/research/dr/talks/Characteristic_Kernel.pdf) positive-definite kernel $k: \mathcal{Z} \times \mathcal{Z} \rightarrow \mathcal{X}$ is used to define MMD:
 <br>
 {% raw %}
@@ -128,23 +106,27 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-Since MMD has an unbiased U-statistic estimator, it allows estimating gradient. Training procedure of MMD-based: \\
-\begin{center}
-\begin{algorithm}[H] \label{alg4.2}
-	\SetAlgoLined
-	\KwIn{Regularization coefficient $\lambda > 0$, \\
-		Encoder $Q_\phi$, decoder $G_\theta$, \\
-		characteristic positive-definite kernel $k$}
-	\While{($\phi$, $\theta$) not converged}{
-		Sample $\{ x_1, \dots, x_n \}$ from training set\;
-		Sample $\{ z_1, \dots, z_n \}$ from $P_Z$\;
-		Sample $\tilde{z}_i$ from $Q_\phi (Z|x_i)$ for $i=1,\dots,n$\;
-		Update $Q_\phi, \: G_\theta$ by descending: \\
-		\qquad $\frac{1}{n} \sum_{i=1}^{n} c\left(x_{i}, G_{\theta}\left(\tilde{z}_{i}\right)\right)+\frac{\lambda}{n(n-1)} \sum_{\ell \neq j} k\left(z_{\ell}, z_{j}\right) +\frac{\lambda}{n(n-1)} \sum_{\ell \neq j} k\left(\tilde{z}_{\ell}, \tilde{z}_{j}\right)-\frac{2 \lambda}{n^{2}} \sum_{\ell, j} k\left(z_{\ell}, \tilde{z}_{j}\right)$
-	}
-	\caption{MMD-based}
+Since MMD has an unbiased U-statistic estimator, it allows estimating gradient. Training procedure of MMD-based:
+<a name="alg4.2"></a> <br>
+{% include pseudocode.html id="alg42" code="
+\begin{algorithm}
+\caption{MMD-based}
+\begin{algorithmic}
+\REQUIRE Regularization coefficient $\lambda > 0$, \\
+	Encoder $Q_\phi$, decoder $G_\theta$, \\
+	characteristic positive-definite kernel $k$
+\WHILE{($\phi$, $\theta$) not converged}
+	\STATE Sample $\{ x_1, \dots, x_n \}$ from training set
+	\STATE Sample $\{ z_1, \dots, z_n \}$ from $P_Z$
+	\STATE Sample $\tilde{z}_i$ from $Q_\phi (Z|x_i)$ for $i=1,\dots,n$
+	\STATE Update $Q_\phi, \: G_\theta$ by descending:
+	\STATE $\qquad \frac{\lambda}{n} \sum_{i=1}^{n} \log D_{\gamma}\left(z_{i}\right)+\log\left(1-D_{\gamma}\left(\tilde{z}_{i}\right)\right)$
+	\STATE Update $Q_\phi, \: G_\theta$ by descending:
+	\STATE $\qquad \frac{1}{n} \sum_{i=1}^{n} c\left(x_{i}, G_{\theta}\left(\tilde{z}_{i}\right)\right)+\frac{\lambda}{n(n-1)} \sum_{\ell \neq j} k\left(z_{\ell}, z_{j}\right) +\frac{\lambda}{n(n-1)} \sum_{\ell \neq j} k\left(\tilde{z}_{\ell}, \tilde{z}_{j}\right)-\frac{2 \lambda}{n^{2}} \sum_{\ell, j} k\left(z_{\ell}, \tilde{z}_{j}\right)$
+\ENDWHILE
+\end{algorithmic}
 \end{algorithm}
-\end{center}
+" %}
 
 While decoder of VAE could not be deterministic (otherwise it falls back to ordinary auto-encoder),
 $Q_\phi(Z|X)$ in algorithms \ref{alg4.1}, \ref{alg4.2} can be non-random, i.e. WAE's decoder can deterministically map each $x_i$ to $\tilde{z}_i$.
