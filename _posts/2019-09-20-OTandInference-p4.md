@@ -228,7 +228,7 @@ $$
 For a fixed $\theta \in \mathbb{S}^{d-1}$, $\mathcal{R}p_X(\cdot; \theta) = \int_{\mathbb{R}} \mathcal{R}p_X(t; \theta)dt $ is an one-dimensional slice of distribution $p_X$, it can be obtained by integrating $p_X$ over hyperplane orthogonal to $\theta$. [Fig 4.1](#fig4.1) visualizes the projection with different $\theta$s:
 
 <div style="text-align: center;">
-<img src="{{ '/assets/otvi/SWAESlicedDist.png' | relative_url }}" alt="SWAE Sliced Dist" width="40%" /> 
+<img src="{{ '/assets/otvi/SWAESlicedDist.png' | relative_url }}" alt="SWAE Sliced Dist" width="50%" /> 
 </div>
 
 <div style="text-align: center;">
@@ -292,7 +292,7 @@ $$
 On the other hand, if $p_X$ and $p_Y$ are already known, ($\ref{eq4.6}$) can be numerically calculated without their samples by using  $ \frac{1}{M} \sum_{m=1}^{M} a_m $ with $a_m = c(P_X^{-1}(\tau_m), P_Y^{-1}(\tau_m))$, $\tau_m = \frac{2m-1}{2M}$ (see the [figure 4.2](#fig4.2)).
 
 <div style="text-align: center;">
-<img src="{{ '/assets/otvi/SWAENumerics.png' | relative_url }}" alt="SWAE Nummerics" width="40%" /> 
+<img src="{{ '/assets/otvi/SWAENumerics.png' | relative_url }}" alt="SWAE Nummerics" width="60%" /> 
 </div>
 
 <div style="text-align: center;">
