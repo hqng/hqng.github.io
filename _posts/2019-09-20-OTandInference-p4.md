@@ -78,7 +78,7 @@ In the paper, $c$ is set as $L_2-norm$. Recall that gradients of latent variable
 In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on latent samples. It turns into min-max problem, similar to GAN, but on latent space instead:
 <a name="alg4.1"></a> <br>
 
-{% include pseudocode.html id="41" code="
+{% include pseudocode.html id="2" code="
 \begin{algorithm}
 \caption{GAN based}
 \begin{algorithmic}
