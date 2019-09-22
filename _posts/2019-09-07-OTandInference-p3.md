@@ -35,7 +35,7 @@ For more intellectual analysis on these drawbacks, one can check out [Info-VAE](
 </div>
 <br>
 
-In order to get $\text{KL} ( p \parallel q) = \mathbb{E}\_{x \sim p(x)} \left[ \log \frac{p(x)}{q(x)} \right] $, we have to compute ratio $ \frac{p(x)}{q(x)}$ for all the points, but $q(x)$ doesn't even have density with respect to ambient space (thin line connects masses in figure [3.1](#fig3.1)). If we are interested in $\text{KL} ( q \parallel p) = \mathbb{E}\_{x \sim q(x)} \left[ \log \frac{q(x)}{p(x)} \right] $, when $q(x) \rightarrow 0$ and $p(x) > 0 $, the divergence shrinks to $0$, it means KL cannot measure the difference between distribution properly. In contrast, optimal transport does have this problem.<br>
+In order to get $\text{KL} ( p \parallel q) = \mathbb{E}\_{x \sim p(x)} \left[ \log \frac{p(x)}{q(x)} \right] $, we have to compute ratio $ \frac{p(x)}{q(x)}$ for all the points, but $q(x)$ doesn't even have density with respect to ambient space (thin line connects masses in [figure 3.1](#fig3.1)). If we are interested in $\text{KL} ( q \parallel p) = \mathbb{E}\_{x \sim q(x)} \left[ \log \frac{q(x)}{p(x)} \right] $, when $q(x) \rightarrow 0$ and $p(x) > 0 $, the divergence shrinks to $0$, it means KL cannot measure the difference between distribution properly. In contrast, optimal transport does have this problem.<br>
 
 ## <a name="Wasserstein"></a> OT and Wasserstein distance
 
@@ -224,7 +224,7 @@ $$\implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y) \leq -\bar{
 $$\implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ &#8718;
 
 One interested in detailed proofs can refer to ([Gabriel Peyre and Marco Cuturi, 2018](https://arxiv.org/abs/1803.00567)) and [Cuturi's talk](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s).
-Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form ([Aude Genevay *et al,*, 2017](https://arxiv.org/abs/1706.01807)), 1-Lipschitz constraint is fulfilled by weight-clipping ([Martin Arjovsky *et al.*, 2017](https://arxiv.org/abs/1701.07875)) or penalizing gradient (WGAN-GP, [Ishaan Gulrajani *et al.*, 2017](https://papers.nips.cc/paper/7159-improved-training-of-wasserstein-gans)).
+Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form ([Genevay *et al,*, 2017](https://arxiv.org/abs/1706.01807)), 1-Lipschitz constraint is fulfilled by weight-clipping ([Arjovsky *et al.*, 2017](https://arxiv.org/abs/1701.07875)) or penalizing gradient (WGAN-GP, [Gulrajani *et al.*, 2017](https://papers.nips.cc/paper/7159-improved-training-of-wasserstein-gans)).
 
 ## Empirical Wasserstein distance
 
