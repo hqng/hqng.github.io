@@ -219,14 +219,14 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-For a fixed $\theta \in \mathbb{S}^{d-1}$, $\mathcal{R}p_X(\cdot; \theta) = \int_{\mathbb{R}} \mathcal{R}p_X(t; \theta)dt $ is an one-dimensional slice of distribution $p_X$, it can be obtained by integrating $p_X$ over hyperplane orthogonal to $\theta$. Fig $\ref{fig4.1$ visualizes the projection with different $\theta$s:
+For a fixed $\theta \in \mathbb{S}^{d-1}$, $\mathcal{R}p_X(\cdot; \theta) = \int_{\mathbb{R}} \mathcal{R}p_X(t; \theta)dt $ is an one-dimensional slice of distribution $p_X$, it can be obtained by integrating $p_X$ over hyperplane orthogonal to $\theta$. Fig $\ref{fig4.1}$ visualizes the projection with different $\theta$s:
 
 <div style="text-align: center;">
 <img src="{{ '/assets/otvi/SWAESlicedDist.png' | relative_url }}" alt="SWAE Sliced Dist" width="40%" /> 
 </div>
 
 <div style="text-align: center;">
-<a name="fig4.1"></a> <sub> <i>Fig4.1: Distribution slicing. (Source: [Kolouri *et al.*, 2018](https://arxiv.org/abs/1804.01947)).</i> </sub>
+<a name="fig4.1"></a> <sub> <i> Fig4.1: Distribution slicing. (Source: <a href="https://arxiv.org/abs/1804.01947"> Kolouri *et al.*, 2018. </a>). </i> </sub>
 </div>
 <br>
 
@@ -290,7 +290,7 @@ On the other hand, if $p_X$ and $p_Y$ are already known, ($\ref{eq4.6}$) can be 
 </div>
 
 <div style="text-align: center;">
-<a name="fig4.2"></a> <sub> <i>Fig4.2: Top row: one-dimensional distribution densities are known (top left), the Wasserstein distance then can be analytically computed (top right). Bottom row: only samples of distributions are available (bottom left), then $a_m = c(x_{i[m]}. y_{j[m]} ) $ where $x_{i[m]}. y_{j[m]}$ are sorted in ascending order (bottom right). (Source: [Kolouri *et al.*, 2018](https://arxiv.org/abs/1804.01947)).</i> </sub>
+<a name="fig4.2"></a> <sub> <i> Fig4.2: Top row: one-dimensional distribution densities are known (top left), the Wasserstein distance then can be analytically computed (top right). Bottom row: only samples of distributions are available (bottom left), then $a_m = c(x_{i[m]}. y_{j[m]} ) $ where $x_{i[m]}. y_{j[m]}$ are sorted in ascending order (bottom right). (Source: <a href="https://arxiv.org/abs/1804.01947"> Kolouri *et al.*, 2018. </a>). </i> </sub>
 </div>
 <br>
 
@@ -406,6 +406,7 @@ $$ \small
 $$
 {% endraw %}
 where $h_q(x)$ and $g_p(z)$ are deterministic functions represent for encoder and decoder respectively.<br>
+
 The last cost function, $C_f^{p,q}(\cdot,\cdot)$ is $f$-divergence respect to a convex function $f$ such that $f(0)=1$:
 <br>
 {% raw %}
