@@ -76,24 +76,25 @@ $$
 In the paper, $c$ is set as $L_2-norm$. Recall that gradients of latent variables (w.r.t model's parameters) are necessary for stochastic gradient optimization, $\mathcal{D}_Z$ should be non-difficult to compute/estimate gradient. The authors consider 2 options. The first choice of $\mathcal{D}_Z$ is Jensen-Shannon divergence $\mathcal{D}\_{JS}$, the second is MMD.
 
 In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on latent samples. It turns into min-max problem, similar to GAN, but on latent space instead:
-<br>
-\begin{center}
-\begin{algorithm}[H] \label{alg4.1}
-	\SetAlgoLined
-	\KwIn{Regularization coefficient $\lambda > 0$, \\
-	Encoder $Q_\phi$, decoder $G_\theta$, latent discriminator $D_\gamma$}
-	\While{($\phi$, $\theta$) not converged}{
-		Sample $\{ x_1, \dots, x_n \}$ from training set \;
-		Sample $\{ z_1, \dots, z_n \}$ from $P_Z$\;
-		Sample $\tilde{z}_i$ from $Q_\phi (Z|x_i)$ for $i=1,\dots,n$\;
-		Update $D_\gamma$ by ascending:\\
-		\qquad $\frac{\lambda}{n} \sum_{i=1}^{n} \log D_{\gamma}\left(z_{i}\right)+\log\left(1-D_{\gamma}\left(\tilde{z}_{i}\right)\right) $ \\
-		Update $Q_\phi, \: G_\theta$ by descending: \\
-		\qquad $\frac{1}{n} \sum_{i=1}^{n} c\left(x_{i}, G_{\theta}\left(\tilde{z}_{i}\right)\right)-\lambda \cdot \log D_{\gamma}\left(\tilde{z}_{i}\right)$
-	}
-	\caption{GAN-based}
+<a name="alg4.1"></a> <br>
+{% include pseudocode.html id="alg4.1" code="
+\begin{algorithm}
+\caption{GAN-based}
+\begin{algorithmic}
+\REQUIRE Regularization coefficient $\lambda > 0$, \\
+	Encoder $Q_\phi$, decoder $G_\theta$, latent discriminator $D_\gamma$
+\WHILE{($\phi$, $\theta$) not converged}
+    \STATE Sample $\{ x_1, \dots, x_n \}$ from training set
+	\STATE Sample $\{ z_1, \dots, z_n \}$ from $P_Z$
+	\STATE Sample $\tilde{z}_i$ from $Q_\phi (Z|x_i)$ for $i=1,\dots,n$
+	\STATE Update $D_\gamma$ by ascending: \\
+	    \qquad $\frac{\lambda}{n} \sum_{i=1}^{n} \log D_{\gamma}\left(z_{i}\right)+\log\left(1-D_{\gamma}\left(\tilde{z}_{i}\right)\right) $
+	\STATE Update $Q_\phi, \: G_\theta$ by descending: \\
+	    \qquad $\frac{1}{n} \sum_{i=1}^{n} c\left(x_{i}, G_{\theta}\left(\tilde{z}_{i}\right)\right)-\lambda \cdot \log D_{\gamma}\left(\tilde{z}_{i}\right)$
+\ENDWHILE
+\end{algorithmic}
 \end{algorithm}
-\end{center}
+" %}
 
 In later case, a [*characteristic*](https://www.stat.purdue.edu/~panc/research/dr/talks/Characteristic_Kernel.pdf) positive-definite kernel $k: \mathcal{Z} \times \mathcal{Z} \rightarrow \mathcal{X}$ is used to define MMD:
 <br>
