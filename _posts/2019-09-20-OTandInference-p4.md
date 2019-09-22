@@ -80,7 +80,7 @@ In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on late
 
 {% include pseudocode.html id="41" code="
 \begin{algorithm}
-\caption{GAN-based}
+\caption{GAN based}
 \begin{algorithmic}
 \REQUIRE Regularization coefficient $\lambda > 0$, \\
 	Encoder $Q_\phi$, decoder $G_\theta$, latent discriminator $D_\gamma$
@@ -102,13 +102,11 @@ In former case, $\mathcal{D}\_{JS}$ is estimated by adversarial training on late
 \begin{algorithm}
 \caption{Quicksort}
 \begin{algorithmic}
-\PROCEDURE{Quicksort}{$A, p, r$}
-    \IF{$p < r$} 
-        \STATE $q = $ \CALL{Partition}{$A, p, r$}
-        \STATE \CALL{Quicksort}{$A, p, q - 1$}
-        \STATE \CALL{Quicksort}{$A, q + 1, r$}
-    \ENDIF
-\ENDPROCEDURE
+\IF{$p < r$} 
+	\STATE $q = $ \CALL{Partition}{$A, p, r$}
+	\STATE \CALL{Quicksort}{$A, p, q - 1$}
+	\STATE \CALL{Quicksort}{$A, q + 1, r$}
+\ENDIF
 \PROCEDURE{Partition}{$A, p, r$}
     \STATE $x = A[r]$
     \STATE $i = p - 1$
