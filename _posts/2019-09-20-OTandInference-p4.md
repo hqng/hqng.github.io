@@ -129,7 +129,7 @@ Since MMD has an unbiased U-statistic estimator, it allows estimating gradient. 
 " %}
 
 While decoder of VAE could not be deterministic (otherwise it falls back to ordinary auto-encoder),
-$Q_\phi(Z|X)$ in algorithms \ref{alg4.1}, \ref{alg4.2} can be non-random, i.e. WAE's decoder can deterministically map each $x_i$ to $\tilde{z}_i$.
+$Q_\phi(Z|X)$ in algorithms [4.1](#alg4.1), [4.2](#alg4.2) can be non-random, i.e. WAE's decoder can deterministically map each $x_i$ to $\tilde{z}_i$.
 
 ### Sinkhorn AE
 
@@ -225,7 +225,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-For a fixed $\theta \in \mathbb{S}^{d-1}$, $\mathcal{R}p_X(\cdot; \theta) = \int_{\mathbb{R}} \mathcal{R}p_X(t; \theta)dt $ is an one-dimensional slice of distribution $p_X$, it can be obtained by integrating $p_X$ over hyperplane orthogonal to $\theta$. Fig $\ref{fig4.1}$ visualizes the projection with different $\theta$s:
+For a fixed $\theta \in \mathbb{S}^{d-1}$, $\mathcal{R}p_X(\cdot; \theta) = \int_{\mathbb{R}} \mathcal{R}p_X(t; \theta)dt $ is an one-dimensional slice of distribution $p_X$, it can be obtained by integrating $p_X$ over hyperplane orthogonal to $\theta$. [Fig 4.1](#fig4.1) visualizes the projection with different $\theta$s:
 
 <div style="text-align: center;">
 <img src="{{ '/assets/otvi/SWAESlicedDist.png' | relative_url }}" alt="SWAE Sliced Dist" width="40%" /> 
@@ -273,7 +273,7 @@ $$ \small
 \begin{align}
 	& SW_2 (p_X, p_Y) \leq W_2 (p_X, p_Y) \leq \alpha SW_2^\beta (p_X, p_Y) \nonumber \\
 	\text{where: } & \alpha \text{ is a constant} \nonumber \\
-	& \beta = (2(d+1))^{-1} \: \text{ (refer \cite{VEGANcookbook} for proof)} \nonumber
+	& \beta = (2(d+1))^{-1} \: \text{ (refer } [Bousquet](https://arxiv.org/abs/1705.07642) \text{ for proof)} \nonumber
 \end{align}
 $$
 {% endraw %}
@@ -381,7 +381,7 @@ $$
 {% endraw %}
 It is clear that $\mathbb{E}\_{pq}[\tilde{\mathcal{L}}\_c(p_n, q_n)] = 0 $ if $p=q$ and furthermore, $\lim_{n \rightarrow \infty}\tilde{\mathcal{L}}_c(p_n, q_n) = \mathcal{L}(p,q) $. <br>
 
-As we have seen in previous sections, $\tilde{\mathcal{L}}_c(p_n, q_n)$ can be approximated by Sinkhorn algorithm ($\ref{alg4.3}$). Since Sinkhorn iteration is differentiable, we have:
+As we have seen in previous sections, $\tilde{\mathcal{L}}_c(p_n, q_n)$ can be approximated by Sinkhorn [algorithm 4.3](#alg4.3). Since Sinkhorn iteration is differentiable, we have:
 <br>
 {% raw %}
 $$ \small
