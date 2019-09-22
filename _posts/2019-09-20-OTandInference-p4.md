@@ -162,7 +162,7 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-*If $G(Z\|X) $ is stochastic, the result holds with $\gamma = \sup_{\mathcal{P} \neq \mathcal{Q}} \frac{ W_p (G(X\|Z)_{\\#} \mathcal{P}, W_p (G(X\|Z)_{\\#} \mathcal{Q})} {W_p(\mathcal{P}, \mathcal{Q})}$ *
+*If $G(Z\|X) $ is stochastic, the result holds with $\gamma = \sup_{\mathcal{P} \neq \mathcal{Q}} \frac{ W_p (G(X\|Z)\_{\\#} \mathcal{P}, W_p (G(X\|Z)\_{\\#} \mathcal{Q})} {W_p(\mathcal{P}, \mathcal{Q})}$ *
 
 <a name="thrm4.3"></a> **Theorem 4.3**: *Let $P_X$ is not anatomic and $G(X|Z)$ is deterministic. Then for every continuous cost c:*
 <br>
@@ -422,6 +422,9 @@ Note that when $f$ satisfies above condition, $C_f^{p,q}(\cdot,\cdot)$ in fact i
 
 We have studied several variational inference/autoencoders approaches which involve with Wasserstein distance. The experiments confirm their capability of learning representations that have geometric properties. Moreover, they allow special setting of model such as deterministic encoders, hence their encoder is less blur.
 
+<html>
+<body>
+<div>
 <pre id="test-basics" style="display:none">
     \begin{algorithm}
     \caption{Test atoms}
@@ -441,3 +444,8 @@ We have studied several variational inference/autoencoders approaches which invo
         lineNumber: false,
     });
 </script>
+</div>
+</body>
+</html>
+
+**OK**
