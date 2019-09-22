@@ -52,7 +52,7 @@ $$
 
 The goal of WAE is to minimize Wasserstein distance between $P_X$ and $P_G(X)$ distributions. Additionally, we will see later that this distance also measures the discrepancy between $Q_Z(Z)$ and $P_Z$. In other words, it conveniently contains both reconstruction cost and regularization term. WAE's objective bases on the next theorem.
 
-<a name="thrm4.1"></a> **Theorem 4.1**: *For deterministic $P_G(X|Z)$, $Q_Z$, $P_G$ and any function $G$ defined above, we have:*
+<a name="thrm4.1"></a> **Theorem 4.1**: <i>For deterministic $P_G(X|Z)$, $Q_Z$, $P_G$ and any function $G$ defined above, we have:</i>
 <br>
 {% raw %}
 $$ \small
@@ -66,7 +66,7 @@ The L.H.S is exactly the primal form of Wasserstein distance between $P_G$ and $
 {% raw %}
 $$ \small
 \begin{align}
-	& \mathcal{L}_{\mathrm{WAE}}\left(P_{X}, P_{G}\right) :=\inf _{Q(Z | X) \in \mathcal{Q}} \mathbb{E}_{P_{X}} \mathbb{E}_{Q(Z | X)}[c(X, G(Z))]+\lambda \cdot \mathcal{D}_{Z}\left(Q_{Z}, P_{Z}\right) \label{eq4.1} \\
+	& \mathcal{L}_{\mathrm{WAE}}\left(P_{X}, P_{G}\right) :=\inf _{Q(Z | X) \in \mathcal{Q}} \mathbb{E}_{P_{X}} \mathbb{E}_{Q(Z | X)}[c(X, G(Z))]+\lambda \cdot \mathcal{D}_{Z}\left(Q_{Z}, P_{Z}\right) \label{eq4.1} \tag{4.1} \\
 	\text{where:} & \: \mathcal{Q} \: \text{is any nonparametric set of probabilistic encoders} \nonumber \\
 	& \: \lambda > 0 \: \text{is a hyperparameter} \nonumber \\
 	& \: \mathcal{D}_{Z} \: \text{is any divergence} \nonumber
@@ -140,7 +140,7 @@ Given 2 discrete distributions on support of $M$ points $\hat{P} = \frac{1}{M} \
 {% raw %}
 $$ \small
 \begin{align}
-	& W_{c'} (\hat{Q}, \hat{P}) = \frac{1}{M} \min_{R \in S_M} \left\langle R, C' \right\rangle \label{eq4.2} \\
+	& W_{c'} (\hat{Q}, \hat{P}) = \frac{1}{M} \min_{R \in S_M} \left\langle R, C' \right\rangle \label{eq4.2} \tag{4.2} \\
 	\text{where: } & C'_{ij} = c'(\tilde{z}_i, z_j) \nonumber \\
 	& S_M = \{ R \in \mathbb{R}_{\geq 0}^{M \times M} \mid R\mathbf{1} = \mathbf{1}, R^T\mathbf{1} = \mathbf{1} \} \nonumber
 \end{align}
@@ -151,14 +151,14 @@ Adding entropic regularization $\mathcal{H}(R) = - \sum_{i,j=1}^{M,M} R_{i,j} \l
 {% raw %}
 $$ \small
 \begin{align}
-	& S_{c', \epsilon} (\hat{Q}, \hat{P}) = \min_{R \in S_M} \left\langle R, C' \right\rangle - \epsilon \mathcal{H}(R) \label{eq4.3} \\
+	& S_{c', \epsilon} (\hat{Q}, \hat{P}) = \min_{R \in S_M} \left\langle R, C' \right\rangle - \epsilon \mathcal{H}(R) \label{eq4.3} \tag{4.3} \\
 	\text{where: } & \epsilon > 0 \text{ is coefficient} \nonumber
 \end{align}
 $$
 {% endraw %}
 From theoretical perspective, SAE works thanks to below theorems.
 
-<a name="thrm4.2"></a> **Theorem 4.2**: *If $G(Z|X)$ is deterministic and $\gamma-Lipschitz$ then:*
+<a name="thrm4.2"></a> **Theorem 4.2**: <i>If $G(Z|X)$ is deterministic and $\gamma-Lipschitz$ then:</i>
 <br>
 {% raw %}
 $$ \small
@@ -169,7 +169,7 @@ $$
 {% endraw %}
 <i> If $G(Z\|X) $ is stochastic, the result holds with $\gamma = \sup_{\mathcal{P} \neq \mathcal{Q}} \frac{ W_p (G(X\|Z)\_{\\#} \mathcal{P}, W_p (G(X\|Z)\_{\\#} \mathcal{Q})} {W_p(\mathcal{P}, \mathcal{Q})}$ </i>
 
-<a name="thrm4.3"></a> **Theorem 4.3**: *Let $P_X$ is not anatomic and $G(X|Z)$ is deterministic. Then for every continuous cost c:*
+<a name="thrm4.3"></a> **Theorem 4.3**: <i>Let $P_X$ is not anatomic and $G(X|Z)$ is deterministic. Then for every continuous cost c:</i>
 <br>
 {% raw %}
 $$ \small
@@ -191,7 +191,7 @@ $$ \small
 $$
 {% endraw %}
 
-By [theorem 4.2](#thrm4.2), Wasserstein distance between data and generative model distributions has an upper bound, minimizing this bound leads to minimizing discrepancy between $P_X$ and $P_G$. Furthermore, the upper bound includes Wasserstein distance between aggregated posterior and the prior, we can estimate this distance by Sinkhorn on their samples. Theorem [4.3](#thrm4.3) allows us to have an deterministic auto-encoders, i.e. both $G(X\|Z)$ and $Q(Z\|X)$ are deterministic. The last one, [theorem 4.4](#thrm4.4) means that under perfect-reconstruction assumption, matching aggregated posterior and prior is: *(i)* sufficient and *(ii)* necessary to model data distribution. This theorem reminds us to choose proper prior. Previous research have shown that the choice of prior should encourage geometric properties of latent space since it provide remarkable performance of representation learning. The authors consider few options: spherical, Dirichlet prior.<br>
+By [theorem 4.2](#thrm4.2), Wasserstein distance between data and generative model distributions has an upper bound, minimizing this bound leads to minimizing discrepancy between $P_X$ and $P_G$. Furthermore, the upper bound includes Wasserstein distance between aggregated posterior and the prior, we can estimate this distance by Sinkhorn on their samples. [Theorem 4.3](#thrm4.3) allows us to have an deterministic auto-encoders, i.e. both $G(X\|Z)$ and $Q(Z\|X)$ are deterministic. The last one, [theorem 4.4](#thrm4.4) means that under perfect-reconstruction assumption, matching aggregated posterior and prior is: *(i)* sufficient and *(ii)* necessary to model data distribution. This theorem reminds us to choose proper prior. Previous research have shown that the choice of prior should encourage geometric properties of latent space since it provide remarkable performance of representation learning. The authors consider few options: spherical, Dirichlet prior.<br>
 
 Finally, Sinkhorn algorithm for estimating Wasserstein distance of $Q_Z$ and $P_Z$:
 <a name="alg4.3"></a> <br>
@@ -220,7 +220,7 @@ To project high-dimensional distribution on one-dimensional space, we use Radon 
 {% raw %}
 $$ \small
 \begin{align}
-	&\mathcal{R}p_X(t;\theta) = \int_{\mathcal{X}} p_X(x) \delta(t - x \cdot \theta) dx, \quad \forall \theta \in \mathbb{S}^{d-1, \: \forall t \in \mathbb{R} } \label{eq4.4} \\
+	&\mathcal{R}p_X(t;\theta) = \int_{\mathcal{X}} p_X(x) \delta(t - x \cdot \theta) dx, \quad \forall \theta \in \mathbb{S}^{d-1, \: \forall t \in \mathbb{R} } \label{eq4.4} \tag{4.4} \\
 	\text{where: } & \mathbb{S}^{d-1} \text{ is } d\text{-dimensional unit sphere} \nonumber
 \end{align}
 $$
@@ -242,7 +242,7 @@ A tricky situation is that only samples of distribution are observed. In such ca
 $$ \small
 \begin{align}
 	&p_{X}^{*} = \frac{1}{M} \sum_{m=1}^{M} \delta_{x_m} \nonumber \\
-	&\mathcal{R} p_{X}^{*}(t, \theta)=\frac{1}{M} \sum_{m=1}^{M} \delta\left(t-x_{m} \cdot \theta\right), \: \forall \theta \in \mathrm{S}^{d-1}, \: \forall t \in \mathbb{R} \tag{4.4a} \label{eq4.4a}
+	&\mathcal{R} p_{X}^{*}(t, \theta)=\frac{1}{M} \sum_{m=1}^{M} \delta\left(t-x_{m} \cdot \theta\right), \: \forall \theta \in \mathrm{S}^{d-1}, \: \forall t \in \mathbb{R} \label{eq4.4a} \tag{4.4a}
 \end{align}
 $$
 {% endraw %}
@@ -252,7 +252,7 @@ Recall the Wasserstein of univariate distributions: let $F_X$, $F_Y$ correspondi
 {% raw %}
 $$ \small
 \begin{align}
-W_c(p_X, p_Y) = \int_{0}^{1} c(F_X^{-1}(t), F_Y^{-1}(t)) dt \label{eq4.5}
+W_c(p_X, p_Y) = \int_{0}^{1} c(F_X^{-1}(t), F_Y^{-1}(t)) dt \label{eq4.5} \tag{4.5}
 \end{align}
 $$
 {% endraw %}
@@ -261,7 +261,7 @@ As equation ($\ref{eq4.5}$), the Wasserstein distance between $p_X$ and $p_Y$ ca
 {% raw %}
 $$ \small
 \begin{align}
-	SW_c(p_X, p_Y) = \int_{\mathbb{S}^{d-1}} c( \mathcal{R}p_X(\cdot; \theta), \mathcal{R}p_Y(\cdot; \theta) ) d\theta \label{eq4.6}
+	SW_c(p_X, p_Y) = \int_{\mathbb{S}^{d-1}} c( \mathcal{R}p_X(\cdot; \theta), \mathcal{R}p_Y(\cdot; \theta) ) d\theta \label{eq4.6} \tag{4.6}
 \end{align}
 $$
 {% endraw %}
@@ -284,7 +284,7 @@ Assume $p_X$, $p_Y$ are 2 one-dimensional densities and we only have their sampl
 {% raw %}
 $$ \small
 \begin{align}
-	W_c(p_X, p_Y) \approx \frac{1}{M} \sum_{m=1}^{M} c(x_{i[m]}, y_{j[m]} ) \label{eq4.7}
+	W_c(p_X, p_Y) \approx \frac{1}{M} \sum_{m=1}^{M} c(x_{i[m]}, y_{j[m]} ) \label{eq4.7} \tag{4.7}
 \end{align}
 $$
 {% endraw %}
@@ -305,7 +305,7 @@ Combine ($\ref{eq4.4a}$), ($\ref{eq4.6}$) and ($\ref{eq4.7}$) together, the disc
 {% raw %}
 $$ \small
 \begin{align}
-	SW_c(Q_Z, P_Z) \approx \frac{1}{{\lvert}{\Theta}{\rvert}} \sum_{\theta_l \in \Theta} W_c(\mathcal{R}q_Z(\cdot;\theta_l), \mathcal{R}p_Z(\cdot;\theta_l)) \label{eq4.8} \\
+	SW_c(Q_Z, P_Z) \approx \frac{1}{{\lvert}{\Theta}{\rvert}} \sum_{\theta_l \in \Theta} W_c(\mathcal{R}q_Z(\cdot;\theta_l), \mathcal{R}p_Z(\cdot;\theta_l)) \label{eq4.8} \tag{4.8} \\
 	\text{where: } \Theta \text{ is finite set and } \Theta \subset \mathbb{S}^{d-1} \nonumber
 \end{align}
 $$
@@ -340,7 +340,7 @@ Although WVI ([Ambrogioni *et at.*, 2018](https://arxiv.org/abs/1805.11284)) als
 {% raw %}
 $$ \small
 \begin{align}
-	&\mathcal{L}_{WVI} (p,q) = W_c(p(x,z), q(x,z)) = \inf_{\gamma \in \Gamma(p,q)} \int c(x, z; \tilde{x},\tilde{z}) d\gamma(x, z; \tilde{x},\tilde{z}) \label{eq4.9} \\
+	&\mathcal{L}_{WVI} (p,q) = W_c(p(x,z), q(x,z)) = \inf_{\gamma \in \Gamma(p,q)} \int c(x, z; \tilde{x},\tilde{z}) d\gamma(x, z; \tilde{x},\tilde{z}) \label{eq4.9} \tag{4.9} \\
 	\text{where: }& x, z \sim p(x,z) \text{ and } \tilde{x},\tilde{z} \sim q(x,z) \nonumber \\
 	&\Gamma \text{ is set of probability couplings.} \nonumber
 \end{align} 
@@ -352,7 +352,7 @@ In practice, when only samples are available, it fall-backs to computing the Was
 {% raw %}
 $$ \small
 \begin{align}
-	&\mathcal{L}_{WVI} (p_n,q_n) = \inf_{\gamma \in \Gamma(p,q)} \sum_{j,k} c(x_j, z_j;\tilde{x}_k, \tilde{z}_k) \gamma (x_j, z_j;\tilde{x}_k, \tilde{z}_k) \label{eq4.10} \\
+	&\mathcal{L}_{WVI} (p_n,q_n) = \inf_{\gamma \in \Gamma(p,q)} \sum_{j,k} c(x_j, z_j;\tilde{x}_k, \tilde{z}_k) \gamma (x_j, z_j;\tilde{x}_k, \tilde{z}_k) \label{eq4.10} \tag{4.10} \\
 	\text{where: }& x_j, z_j \sim p(x,z) \text{ and } \tilde{x}_k, \tilde{z}_k \sim q(x,z) \nonumber \\
 	&p_n,q_n \text{ are empirical distributions estimated from } n \text{ samples} \nonumber
 \end{align}
@@ -375,7 +375,7 @@ Since Monte Carlo method is biased with finite value of $n$, to obtain an unbias
 {% raw %}
 $$ \small
 \begin{align}
-	\tilde{\mathcal{L}}_c(p_n, q_n) = \mathcal{L}_c(p_n, q_n) - \frac{1}{2} \left( \mathcal{L}_c(p_n, p_n) + \mathcal{L}_c(q_n, q_n) \right) \label{eq4.11}
+	\tilde{\mathcal{L}}_c(p_n, q_n) = \mathcal{L}_c(p_n, q_n) - \frac{1}{2} \left( \mathcal{L}_c(p_n, p_n) + \mathcal{L}_c(q_n, q_n) \right) \label{eq4.11} \tag{4.11}
 \end{align}
 $$
 {% endraw %}
@@ -386,7 +386,7 @@ As we have seen in previous sections, $\tilde{\mathcal{L}}_c(p_n, q_n)$ can be a
 {% raw %}
 $$ \small
 \begin{align}
-	& \nabla \tilde{\mathcal{L}}_c(p_n, q_n) = \nabla S_{c,\epsilon}^t(p_n, q_n) \label{eq4.12} \\
+	& \nabla \tilde{\mathcal{L}}_c(p_n, q_n) = \nabla S_{c,\epsilon}^t(p_n, q_n) \label{eq4.12} \tag{4.12} \\
 	\text{where: }& \epsilon \text{ is coefficient of entropic regularization} \nonumber \\
 	& t \text{ is the number of iterations} \nonumber
 \end{align}
@@ -399,7 +399,7 @@ WVI employs loss $\tilde{\mathcal{L}}$ to measure discrepancy between distributi
 $$ \small
 \begin{align}
 	C_{\omega, f}^{p,q}(x,z ; \tilde{x}, \tilde{z}) = & \: \omega_1 d_x(x, \tilde{x}) + \omega_2 C_{PB}^{p} (z, \tilde{z}) + \omega_3 C_{LA}^p (x, z; \tilde{x}, \tilde{z}) \nonumber \\
-	& + \omega_4 C_{OA}^q (x, z; \tilde{x}, \tilde{z}) + \omega_5 C_{f}^{p,q} (x,z ; \tilde{x}, \tilde{z}) \label{eq4.13}
+	& + \omega_4 C_{OA}^q (x, z; \tilde{x}, \tilde{z}) + \omega_5 C_{f}^{p,q} (x,z ; \tilde{x}, \tilde{z}) \label{eq4.13} \tag{4.13}
 \end{align}
 $$
 {% endraw %}
