@@ -32,7 +32,7 @@ For more intellectual analysis on these drawbacks, one can check out [Info-VAE](
 <a name="fig3.1"></a> <sub> <i>Fig3.1: Example of 2 distributions that have drastically different masses.</i> </sub>
 </div>
 <br>
-In order to get $ \small \text{KL} ( p \parallel q) = \mathbb{E}\_{x \sim p(x)} \left[ \log \frac{p(x)}{q(x)} \right]$, we have to compute ratio $ \small \frac{p(x)}{q(x)}$ for all the points, but $ \small q(x)$ doesn't even have density with respect to ambient space (thin line connects masses in [figure 3.1](#fig3.1)). If we are interested in $ \small \text{KL} ( q \parallel p) = \mathbb{E}\_{x \sim q(x)} \left[ \log \frac{q(x)}{p(x)} \right] $, when $ \small q(x) \rightarrow 0$ and $ \small p(x) > 0 $, the divergence shrinks to $ \small 0$, it means KL cannot measure the difference between distribution properly. In contrast, optimal transport does not have these problems. <br>
+In order to get $ \small \text{KL} ( p \parallel q) = \mathbb{E}\_{x \sim p(x)} \left[ \log \frac{p(x)}{q(x)} \right]$, we have to compute ratio $ \small \frac{p(x)}{q(x)}$ for all the points, but $ \small q(x)$ doesn't even have density with respect to ambient space (thin line connects masses in [figure 3.1](#fig3.1)). If we are interested in $ \small \text{KL} ( q \parallel p) = \mathbb{E}\_{x \sim q(x)} \left[ \log \frac{q(x)}{p(x)} \right] $, when $ \small q(x) \rightarrow 0$ and $ \small p(x) > 0 $, the divergence shrinks to $ \small 0$, it means KL cannot measure the difference between distribution properly. In contrast, distances derived from optimal transport don't have these problems. <br>
 
 ## <a name="Wasserstein"></a> OT and Wasserstein distance
 
