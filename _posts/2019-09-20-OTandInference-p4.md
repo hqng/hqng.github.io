@@ -266,7 +266,7 @@ $$ \small
 $$
 {% endraw %}
 
-When $ \small c = {\lVert}{x-y}{\rVert}_2^2$, we are allowed to approximate $ \small W_2$ by $ \small SW_2$ because of following inequalities:
+When $ \small c = {\lVert}{x-y}{\rVert}_2^2$, we are allowed to approximate $ \small W_2$ by $ \small SW_2$ due to following inequalities:
 <br>
 {% raw %}
 $$ \small
@@ -360,9 +360,9 @@ $$ \small
 $$
 {% endraw %}
 
-The Wasserstein distance of joint-distributions can be estimated by its empirical Wasserstein distance (thus Monte Carlo estimator of its gradient can be obtained) because of next theorem:
+The Wasserstein distance of joint-distributions can be estimated by its empirical Wasserstein distance (thus Monte Carlo estimator of its gradient can be obtained) thanks to following theorem:
 <br>
-<a name="thrm4.5"></a> ***Theorem 4.5***: <i>Let $ \small W_c(p_n, q_n)$ is the Wasserstein distance between two empirical distributions $ \small p^{\*}, q^{\*}$. For $n$ tends to infinity, there exists a positive number $s$ such that: </i>
+<a name="thrm4.5"></a> ***Theorem 4.5***: <i>Let $ \small W_c(p_n, q_n)$ is the Wasserstein distance between two empirical distributions $ \small p_n, q_n$. For $n$ tends to infinity, there exists a positive number $s$ such that: </i>
 <br>
 {% raw %}
 $$ \small
