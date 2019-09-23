@@ -25,7 +25,7 @@ Although VAE has potentials in representation learning and generative models, it
 For more intellectual analysis on these drawbacks, one can check out [Info-VAE](https://ermongroup.github.io/blog/a-tutorial-on-mmd-variational-autoencoders/). Additionally, KL divergence itself has disadvantages. It is troublesome when comparing distributions that are extremely different. For example, consider 2 distributions $ \small p(x)$ and $q(x)$ in [figure 3.1](#fig3.1), their masses are distributed in disparate shapes, each assigns zero probability to different families of sets
 
 <div style="text-align: center;">
-<img src="{{ '/assets/otvi/KLdrawback.png' | relative_url }}" alt="Amortized VI" width="40%" /> 
+<img src="{{ '/assets/otvi/KLdrawback.png' | relative_url }}" alt="Amortized VI" width="50%" /> 
 </div>
 
 <div style="text-align: center;">

@@ -22,7 +22,7 @@ VAE is another scale-up variant of VI. It employs deep neural networks to perfor
 In VI models, each local variable is governed by its own variational parameter, e.g. in SVI, parameter $ \small \theta_i$ corresponds to latent variable $ \small z_i$. To maximize ELBO, we have to optimize objective function w.r.t all variational parameters. Consequently, the larger number of parameters is, the more expensive computational cost is.
 
 <div style="text-align: center;">
-<img src="{{ '/assets/otvi/AmortizedVI.png' | relative_url }}" alt="Amortized VI" width="20%" /> 
+<img src="{{ '/assets/otvi/AmortizedVI.png' | relative_url }}" alt="Amortized VI" width="15%" /> 
 </div>
 
 <div style="text-align: center;">
