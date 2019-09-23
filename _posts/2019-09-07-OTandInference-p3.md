@@ -261,7 +261,12 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-For particular $P \in U(a,b)$ : $\small \mathcal{H}(P) = -\sum_{i,j=1}^{n,m} P(x_i,y_j) \left(\log P(x_i,y_j) -1 \right) = \sum_{i,j=1}^{n,m} P_{ij} \left(\log P_{ij} -1 \right) $
+For particular $P \in U(a,b)$ : 
+{% raw %}
+$$ \small
+\mathcal{H}(P) = -\sum_{i,j=1}^{n,m} P(x_i,y_j) \left(\log P(x_i,y_j) -1 \right) = \sum_{i,j=1}^{n,m} P_{ij} \left(\log P_{ij} -1 \right)
+$$
+{% endraw %}
 
 **Regularized Wasserstein**:
 <br>
