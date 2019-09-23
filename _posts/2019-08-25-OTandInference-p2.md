@@ -29,7 +29,6 @@ In VI models, each local variable is governed by its own variational parameter, 
 <a name="fig2.1"></a> <sub> <i>Fig2.1: Graphical model of Amortized VI. Dashed line indicates variational approximation.</i> </sub>
 </div>
 <br>
-
 Amortized VI reforms SVI structure to lower the cost. In particular, it  assumes that optimal $z_i$'s can be represented as a function of $x_i$s, $z_i = f(x_i)$, i.e. $z_i$s are features of $x_i$s. Of course, local variational parameters are removed. Employing a function whose parameters are shared across all data points allows past computation to support future computation. Once the function is estimated (say, after few optimization steps), local variables obviously can be computed by passing new data points to $f(\cdot)$. This is why we name it *amortized*. Function $f(\cdot)$ implements a deep neural network called *inference network* to make a powerful predictor.
 
 ### <a name="Reparmeterize-MC"></a> Reparameterization and Monte Carlo
@@ -45,7 +44,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 The naive Monte Carlo gradient estimator of ($\ref{eq2.1}$) is:
 <br>
 {% raw %}
@@ -58,10 +56,10 @@ $$ \small
 $$
 {% endraw %}
 This often results in very high variance estimate and impractical ([Blei *et al.*, 2012](https://arxiv.org/abs/1312.6114)). Fortunately, reparameterization trick can resolve the problem. <br>
-<br>
+
 The idea of reparameterization is to transform one distribution into another form by additive/multiplicative location-scale transformations, these are basically [co-ordinate transformations](http://blog.shakirm.com/2015/10/machine-learning-trick-of-the-day-4-reparameterisation-tricks/). This way, we can express diverse and flexible class of distributions in combination of multiple simpler terms. <br>
-<br>
-We illustrate normal distribution case since it is widely used in machine learning and also appears in VAE. Given variable $z$ drawn from normal distribution and standard Gaussian noise {% raw %} $ \varepsilon $ {% endraw %}, {% raw %} $z$ {% endraw %} can be reparameterized by following transformation:
+
+We illustrate normal distribution case since it is widely used in machine learning and also appears in VAE. Given variable $z$ drawn from normal distribution and standard Gaussian noise $\varepsilon$, $z$ can be reparameterized by following transformation:
 <br>
 {% raw %}
 $$ \small
@@ -72,7 +70,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 If high dimensional space:
 <br>
 {% raw %}
@@ -86,8 +83,8 @@ $$ \small
 $$
 {% endraw %}
 From now on, ($\ref{eq2.2}$) is used for referring both cases unless stated otherwise. <br>
-<br>
-With the transformation from distribution $q(\epsilon)$ to $q_{\theta}(z)$, [the probability contained in a differential area must be invariant under change of variables](https://en.wikipedia.org/wiki/Probability_density_function#Dependent_variables_and_change_of_variables), i.e. {% raw %} $ {\lvert} {q_{\theta}(z)dz} {\rvert} = {\lvert} {q(\varepsilon) d \varepsilon} {\rvert} $ {% endraw %}. Together with ($\ref{eq2.1}$), we have:
+
+With the transformation from distribution $q(\epsilon)$ to $q_{\theta}(z)$, [the probability contained in a differential area must be invariant under change of variables](https://en.wikipedia.org/wiki/Probability_density_function#Dependent_variables_and_change_of_variables), i.e. $ {\lvert} {q_{\theta}(z)dz} {\rvert} = {\lvert} {q(\varepsilon) d \varepsilon} {\rvert} $. Together with ($\ref{eq2.1}$), we have:
 <br>
 {% raw %}
 $$ \small
@@ -110,7 +107,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-The larger number of samples is, the more accurate estimation is. <br>
+The larger number of samples is, the more accurate estimation is.
 
 From ($\ref{eq2.3}$) and ($\ref{eq2.4}$):
 <br>
@@ -166,13 +163,12 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 </div>
 </html>
 <div style="text-align: center;">
-<a name="fig2.2"></a> <sub> <i> Fig2.2 (a) Fig 2.2a shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\boldsymbol{\phi}$ is parameters of variational distribution {% raw %} $q_{\boldsymbol{\phi}}(z | x)$. $\boldsymbol{\theta}$ {% endraw %} is parameter of generative model {% raw %} $p(z) p_{\boldsymbol{\theta}}(x | z) $ {% endraw %}. (b) Fig 2.2b presents VAE deep learning model. {% raw %} $q_{\boldsymbol{\phi}}(z | x)$ and $p_{\boldsymbol{\theta}}(x | z)$ {% endraw %} are replaced by neural networks. </i> </sub>
+<a name="fig2.2"></a> <sub> <i> Fig2.2 (a) Fig 2.2a shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\boldsymbol{\phi}$ is parameters of variational distribution $q_{\boldsymbol{\phi}}(z \| x)$. $\boldsymbol{\theta}$ {% endraw %} is parameter of generative model $p(z) p_{\boldsymbol{\theta}}(x \| z) $ {% endraw %}. (b) Fig 2.2b presents VAE deep learning model. $q_{\boldsymbol{\phi}}(z \| x)$ and $p_{\boldsymbol{\theta}}(x \| z)$ are replaced by neural networks. </i> </sub>
 </div>
 <br>
-[Figure 2.2](#fig2.2) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\boldsymbol{\phi}}(z \| x)$ and generative model $p(z) p_{\boldsymbol{\theta}}(x \| z)$ are performed by encoder network and decoder network respectively. The variational parameters $\boldsymbol{\phi}$ and generative model's parameters $\boldsymbol{\theta} $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables ([part 1](/variational%20inference/OTandInference-p1/#VI)), VAE can take a single data point as input thanks to *amortized* setting.
-<br>
+[Figure 2.2](#fig2.2) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\boldsymbol{\phi}}(z \| x)$ and generative model $p(z) p_{\boldsymbol{\theta}}(x \| z)$ are performed by encoder network and decoder network respectively. The variational parameters $\boldsymbol{\phi}$ and generative model's parameters $\boldsymbol{\theta} $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables ([part 1](/variational%20inference/OTandInference-p1/#VI)), VAE can take a single data point as input thanks to *amortized* setting. <br>
 
-Similar to [eq1.4](/variational%20inference/OTandInference-p1/#eq1.4) or [eq1.4a](/variational%20inference/OTandInference-p1/#eq1.4a), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is {% raw %} $\log p(\mathbf{x}) = \sum_{i=1}^{N} \log p(x_i)$ {% endraw %}. Therefore, we only concern about a single observation:
+Similar to [eq1.4](/variational%20inference/OTandInference-p1/#eq1.4) or [eq1.4a](/variational%20inference/OTandInference-p1/#eq1.4a), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is $\log p(\mathbf{x}) = \sum_{i=1}^{N} \log p(x_i)$. Therefore, we only concern about a single observation:
 <br>
 {% raw %}
 $$ \small
@@ -195,7 +191,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 Minimizing KL divergence between variational posterior and true posterior equivalents to maximizing ELBO $\ell$. The variational lower bound of a single data point $x_i$:
 <br>
 {% raw %}
@@ -205,9 +200,9 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
+
 The objective function on entire data set should be:
-<br>
+<a name="eq2.8"></a> <br>
 {% raw %}
 $$ \small
 \begin{align}
@@ -216,8 +211,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<a name="eq2.8"></a>
-<br>
 The quantity $ \text{KL}\left( q_{\boldsymbol{\phi}}(z|x_i) \parallel p(z) \right) $ can be integrated analytically under certain assumption. Let's consider our deep latent Gaussian model:
 <br>
 {% raw %}
@@ -229,7 +222,6 @@ q_{\boldsymbol{\phi}}(z | x) &= \mathcal{N}  \left(z; \mu(x), \sigma^2(x) \mathb
 \end{align}
 $$
 {% endraw %}
-<br>
 We have:
 <br>
 {% raw %}
@@ -250,7 +242,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 and:
 <br>
 {% raw %}
@@ -262,7 +253,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 Hence:
 <br>
 {% raw %}
@@ -275,7 +265,7 @@ $$
 {% endraw %}
 <br>
 The term $\mathbb{E}\_{q_{ \boldsymbol{\phi} } (z|x_i)} \left[ \log p\_{ \boldsymbol{\theta} } (x_i|z) \right] $ is more tricky because we want both its (estimated) value and gradient w.r.t $\boldsymbol{\phi}$.
-As we discuss in section [Reparmeterize-MC](#Reparmeterize-MC), using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $z$ from {% raw %} $q_{ \boldsymbol{\phi} } (z|x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I} )$ {% endraw %}, we sample $z$ as below:
+As we discuss in section [Reparmeterize-MC](#Reparmeterize-MC), using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $z$ from $q_{ \boldsymbol{\phi} } (z \| x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I} )$, we sample $z$ as below:
 <br>
 {% raw %}
 $$ \small
@@ -285,7 +275,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 From ($\ref{eq2.5}$):
 <br>
 {% raw %}
@@ -298,7 +287,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 One combines ($\ref{eq2.10}$) and ($\ref{eq2.11}$) to get estimate of ELBO:
 <br>
 {% raw %}
@@ -310,7 +298,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
+
 Finally, objective function of VAE:
 <br>
 {% raw %}
@@ -321,7 +309,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
-The first term is regularization, the second term is reconstruction cost. While regularization forces the model not to learn trivial latent space, reconstruction ensures the model outputs high quality samples that is close to input.
+The first term is regularization, the second term is reconstruction cost. While regularization forces the model not to learn trivial latent space, reconstruction ensures the model outputs high quality samples that is close to input. <br>
+
 
 ## [***Part 3***](/variational%20inference/OTandInference-p3/)
