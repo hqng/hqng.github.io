@@ -261,7 +261,7 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-For particular $P \in U(a,b)$ : $\mathcal{H}(P) = -\sum_{i,j=1}^{n,m} P(x_i,y_j) \left(\log P(x_i,y_j) -1 \right) = \sum_{i,j=1}^{n,m} P_{ij} \left(\log P_{ij} -1 \right) $
+For particular $P \in U(a,b)$ : $\small \mathcal{H}(P) = -\sum_{i,j=1}^{n,m} P(x_i,y_j) \left(\log P(x_i,y_j) -1 \right) = \sum_{i,j=1}^{n,m} P_{ij} \left(\log P_{ij} -1 \right) $
 
 **Regularized Wasserstein**:
 <br>
@@ -281,7 +281,7 @@ Strong concavity property of entropic regularization ensures the solution of ($\
 $$ \small
 \begin{align*}
 P_{\epsilon}=\operatorname{diag}(u) K \operatorname{diag}(v) \: \text{with} \: K \mathrel{\vcenter{:}}= e^{-M_{X Y} / \epsilon}
-\begin{align*}
+\end{align*}
 $$
 {% endraw %}
 *Proof*: <br>
