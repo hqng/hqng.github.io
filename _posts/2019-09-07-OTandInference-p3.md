@@ -212,8 +212,8 @@ $$ \small \implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y) \le
 <br>
 $$ \small \implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ &#8718;
 
-One interested in detailed proofs can refer to ([Gabriel Peyre and Marco Cuturi, 2018](https://arxiv.org/abs/1803.00567)) and [Cuturi's talk](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s).
-Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form ([Genevay *et al,*, 2017](https://arxiv.org/abs/1706.01807)), $ \small 1$-Lipschitz constraint is fulfilled by weight-clipping ([Arjovsky *et al.*, 2017](https://arxiv.org/abs/1701.07875)) or gradient-penalizing (WGAN-GP, [Gulrajani *et al.*, 2017](https://papers.nips.cc/paper/7159-improved-training-of-wasserstein-gans)).
+One interested in detailed proofs can refer to ([Gabriel Peyre and Marco Cuturi, 2018](https://arxiv.org/abs/1803.00567)) and [Cuturi's talk](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s).<br>
+Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form ([Genevay *et al,*, 2017](https://arxiv.org/abs/1706.01807)), $ \small 1$-Lipschitz constraint is fulfilled by weight-clipping (WGAN, [Arjovsky *et al.*, 2017](https://arxiv.org/abs/1701.07875)) or gradient-penalizing (WGAN-GP, [Gulrajani *et al.*, 2017](https://papers.nips.cc/paper/7159-improved-training-of-wasserstein-gans)).
 
 ## Empirical Wasserstein distance
 
