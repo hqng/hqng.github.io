@@ -175,7 +175,8 @@ W_p^p (\mu, \nu) = \sup_{\varphi} \int \varphi d \mu + \int \bar{\varphi} d \nu 
 $$
 {% endraw %}
 
-Recall the definition of **$ \small D^p$-concavity**: a function $ \small \varphi (x)$ is $ \small D^p$-concave if there exists $ \small \phi(y)$ such that: $ \small \varphi(x) = \bar{\phi}(x)$ (where $ \small \varphi,\\: \phi$ are "well-defined" on $ \small \Omega$). Thus, if $ \small \varphi$ is $ \small D^p$-concave: $ \small \exists \phi \\: \text{s.t. } \varphi(x) = \bar{\phi}(x) \implies \bar{\varphi}(y) = \phi(y) \implies \bar{\bar{\varphi}}(x) = \bar{\phi}(x) = \varphi(x) $. Put the constraint into ($\ref{eq3.7}$):
+Recall the definition of **$ \small D^p$-concavity**: a function $ \small \varphi (x)$ is $ \small D^p$-concave if there exists $ \small \phi(y)$ such that: $ \small \varphi(x) = \bar{\phi}(x)$ (where $ \small \varphi,\\: \phi$ are "well-defined" on $ \small \Omega$). <br>
+Thus, if $ \small \varphi$ is $ \small D^p$-concave: $ \small \exists \phi \\: \text{s.t. } \varphi(x) = \bar{\phi}(x) \implies \bar{\varphi}(y) = \phi(y) \implies \bar{\bar{\varphi}}(x) = \bar{\phi}(x) = \varphi(x) $. Put the constraint into ($\ref{eq3.7}$):
 <br>
 {% raw %}
 $$ \small
