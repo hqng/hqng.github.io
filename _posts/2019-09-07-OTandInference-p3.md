@@ -16,13 +16,11 @@ excerpt: "The third part of blog series about optimal transport, Wasserstein dis
 
 ## <a name="OT"></a> Optimal Transport (OT)
 
-Although VAE has potentials in representation learning and generative models, it may suffer from two problems: (1) uninformative features, and (2) variance over-estimation in latent space. The cause of these problems is KL divergence.
-<br>
+Although VAE has potentials in representation learning and generative models, it may suffer from two problems: (1) uninformative features, and (2) variance over-estimation in latent space. The cause of these problems is KL divergence. <br>
 
-*(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p2/#eq2.8)) might be too restrictive. Particularly, {% raw %} $ \mathbb{E}\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\boldsymbol{\phi}}(z \| x) \parallel p(z) \right) \right] $ {% endraw %} encourages $ q\_{\boldsymbol{\phi}}(z \| x) $ to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
+*(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p2/#eq2.8)) might be too restrictive. Particularly, $ \mathbb{E}\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\boldsymbol{\phi}}(z \| x) \parallel p(z) \right) \right] $ encourages $ q\_{\boldsymbol{\phi}}(z \| x) $ to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
 
-*(2) Variance Over-Estimation in Latent Space*: VAE tends to over-fit data due to the fact that the regularization term is not strong enough compared with the reconstruction cost. As a result of over-fitting, variance of variational distribution tends toward infinity. One can put more weight on the regularization, i.e. adding coefficient $\beta > 1$ to {% raw %} $ \mathbb{E}\_{x \sim p(x)} \left[ - \text{KL}\left( q_{\boldsymbol{\phi}}(z \| x) \parallel p(z)  \right) \right] $ {% endraw %}, but it comes back to problem (1).
-<br>
+*(2) Variance Over-Estimation in Latent Space*: VAE tends to over-fit data due to the fact that the regularization term is not strong enough compared with the reconstruction cost. As a result of over-fitting, variance of variational distribution tends toward infinity. One can put more weight on the regularization, i.e. adding coefficient $\beta > 1$ to $ \mathbb{E}\_{x \sim p(x)} \left[ - \text{KL}\left( q_{\boldsymbol{\phi}}(z \| x) \parallel p(z)  \right) \right] $, but it comes back to problem (1). <br>
 
 For more intellectual analysis on these drawbacks, one can check out [Info-VAE](https://ermongroup.github.io/blog/a-tutorial-on-mmd-variational-autoencoders/). Additionally, KL divergence itself has disadvantages. It is troublesome when comparing distributions that are extremely different. For example, consider 2 distributions $p(x)$ and $q(x)$ in figure \ref{fig3.1}, their masses are distributed in disparate shapes, each assigns zero probability to different families of sets
 
@@ -34,7 +32,6 @@ For more intellectual analysis on these drawbacks, one can check out [Info-VAE](
 <a name="fig3.1"></a> <sub> <i>Fig3.1: Example of 2 distributions that have drastically different masses.</i> </sub>
 </div>
 <br>
-
 In order to get $\text{KL} ( p \parallel q) = \mathbb{E}\_{x \sim p(x)} \left[ \log \frac{p(x)}{q(x)} \right] $, we have to compute ratio $ \frac{p(x)}{q(x)}$ for all the points, but $q(x)$ doesn't even have density with respect to ambient space (thin line connects masses in [figure 3.1](#fig3.1)). If we are interested in $\text{KL} ( q \parallel p) = \mathbb{E}\_{x \sim q(x)} \left[ \log \frac{q(x)}{p(x)} \right] $, when $q(x) \rightarrow 0$ and $p(x) > 0 $, the divergence shrinks to $0$, it means KL cannot measure the difference between distribution properly. In contrast, optimal transport does have this problem.<br>
 
 ## <a name="Wasserstein"></a> OT and Wasserstein distance
@@ -62,7 +59,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 where $\Gamma$ is the set of probability couplings:
 <br>
 {% raw %}
@@ -74,7 +70,6 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-<br>
 Problem ($\ref{eq3.2}$) is primal form, it can be derived to duality formula: given 2 real-valued functions $\varphi$, $\psi$ on $\Omega$:
 <br>
 {% raw %}
@@ -95,7 +90,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 
 *Proof:* <br>
 We have the followed function only takes 2 values:
@@ -110,7 +104,6 @@ $$ \small
 	\right.
 $$
 {% endraw %}
-
 Put it into ($\ref{eq3.2}$), the problem can be transformed to:
 <br>
 {% raw %}
@@ -126,7 +119,6 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-
 But we know that:
 <br>
 {% raw %}
@@ -139,7 +131,6 @@ $$ \small
 	\right.
 $$
 {% endraw %}
-
 Hence:
 <br>
 {% raw %}
@@ -162,7 +153,6 @@ W_p^p (\mu, \nu) & \mathrel{\vcenter{:}}= \sup_{\varphi (x) + \psi (y) \leq D^p(
 \end{align}
 $$
 {% endraw %}
-
 Equations ($\ref{eq3.4}$) and ($\ref{eq3.5}$) are primal and duality forms respectively.<br>
 
 Assume $\varphi$ is known, we would like to find a good $\psi$ to solve ($\ref{eq3.5}$). Under this assumption, $\psi$ must satisfy below condition:
@@ -175,7 +165,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-
 The R.H.S of ($\ref{eq3.6}$) is called $D^p$-transform (of $\varphi$), of course we might exchange $\varphi$ for $\psi$ and get the $D^p$-transform of $\psi$ instead. The duality of $p$-Wasserstein now can be rewritten in semi-duality form:
 <br>
 {% raw %}
@@ -205,7 +194,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-
 To arrive ($\ref{eq3.9}$), we must show that: $p=1$ and $\varphi$ is concave $\Leftrightarrow$ $\bar{\varphi} = - \varphi$ and $\varphi$ is 1-Lipshitz
 
 *Proof*: <br>
@@ -251,7 +239,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-
 Dual form:
 <br>
 {% raw %}
@@ -274,7 +261,6 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-
 For particular $P \in U(a,b)$ : $\mathcal{H}(P) = -\sum_{i,j=1}^{n,m} P(x_i,y_j) \left(\log P(x_i,y_j) -1 \right) = \sum_{i,j=1}^{n,m} P_{ij} \left(\log P_{ij} -1 \right) $
 
 **Regularized Wasserstein**:
@@ -324,6 +310,7 @@ P_{\epsilon} \in U(a, b) \Leftrightarrow \left\{
 	\right. 
 $$ 
 {% endraw %}
+
 {% raw %} 
 $$ \small
 \implies P_{\epsilon} \in U(a, b) \Leftrightarrow \left\{ 
@@ -334,6 +321,7 @@ $$ \small
 	\right. 
 $$
 {% endraw %}
+
 {% raw %} 
 $$ \small
 \implies P_{\epsilon} \in U(a, b) \Leftrightarrow \left\{ 
@@ -344,6 +332,7 @@ $$ \small
 	\right. 
 $$
 {% endraw %}
+
 {% raw %} 
 $$ \small
 \implies \left\{
