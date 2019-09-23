@@ -263,7 +263,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 The term $\mathbb{E}\_{q_{ \boldsymbol{\phi} } (z|x_i)} \left[ \log p\_{ \boldsymbol{\theta} } (x_i|z) \right] $ is more tricky because we want both its (estimated) value and gradient w.r.t $\boldsymbol{\phi}$.
 As we discuss in section [Reparmeterize-MC](#Reparmeterize-MC), using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $z$ from $q_{ \boldsymbol{\phi} } (z \| x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I} )$, we sample $z$ as below:
 <br>
