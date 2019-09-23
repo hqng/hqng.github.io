@@ -18,7 +18,7 @@ excerpt: "The third part of blog series about optimal transport, Wasserstein dis
 
 Although VAE has potentials in representation learning and generative models, it may suffer from two problems: (1) uninformative features, and (2) variance over-estimation in latent space. The cause of these problems is KL divergence. <br>
 
-*(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p2/#eq2.8)) might be too restrictive. Particularly, $ \small \mathbb{E}\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\boldsymbol{\phi}}(z \| x) \parallel p(z) \right) \right] $ encourages $ \small q\_{\boldsymbol{\phi}}(z \| x) $ to be a random sample from $p(z)$ for every $x$, and in consequence, latent variables carry less information about input data. <br>
+*(1) Uninformative Latent Code*: previous research show that the regularization term in ([2.8](/variational%20inference/OTandInference-p2/#eq2.8)) might be too restrictive. Particularly, $ \small \mathbb{E}\_{x \sim p(x)} \left[ - \text{KL} \left( q_{\boldsymbol{\phi}}(z \| x) \parallel p(z) \right) \right] $ encourages $ \small q\_{\boldsymbol{\phi}}(z \| x) $ to be a random sample from $ \small p(z)$ for every $ \small x$, and in consequence, latent variables carry less information about input data. <br>
 
 *(2) Variance Over-Estimation in Latent Space*: VAE tends to over-fit data due to the fact that the regularization term is not strong enough compared with the reconstruction cost. As a result of over-fitting, variance of variational distribution tends toward infinity. One can put more weight on the regularization, i.e. adding coefficient $ \small \beta > 1$ to $ \small \mathbb{E}\_{x \sim p(x)} \left[ - \text{KL}\left( q_{\boldsymbol{\phi}}(z \| x) \parallel p(z)  \right) \right] $, but it comes back to problem (1). <br>
 
@@ -32,7 +32,7 @@ For more intellectual analysis on these drawbacks, one can check out [Info-VAE](
 <a name="fig3.1"></a> <sub> <i>Fig3.1: Example of 2 distributions that have drastically different masses.</i> </sub>
 </div>
 <br>
-In order to get $ \small \text{KL} ( p \parallel q) = \mathbb{E}\_{x \sim p(x)} \left[ \log \frac{p(x)}{q(x)} \right]$, we have to compute ratio $ \small \frac{p(x)}{q(x)}$ for all the points, but $ \small q(x)$ doesn't even have density with respect to ambient space (thin line connects masses in [figure 3.1](#fig3.1)). If we are interested in $ \small \text{KL} ( q \parallel p) = \mathbb{E}\_{x \sim q(x)} \left[ \log \frac{q(x)}{p(x)} \right] $, when $ \small q(x) \rightarrow 0$ and $p(x) > 0 $, the divergence shrinks to $ \small 0$, it means KL cannot measure the difference between distribution properly. In contrast, optimal transport does have this problem. <br>
+In order to get $ \small \text{KL} ( p \parallel q) = \mathbb{E}\_{x \sim p(x)} \left[ \log \frac{p(x)}{q(x)} \right]$, we have to compute ratio $ \small \frac{p(x)}{q(x)}$ for all the points, but $ \small q(x)$ doesn't even have density with respect to ambient space (thin line connects masses in [figure 3.1](#fig3.1)). If we are interested in $ \small \text{KL} ( q \parallel p) = \mathbb{E}\_{x \sim q(x)} \left[ \log \frac{q(x)}{p(x)} \right] $, when $ \small q(x) \rightarrow 0$ and $ \small p(x) > 0 $, the divergence shrinks to $ \small 0$, it means KL cannot measure the difference between distribution properly. In contrast, optimal transport does have this problem. <br>
 
 ## <a name="Wasserstein"></a> OT and Wasserstein distance
 
@@ -281,7 +281,7 @@ $$
 
 Strong concavity property of entropic regularization ensures the solution of ($\ref{eq3.12}$) is unique. Moreover, it can achieve a differentiable solution using Sinkhorn's algorithm. To come up with Sinkhorn iteration, we need an additional proposition.<br>
 
-<a name="prop1"></a> **Prop.1** If $P_{\epsilon} \mathrel{\vcenter{:}}= \arg \min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle \- \epsilon \mathcal{H}(P) $ then: $ \exists ! u \in \mathbb{R}\_{+}^{n}, v \in \mathbb{R}\_{+}^{m} $ such that: 
+<a name="prop1"></a> **Prop.1**: <i>If $ \small P_{\epsilon} \mathrel{\vcenter{:}}= \arg \min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle \- \epsilon \mathcal{H}(P) $ then: $ \small \exists ! u \in \mathbb{R}\_{+}^{n}, v \in \mathbb{R}\_{+}^{m} $ such that: </i>
 {% raw %}
 $$ \small
 \begin{align*}

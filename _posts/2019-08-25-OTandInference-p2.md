@@ -19,7 +19,7 @@ VAE is another scale-up variant of VI. It employs deep neural networks to perfor
 
 ### <a name="AmortizedVI"></a> Amortized Variational Inference
 
-In VI models, each local variable is governed by its own variational parameter, e.g. in SVI, parameter $\theta_i$ corresponds to latent variable $z_i$. To maximize ELBO, we have to optimize objective function w.r.t all variational parameters. Consequently, the larger number of parameters is, the more expensive computational cost is.
+In VI models, each local variable is governed by its own variational parameter, e.g. in SVI, parameter $ \small \theta_i$ corresponds to latent variable $ \small z_i$. To maximize ELBO, we have to optimize objective function w.r.t all variational parameters. Consequently, the larger number of parameters is, the more expensive computational cost is.
 
 <div style="text-align: center;">
 <img src="{{ '/assets/otvi/AmortizedVI.png' | relative_url }}" alt="Amortized VI" width="20%" /> 
@@ -29,7 +29,7 @@ In VI models, each local variable is governed by its own variational parameter, 
 <a name="fig2.1"></a> <sub> <i>Fig2.1: Graphical model of Amortized VI. Dashed line indicates variational approximation.</i> </sub>
 </div>
 <br>
-Amortized VI reforms SVI structure to lower the cost. In particular, it  assumes that optimal $z_i$'s can be represented as a function of $x_i$s, $z_i = f(x_i)$, i.e. $z_i$s are features of $x_i$s. Of course, local variational parameters are removed. Employing a function whose parameters are shared across all data points allows past computation to support future computation. Once the function is estimated (say, after few optimization steps), local variables obviously can be computed by passing new data points to $f(\cdot)$. This is why we name it *amortized*. Function $f(\cdot)$ implements a deep neural network called *inference network* to make a powerful predictor.
+Amortized VI reforms SVI structure to lower the cost. In particular, it  assumes that optimal $ \small z_i$'s can be represented as a function of $ \small x_i$s, $ \small z_i = f(x_i)$, i.e. $ \small z_i$s are features of $ \small x_i$s. Of course, local variational parameters are removed. Employing a function whose parameters are shared across all data points allows past computation to support future computation. Once the function is estimated (say, after few optimization steps), local variables obviously can be computed by passing new data points to $ \small f(\cdot)$. This is why we name it *amortized*. Function $ \small f(\cdot)$ implements a deep neural network called *inference network* to make a powerful predictor.
 
 ### <a name="Reparmeterize-MC"></a> Reparameterization and Monte Carlo
 
@@ -84,7 +84,7 @@ $$
 {% endraw %}
 From now on, ($\ref{eq2.2}$) is used for referring both cases unless stated otherwise. <br>
 
-With the transformation from distribution $q(\epsilon)$ to $q_{\theta}(z)$, [the probability contained in a differential area must be invariant under change of variables](https://en.wikipedia.org/wiki/Probability_density_function#Dependent_variables_and_change_of_variables), i.e. $ {\lvert} {q_{\theta}(z)dz} {\rvert} = {\lvert} {q(\varepsilon) d \varepsilon} {\rvert} $. Together with ($\ref{eq2.1}$), we have:
+With the transformation from distribution $ \small q(\epsilon)$ to $ \small q_{\theta}(z)$, [the probability contained in a differential area must be invariant under change of variables](https://en.wikipedia.org/wiki/Probability_density_function#Dependent_variables_and_change_of_variables), i.e. $ \small {\lvert} {q_{\theta}(z)dz} {\rvert} = {\lvert} {q(\varepsilon) d \varepsilon} {\rvert} $. Together with ($\ref{eq2.1}$), we have:
 <br>
 {% raw %}
 $$ \small
@@ -95,7 +95,7 @@ $$ \small
 \end{alignat}
 $$
 {% endraw %}
-Here $\theta$ is the set of parameters and $g(\varepsilon, \theta)$ is the transformation. $q_{\theta}(z)$ and $q(\varepsilon)$ are density functions of distribution of $z$ and $\varepsilon$ respectively. For instance, when $z$ has normal distribution, $\theta$ would be $\{\mu, \sigma \}$ and $g(\varepsilon, \theta)$ would be equation ($\ref{eq2.2}$). <br>
+Here $ \small \theta$ is the set of parameters and $g(\varepsilon, \theta)$ is the transformation. $ \small q_{\theta}(z)$ and $ \small q(\varepsilon)$ are density functions of distribution of $ \small z$ and $ \small \varepsilon$ respectively. For instance, when $ \small z$ has normal distribution, $\theta$ would be $ \small \{\mu, \sigma \}$ and $ \small g(\varepsilon, \theta)$ would be equation ($\ref{eq2.2}$). <br>
 <br>
 Gradient in ($\ref{eq2.3}$) now can be acquired using Monte Carlo estimation. Monte Carlo method allows us to estimate result of certain tasks by performing deterministic computation on large number of inputs that are sampled from a probability distribution on pre-defined domain. It eases the worry of analytically computing intractable quantity. For integral task, it is simple and straightforward:
 <br>
@@ -120,12 +120,12 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Sampling $\varepsilon$ clearly is easier than sampling $z$ directly, the problem ($\ref{eq2.1}$) turns out to be feasible.
+Sampling $ \small \varepsilon$ clearly is easier than sampling $ \small z$ directly, the problem ($\ref{eq2.1}$) turns out to be feasible.
 
 ### <a name="VAEmodel"> VAE
 
 VAE adopts SVI and Amortized VI to make a powerful generative model. The term "generative" bases on the fact that VAE employs a neural network as *generative network* alongside mentioned *inference network*. 
-For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e. hidden variable $z$ has (parameterized) normal distribution. Other settings which are less common can be found at ([Kingma's Thesis, 2017]()), ([Kingma and Welling, 2014](https://arxiv.org/abs/1312.6114)).
+For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e. hidden variable $ \small z$ has (parameterized) normal distribution. Other settings which are less common can be found at ([Kingma's Thesis, 2017]()), ([Kingma and Welling, 2014](https://arxiv.org/abs/1312.6114)).
 
 <html>
 <style>
@@ -163,12 +163,12 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 </div>
 </html>
 <div style="text-align: center;">
-<a name="fig2.2"></a> <sub> <i> Fig2.2 (a) Fig 2.2a shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\boldsymbol{\phi}$ is parameters of variational distribution $q_{\boldsymbol{\phi}}(z \| x)$. $\boldsymbol{\theta}$ is parameter of generative model $p(z) p_{\boldsymbol{\theta}}(x \| z) $. (b) Fig 2.2b presents VAE deep learning model. $q_{\boldsymbol{\phi}}(z \| x)$ and $p_{\boldsymbol{\theta}}(x \| z)$ are replaced by neural networks. </i> </sub>
+<a name="fig2.2"></a> <sub> <i> Fig2.2 (a) Fig 2.2a shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $ \small \boldsymbol{\phi}$ is parameters of variational distribution $ \small q_{\boldsymbol{\phi}}(z \| x)$. $ \small \boldsymbol{\theta}$ is parameter of generative model $ \small p(z) p_{\boldsymbol{\theta}}(x \| z) $. (b) Fig 2.2b presents VAE deep learning model. $ \small q_{\boldsymbol{\phi}}(z \| x)$ and $ \small p_{\boldsymbol{\theta}}(x \| z)$ are replaced by neural networks. </i> </sub>
 </div>
 <br>
-[Figure 2.2](#fig2.2) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $q_{\boldsymbol{\phi}}(z \| x)$ and generative model $p(z) p_{\boldsymbol{\theta}}(x \| z)$ are performed by encoder network and decoder network respectively. The variational parameters $\boldsymbol{\phi}$ and generative model's parameters $\boldsymbol{\theta} $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables ([part 1](/variational%20inference/OTandInference-p1/#VI)), VAE can take a single data point as input thanks to *amortized* setting. <br>
+[Figure 2.2](#fig2.2) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $ \small q_{\boldsymbol{\phi}}(z \| x)$ and generative model $ \small p(z) p_{\boldsymbol{\theta}}(x \| z)$ are performed by encoder network and decoder network respectively. The variational parameters $ \small \boldsymbol{\phi}$ and generative model's parameters $ \small \boldsymbol{\theta} $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables ([part 1](/variational%20inference/OTandInference-p1/#VI)), VAE can take a single data point as input thanks to *amortized* setting. <br>
 
-Similar to [eq1.4](/variational%20inference/OTandInference-p1/#eq1.4) or [eq1.4a](/variational%20inference/OTandInference-p1/#eq1.4a), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is $\log p(\mathbf{x}) = \sum_{i=1}^{N} \log p(x_i)$. Therefore, we only concern about a single observation:
+Similar to [eq1.4](/variational%20inference/OTandInference-p1/#eq1.4) or [eq1.4a](/variational%20inference/OTandInference-p1/#eq1.4a), we can come up with objective function of VAE. Recall that out data points are i.i.d, the marginal log-likelihood is $ \small \log p(\mathbf{x}) = \sum_{i=1}^{N} \log p(x_i)$. Therefore, we only concern about a single observation:
 <br>
 {% raw %}
 $$ \small
@@ -191,7 +191,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Minimizing KL divergence between variational posterior and true posterior equivalents to maximizing ELBO $\ell$. The variational lower bound of a single data point $x_i$:
+Minimizing KL divergence between variational posterior and true posterior equivalents to maximizing ELBO $ \small \ell$. The variational lower bound of a single data point $x_i$:
 <br>
 {% raw %}
 $$ \small
@@ -211,7 +211,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-The quantity $ \text{KL}\left( q_{\boldsymbol{\phi}}(z|x_i) \parallel p(z) \right) $ can be integrated analytically under certain assumption. Let's consider our deep latent Gaussian model:
+The quantity $ \small \text{KL}\left( q_{\boldsymbol{\phi}}(z|x_i) \parallel p(z) \right) $ can be integrated analytically under certain assumption. Let's consider our deep latent Gaussian model:
 <br>
 {% raw %}
 $$ \small
@@ -263,8 +263,8 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-The term $\mathbb{E}\_{q_{ \boldsymbol{\phi} } (z|x_i)} \left[ \log p\_{ \boldsymbol{\theta} } (x_i|z) \right] $ is more tricky because we want both its (estimated) value and gradient w.r.t $\boldsymbol{\phi}$.
-As we discuss in section [Reparmeterize-MC](#Reparmeterize-MC), using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $z$ from $q_{ \boldsymbol{\phi} } (z \| x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I} )$, we sample $z$ as below:
+The term $ \small \mathbb{E}\_{q_{ \boldsymbol{\phi} } (z|x_i)} \left[ \log p\_{ \boldsymbol{\theta} } (x_i|z) \right] $ is more tricky because we want both its (estimated) value and gradient w.r.t $ \small \boldsymbol{\phi}$.
+As we discuss in section [Reparmeterize-MC](#Reparmeterize-MC), using directly Monte Carlo on original variable gives high variance estimator of gradient. We therefore need the reparameterization trick. Instead of sampling $ \small z$ from $ \small q_{ \boldsymbol{\phi} } (z \| x) = \mathcal{N} (z; \mu(x), \sigma^2(x) \mathbb{I})$, we sample $ \small z$ as below:
 <br>
 {% raw %}
 $$ \small

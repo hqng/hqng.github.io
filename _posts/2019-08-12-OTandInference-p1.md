@@ -15,8 +15,9 @@ Recent research in generative models have borrowed ideas from classic probabilis
 
 ## <a name="VI"></a> Variational Inference
 
-We first revisit VI whose idea is the base of VAE and its variants. Assume we have a set $\mathbf{x} = \\{ x_1, x_2, \dots, x_N \\}$ contains $N$ observations of data. VI aims to understand data by inferring low-dimensional representation from these (often high-dimensional) observations. To do so, it introduces a set of $M$ latent variables $\mathbf{z} = \\{ z_1, z_2, \dots, z_M \\} \sim q(\mathbf{z})$ with prior density $q(\mathbf{z})$ and relates them to the observations through likelihood $p(\mathbf{x} \| \mathbf{z})$:
+We first revisit VI whose idea is the base of VAE and its variants. Assume we have a set $ \small \mathbf{x} = \\{ x_1, x_2, \dots, x_N \\}$ contains $ \small N$ observations of data. VI aims to understand data by inferring low-dimensional representation from these (often high-dimensional) observations. To do so, it introduces a set of $ \small M$ latent variables $ \small \mathbf{z} = \\{ z_1, z_2, \dots, z_M \\} \sim q(\mathbf{z})$ with prior density $ \small q(\mathbf{z})$ and relates them to the observations through likelihood $ \small p(\mathbf{x} \| \mathbf{z})$:
 <br>
+{% raw %}
 $$ \small
 \begin{align}
 & p(\mathbf{z} | \mathbf{x}) = \frac{p(\mathbf{x}, \mathbf{z})}{p(\mathbf{x})}  = \frac{p(\mathbf{x} | \mathbf{z}) q(\mathbf{z}) }{\int p(\mathbf{x}, \mathbf{z}) d \mathbf{z}} \label{eq1.1} \tag{1.1} \\
@@ -25,11 +26,11 @@ $$ \small
 & p(\mathbf{x}) = \int p(\mathbf{x}, \mathbf{z}) d \mathbf{z} \: \text{is evidence, computed by marginalizing} \: \mathbf{z} \nonumber
 \end{align}
 $$
-<br>
+{% endraw %}
 The posterior represents distribution of latent variables given the observations, getting posterior is equivalent to learning data representation. <br>
 <br>
-While $ p(\mathbf{x}, \mathbf{z}) $ can be fully observable, the integral term is computationally expensive, thus the posterior is intractable 
-([Blei *et al.*, 2017](https://doi.org/10.1080/01621459.2017.1285773)). VI overcomes this difficulty by approximating intractable posterior with simpler distribution. Specifically, it parameterizes prior $q(\mathbf{z})$ with variational parameters $\boldsymbol{\theta} = \\{ \theta_1, \theta_2, ..., \theta_M \\} $ and then optimize them to achieve a good approximation of posterior in term of KL divergence.
+While $ \small p(\mathbf{x}, \mathbf{z})$ can be fully observable, the integral term is computationally expensive, thus the posterior is intractable 
+([Blei *et al.*, 2017](https://doi.org/10.1080/01621459.2017.1285773)). VI overcomes this difficulty by approximating intractable posterior with simpler distribution. Specifically, it parameterizes prior $ \small q(\mathbf{z})$ with variational parameters $ \small \boldsymbol{\theta} = \\{ \theta_1, \theta_2, ..., \theta_M \\} $ and then optimize them to achieve a good approximation of posterior in term of KL divergence.
 
 ### <a name="VanillaVI"></a> Vanilla VI
 
@@ -43,7 +44,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Since $\log$ is concave function, by Jensen's inequality: <br>
+Since $ \small \log$ is concave function, by Jensen's inequality: <br>
 <br>
 {% raw %}
 $$ \small
@@ -55,8 +56,8 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-The quantity $\mathcal{L}$ is ELBO - Evidence Lower BOund. <br>
-We now show that the difference between $\log p(x)$ and ELBO is exactly KL divergence between variational distribution, i.e. parameterized prior $q_{\boldsymbol{\theta}}(\mathbf{z})$, and posterior:
+The quantity $ \small \mathcal{L}$ is ELBO - Evidence Lower BOund. <br>
+We now show that the difference between $\ \small log p(x)$ and ELBO is exactly KL divergence between variational distribution, i.e. parameterized prior $ \small q_{\boldsymbol{\theta}}(\mathbf{z})$, and posterior:
 <a name="eq1.4"></a> <br>
 {% raw %}
 $$ \small
@@ -95,7 +96,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-From ($\ref{eq1.4}$), the posterior $p(\mathbf{z} | \mathbf{x})$ can be approximated by $q_{\boldsymbol{\theta}}(\mathbf{z})$ as long as we can find a parameters set $\boldsymbol{\theta}$ to have $\text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x})) = 0$. Although fulfilling that requirement is practically impossible, we could still reach the KL divergence's minima. Hence, VI simply turns computing task of intractable posterior into optimization problem with following objective: 
+From ($\ref{eq1.4}$), the posterior $ \small p(\mathbf{z} | \mathbf{x})$ can be approximated by $q_{\boldsymbol{\theta}}(\mathbf{z})$ as long as we can find a parameters set $ \small \boldsymbol{\theta}$ to have $ \small \text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x})) = 0$. Although fulfilling that requirement is practically impossible, we could still reach the KL divergence's minima. Hence, VI simply turns computing task of intractable posterior into optimization problem with following objective: 
 <br>
 {% raw %}
 $$ \small
@@ -104,11 +105,11 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-Note that $\log p(\mathbf{x})$ is a constant quantity w.r.t $\boldsymbol{\theta}$, to minimize $\text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} \| \mathbf{x}))$ is equivalent to maximize the ELBO. One way of computing ELBO analytically is to restrict models to conjugate exponential family distribution. But we will focus on other approaches which are related to VAE.
+Note that $ \small \log p(\mathbf{x})$ is a constant quantity w.r.t $ \small \boldsymbol{\theta}$, to minimize $ \small \text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} \| \mathbf{x}))$ is equivalent to maximize the ELBO. One way of computing ELBO analytically is to restrict models to conjugate exponential family distribution. But we will focus on other approaches which are related to VAE.
 
 ### <a name="MFVI"></a> Mean-Field VI (MFVI)
 
-Choosing prior distribution leads to a trade-off between complexity and quality of posterior. We want an approximation that can express prior well yet must be simple enough to make itself tractable. A common choice is mean-field approximation, an adaption of mean-field theory in physics. Under mean-field assumption, MFVI factorizes $q_{\boldsymbol{\theta}}(\mathbf{z})$ into $M$ factors where each factor is governed by its own parameter and is independent of others:
+Choosing prior distribution leads to a trade-off between complexity and quality of posterior. We want an approximation that can express prior well yet must be simple enough to make itself tractable. A common choice is mean-field approximation, an adaption of mean-field theory in physics. Under mean-field assumption, MFVI factorizes $ \small q_{\boldsymbol{\theta}}(\mathbf{z})$ into $M$ factors where each factor is governed by its own parameter and is independent of others:
 <br>
 {% raw %}
 $$ \small
@@ -119,7 +120,7 @@ $$
 {% endraw %}
 Remember that mean-field approximation does not concern the correlation between latent variables, it becomes less accurate when true posterior variables are highly dependent. <br>
 
-For brevity, we shorten $q_{\theta_j}(z_j)$ to $q(z_j)$ and denote $ \mathbf{z}\_{-j} = \mathbf{z} \setminus \{z_j\} $ as the latent set excluding variable $ z_j $.
+For brevity, we shorten $ \small q_{\theta_j}(z_j)$ to $ \small q(z_j)$ and denote $ \small \mathbf{z}\_{-j} = \mathbf{z} \setminus \{z_j\}$ as the latent set excluding variable $ \small z_j $.
 By the assumption, we have:
 <br>
 {% raw %}
@@ -144,7 +145,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Here we substitute $ \int_{\mathbf{z}} d \mathbf{z}$ for $\int_{z_1} \int_{z_2} \dots \int_{z_M} d z_1 d z_2 \dots d z_M$.
+Here we substitute $ \small \int_{\mathbf{z}} d \mathbf{z}$ for $ \small \int_{z_1} \int_{z_2} \dots \int_{z_M} d z_1 d z_2 \dots d z_M$.
 
 On the other hand: 
 <br>
@@ -202,7 +203,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Taking derivative of ($\ref{eq1.13}$) w.r.t $q(z_j)$: 
+Taking derivative of ($\ref{eq1.13}$) w.r.t $ \small q(z_j)$: 
 <br>
 {% raw %}
 $$ \small
@@ -213,7 +214,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Set the partial derivative to $0$ to get the updating form of $q(z_j)$: 
+Set the partial derivative to $ \small 0$ to get the updating form of $ \small q(z_j)$: 
 <br>
 {% raw %}
 $$ \small
@@ -227,7 +228,7 @@ $$ \small
 \end{alignat}
 $$
 {% endraw %}
-Since $q(z_j)$ and $q(z_i)$ are independent for any $j \neq i, \: i, j \in \{1, 2, \dots, M \}$, maximizing EBLO w.r.t $\boldsymbol{\theta}$ can be done by alternately maximizing ELBO w.r.t $\theta_j$ for $j=1,2,\dots,M$. Therefore, under mean-field approximation, maximum of ELBO can be accomplished by iteratively updating variational distribution of each latent variable by rule ($\ref{eq1.15}$) until convergence. This algorithm's called coordinate ascent.
+Since $ \small q(z_j)$ and $ \small q(z_i)$ are independent for any $ \small j \neq i, \: i, j \in \{1, 2, \dots, M \}$, maximizing EBLO w.r.t $ \small \boldsymbol{\theta}$ can be done by alternately maximizing ELBO w.r.t $ \small \theta_j$ for $ \small j=1,2,\dots,M$. Therefore, under mean-field approximation, maximum of ELBO can be accomplished by iteratively updating variational distribution of each latent variable by rule ($\ref{eq1.15}$) until convergence. This algorithm's called coordinate ascent.
 
 ### <a name="SVI"></a> Stochastic VI (SVI)
 
@@ -238,10 +239,10 @@ Various VI models are not feasible for big datasets, for instance, MFVI's updati
 </div>
 
 <div style="text-align: center;">
-<a name="fig1.1"></a> <sub> <i> Fig1.1: Graphical model of SVI: observations $x_i$, local underlying variables $z_i$s, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation. </i> </sub>
+<a name="fig1.1"></a> <sub> <i> Fig1.1: Graphical model of SVI: observations $ \small x_i$, local underlying variables $ \small z_i$s, global latent variable $ \small \mathbf{y}$, local variational parameter $ \small \theta_i$, global variational parameter $ \small \boldsymbol{\phi}$, hyper-parameter $ \small \alpha$. Dashed line indicate variational approximation. </i> </sub>
 </div>
 <br>
-Instead of only considering local (per data point) latent variable $z_i$ and their corresponding variational parameter $\theta_i$, SVI introduces global latent variable $\mathbf{y}$ and global variational parameter $\boldsymbol{\phi}$. In detail, we have $ \\{ z_i \text{s}, \mathbf{y} \\} $ as latent variables and $ \{ \theta_i, \boldsymbol{\phi} \} $ as variational parameter for $i = 1, 2, \dots, N$ (recall that $N$ is number of observations). Furthermore, we assume the model depends on a hyper-paremeter $\alpha$. Unlike vanilla VI, SVI's objective is summed over contributions of all $N$ individual data points. This setting allows stochastic optimization work. Later we will learn that VAE also adopts it. <br>
+Instead of only considering local (i.e. per data point) latent variable $ \small z_i$ and their corresponding variational parameter $ \small \theta_i$, SVI introduces global latent variable $ \small \mathbf{y}$ and global variational parameter $ \small \boldsymbol{\phi}$. In detail, we have $  \small \\{ z_i \text{s}, \mathbf{y} \\} $ as latent variables and $ \small \{ \theta_i, \boldsymbol{\phi} \} $ as variational parameter for $ \small i = 1, 2, \dots, N$ (recall that $ \small N$ is number of observations). Furthermore, we assume the model depends on a hyper-paremeter $ \small \alpha$. Unlike vanilla VI, SVI's objective is summed over contributions of all $ \small N$ individual data points. This setting allows stochastic optimization work. Later we will learn that VAE also adopts it. <br>
 
 Variational distribution follows below assumption:
 <br>
@@ -279,7 +280,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Though coordinate ascent can optimize function ($\ref{eq1.19}$), stochastic gradient descent should be more efficient. Particularly, in each iteration, random-selected mini-batches of size $S$ are used to obtain stochastic estimate $\hat{\mathcal{L}}$ of ELBO: 
+Though coordinate ascent can optimize function ($\ref{eq1.19}$), stochastic gradient descent should be more efficient. Particularly, in each iteration, random-selected mini-batches of size $S$ are used to obtain stochastic estimate $ \small \hat{\mathcal{L}}$ of ELBO: 
 <br>
 {% raw %}
 $$ \small
@@ -288,11 +289,11 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-$i_s$s are indices of mini-batch that must be uniformly drawn at random. $S$ is often chosen such that $1 \leq S \ll N$. <br>
+$ \small i_s$s are indices of mini-batch that must be uniformly drawn at random. $ \small S$ is often chosen such that $ \small 1 \leq S \ll N$. <br>
 
-Computation cost on small batch-size $S$ is less expensive than on entire dataset. A noisy estimator of gradient of ELBO then can be achieved via $\hat{\mathcal{L}}$. As a result, optimal of the objective function can be acquired using stochastic gradient optimization. Several important results of SVI models have been published, one may refer to ([Hensman *et al.*, 2012](https://arxiv.org/abs/1206.5162)), ([Khan *et al.*, 2018](https://arxiv.org/abs/1807.04489), [Hoffman *et al.*, 2013](http://jmlr.org/papers/v14/hoffman13a.html)) for more details. <br>
+Computation cost on small batch-size $ \small S$ is less expensive than on entire dataset. A noisy estimator of gradient of ELBO then can be achieved via $ \small \hat{\mathcal{L}}$. As a result, optimal of the objective function can be acquired using stochastic gradient optimization. Several important results of SVI models have been published, one may refer to ([Hensman *et al.*, 2012](https://arxiv.org/abs/1206.5162)), ([Khan *et al.*, 2018](https://arxiv.org/abs/1807.04489), [Hoffman *et al.*, 2013](http://jmlr.org/papers/v14/hoffman13a.html)) for more details. <br>
 
-Lastly, there is a trade-off between computation's efficiency and gradient estimator's variance. Large batch-size $S$ which consumes more computational resource reduces variance of gradient estimate. In this case, less noisy gradient allows us to have larger learning rate, thus it's faster to reach the convergence state and also more favored for global parameters to perform inference. On the other hand, small mini-batches relaxes the cost of iterating over local parameters. Various methods have been proposed to address this problem, notably can include *adaptive learning rate and mini-batch size* and *variance reduction*. It's worth to mention that alongside stochastic VI, there exists other interesting approaches to speed up convergence process such as *Collapsed*, *Sparse*, and *Distributed VI*. All of them leverage the structure of certain models to attain the goal ([Zhang *et al.*, 2017](https://arxiv.org/abs/1711.05597)). <br>
+Lastly, there is a trade-off between computation's efficiency and gradient estimator's variance. Large batch-size $ \small S$ which consumes more computational resource reduces variance of gradient estimate. In this case, less noisy gradient allows us to have larger learning rate, thus it's faster to reach the convergence state and also more favored for global parameters to perform inference. On the other hand, small mini-batches relaxes the cost of iterating over local parameters. Various methods have been proposed to address this problem, notably can include *adaptive learning rate and mini-batch size* and *variance reduction*. It's worth to mention that alongside stochastic VI, there exists other interesting approaches to speed up convergence process such as *Collapsed*, *Sparse*, and *Distributed VI*. All of them leverage the structure of certain models to attain the goal ([Zhang *et al.*, 2017](https://arxiv.org/abs/1711.05597)). <br>
 
 
 ## [***Part 2***](/variational%20inference/OTandInference-p2/)
