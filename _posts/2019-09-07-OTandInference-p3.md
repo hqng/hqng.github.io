@@ -190,11 +190,11 @@ In machine learning, we often take $ \small p=1$ and use $\small 1$-Wasserstein 
 {% raw %}
 $$ \small
 \begin{align}
-\mathbf{W_1}(\mu, \nu) = \sup_{\varphi \: \text{is 1-Lipschitz}} \int_{\Omega} \varphi (d\mu - d\nu) \label{eq3.9} \tag{3.9}
+\mathbf{W_1}(\mu, \nu) = \sup_{\varphi \: \text{is $1$-Lipschitz}} \int_{\Omega} \varphi (d\mu - d\nu) \label{eq3.9} \tag{3.9}
 \end{align}
 $$
 {% endraw %}
-To arrive ($\ref{eq3.9}$), we must show that: $ \small p=1$ and $ \small \varphi$ is concave $ \small \Leftrightarrow$ $\bar{\varphi} = - \varphi$ and $ \small \varphi$ is 1-Lipshitz
+To arrive ($\ref{eq3.9}$), we must show that: $ \small p=1$ and $ \small \varphi$ is concave $ \small \Leftrightarrow$ $\bar{\varphi} = - \varphi$ and $ \small \varphi$ is $ \small 1$-Lipshitz
 
 *Proof*: <br>
 Define $ \small \bar{\varphi}_x(y) \mathrel{\vcenter{:}}= D(x,y) - \varphi(x)$, obviously:
@@ -249,7 +249,7 @@ W_{p}^{p}(\mu, \nu)=\max _{\alpha \in \mathbb{R}^{n}, \beta \in \mathbb{R}^{m}} 
 $$
 {% endraw %}
 
-One challenge is that solution of ($\ref{eq3.10}$),($\ref{eq3.11}$) is unstable and not always unique ([Cuturi's, 2019](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s)). Additionally, $ \small W_p^p$ is not differentiable, making training models by stochastic gradient optimization less feasible. Fortunately, entropic regularization that measures the level of uncertainty in a probability distribution can overcome these disadvantages:<br>
+One challenge is that solution of ($\ref{eq3.10}$),($\ref{eq3.11}$) is unstable and not always unique ([Cuturi's, 2019](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s)). Additionally, $ \small W_p^p$ is not differentiable, making training models by stochastic gradient optimization less feasible. Fortunately, entropic regularization that measures the level of uncertainty in a probability distribution can overcome these disadvantages: <br>
 
 **Entropic Regularization**:
 For joint distribution $ \small P(x, y)$ (in this section, we only concern about discrete distribution unless stated otherwise):

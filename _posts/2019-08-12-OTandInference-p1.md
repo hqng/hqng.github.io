@@ -96,7 +96,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-From ($\ref{eq1.4}$), the posterior $ \small p(\mathbf{z} | \mathbf{x})$ can be approximated by $q_{\boldsymbol{\theta}}(\mathbf{z})$ as long as we can find a parameters set $ \small \boldsymbol{\theta}$ to have $ \small \text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x})) = 0$. Although fulfilling that requirement is practically impossible, we could still reach the KL divergence's minima. Hence, VI simply turns computing task of intractable posterior into optimization problem with following objective: 
+From ($\ref{eq1.4}$), the posterior $ \small p(\mathbf{z} | \mathbf{x})$ can be approximated by $ \small q_{\boldsymbol{\theta}}(\mathbf{z})$ as long as we can find a parameters set $ \small \boldsymbol{\theta}$ to have $ \small \text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x})) = 0$. Although fulfilling that requirement is practically impossible, we could still reach the KL divergence's minima. Hence, VI simply turns computing task of intractable posterior into optimization problem with following objective: 
 <br>
 {% raw %}
 $$ \small
@@ -109,7 +109,7 @@ Note that $ \small \log p(\mathbf{x})$ is a constant quantity w.r.t $ \small \bo
 
 ### <a name="MFVI"></a> Mean-Field VI (MFVI)
 
-Choosing prior distribution leads to a trade-off between complexity and quality of posterior. We want an approximation that can express prior well yet must be simple enough to make itself tractable. A common choice is mean-field approximation, an adaption of mean-field theory in physics. Under mean-field assumption, MFVI factorizes $ \small q_{\boldsymbol{\theta}}(\mathbf{z})$ into $M$ factors where each factor is governed by its own parameter and is independent of others:
+Choosing prior distribution leads to a trade-off between complexity and quality of posterior. We want an approximation that can express prior well yet must be simple enough to make itself tractable. A common choice is mean-field approximation, an adaption of mean-field theory in physics. Under mean-field assumption, MFVI factorizes $ \small q_{\boldsymbol{\theta}}(\mathbf{z})$ into $ \small M$ factors where each factor is governed by its own parameter and is independent of others:
 <br>
 {% raw %}
 $$ \small
@@ -239,7 +239,7 @@ Various VI models are not feasible for big datasets, for instance, MFVI's updati
 </div>
 
 <div style="text-align: center;">
-<a name="fig1.1"></a> <sub> <i> Fig1.1: Graphical model of SVI: observations $ \small x_i$, local underlying variables $ \small z_i$s, global latent variable $ \small \mathbf{y}$, local variational parameter $ \small \theta_i$, global variational parameter $ \small \boldsymbol{\phi}$, hyper-parameter $ \small \alpha$. Dashed line indicate variational approximation. </i> </sub>
+<a name="fig1.1"></a> <sub> <i> Fig1.1: Graphical model of SVI: observations $x_i$, local underlying variables $z_i$s, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation. </i> </sub>
 </div>
 <br>
 Instead of only considering local (i.e. per data point) latent variable $ \small z_i$ and their corresponding variational parameter $ \small \theta_i$, SVI introduces global latent variable $ \small \mathbf{y}$ and global variational parameter $ \small \boldsymbol{\phi}$. In detail, we have $  \small \\{ z_i \text{s}, \mathbf{y} \\} $ as latent variables and $ \small \{ \theta_i, \boldsymbol{\phi} \} $ as variational parameter for $ \small i = 1, 2, \dots, N$ (recall that $ \small N$ is number of observations). Furthermore, we assume the model depends on a hyper-paremeter $ \small \alpha$. Unlike vanilla VI, SVI's objective is summed over contributions of all $ \small N$ individual data points. This setting allows stochastic optimization work. Later we will learn that VAE also adopts it. <br>

@@ -59,7 +59,7 @@ This often results in very high variance estimate and impractical ([Blei *et al.
 
 The idea of reparameterization is to transform one distribution into another form by additive/multiplicative location-scale transformations, these are basically [co-ordinate transformations](http://blog.shakirm.com/2015/10/machine-learning-trick-of-the-day-4-reparameterisation-tricks/). This way, we can express diverse and flexible class of distributions in combination of multiple simpler terms. <br>
 
-We illustrate normal distribution case since it is widely used in machine learning and also appears in VAE. Given variable $z$ drawn from normal distribution and standard Gaussian noise $\varepsilon$, $z$ can be reparameterized by following transformation:
+We illustrate normal distribution case since it is widely used in machine learning and also appears in VAE. Given variable $ \small z$ drawn from normal distribution and standard Gaussian noise $ \small \varepsilon$, $ \small z$ can be reparameterized by following transformation:
 <br>
 {% raw %}
 $$ \small
@@ -95,7 +95,7 @@ $$ \small
 \end{alignat}
 $$
 {% endraw %}
-Here $ \small \theta$ is the set of parameters and $g(\varepsilon, \theta)$ is the transformation. $ \small q_{\theta}(z)$ and $ \small q(\varepsilon)$ are density functions of distribution of $ \small z$ and $ \small \varepsilon$ respectively. For instance, when $ \small z$ has normal distribution, $\theta$ would be $ \small \{\mu, \sigma \}$ and $ \small g(\varepsilon, \theta)$ would be equation ($\ref{eq2.2}$). <br>
+Here $ \small \theta$ is the set of parameters and $g(\varepsilon, \theta)$ is the transformation. $ \small q_{\theta}(z)$ and $ \small q(\varepsilon)$ are density functions of distribution of $ \small z$ and $ \small \varepsilon$ respectively. For instance, when $ \small z$ has normal distribution, $ \small \theta$ would be $ \small \{\mu, \sigma \}$ and $ \small g(\varepsilon, \theta)$ would be equation ($\ref{eq2.2}$). <br>
 <br>
 Gradient in ($\ref{eq2.3}$) now can be acquired using Monte Carlo estimation. Monte Carlo method allows us to estimate result of certain tasks by performing deterministic computation on large number of inputs that are sampled from a probability distribution on pre-defined domain. It eases the worry of analytically computing intractable quantity. For integral task, it is simple and straightforward:
 <br>
@@ -163,7 +163,7 @@ For simplicity, we only study VAE in setting of deep latent Gaussian model, i.e.
 </div>
 </html>
 <div style="text-align: center;">
-<a name="fig2.2"></a> <sub> <i> Fig2.2 (a) Fig 2.2a shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $ \small \boldsymbol{\phi}$ is parameters of variational distribution $ \small q_{\boldsymbol{\phi}}(z \| x)$. $ \small \boldsymbol{\theta}$ is parameter of generative model $ \small p(z) p_{\boldsymbol{\theta}}(x \| z) $. (b) Fig 2.2b presents VAE deep learning model. $ \small q_{\boldsymbol{\phi}}(z \| x)$ and $ \small p_{\boldsymbol{\theta}}(x \| z)$ are replaced by neural networks. </i> </sub>
+<a name="fig2.2"></a> <sub> <i> Fig2.2 (a) Fig 2.2a shows probabilistic VAE model. Dashed lines indicate variational approximation, solid lines present generative model. $\boldsymbol{\phi}$ is parameters of variational distribution $q_{\boldsymbol{\phi}}(z \| x)$. $\boldsymbol{\theta}$ is parameter of generative model $p(z) p_{\boldsymbol{\theta}}(x \| z) $. (b) Fig 2.2b presents VAE deep learning model. $q_{\boldsymbol{\phi}}(z \| x)$ and $p_{\boldsymbol{\theta}}(x \| z)$ are replaced by neural networks. </i> </sub>
 </div>
 <br>
 [Figure 2.2](#fig2.2) demonstrates VAE in two perspectives: (a) graphical model and (b) deep learning model. Inference model with variational distribution $ \small q_{\boldsymbol{\phi}}(z \| x)$ and generative model $ \small p(z) p_{\boldsymbol{\theta}}(x \| z)$ are performed by encoder network and decoder network respectively. The variational parameters $ \small \boldsymbol{\phi}$ and generative model's parameters $ \small \boldsymbol{\theta} $ are simultaneously optimized. While VI considers a set of data points and a set of latent variables ([part 1](/variational%20inference/OTandInference-p1/#VI)), VAE can take a single data point as input thanks to *amortized* setting. <br>
@@ -191,7 +191,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Minimizing KL divergence between variational posterior and true posterior equivalents to maximizing ELBO $ \small \ell$. The variational lower bound of a single data point $x_i$:
+Minimizing KL divergence between variational posterior and true posterior equivalents to maximizing ELBO $ \small \ell$. The variational lower bound of a single data point $ \small x_i$:
 <br>
 {% raw %}
 $$ \small

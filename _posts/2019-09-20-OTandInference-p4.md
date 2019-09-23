@@ -21,7 +21,7 @@ We now have enough materials to study VI models whose objective functions are de
 
 WAE ([Tolstikhin *et al.*, 2018](https://openreview.net/pdf?id=HkL7n1-0b)) is similar to VAE in both model-architecture and target-function. In structural term, WAE and VAE both employ 2 neural networks, one is encoder that encodes data into latent variables, another is decoder that reconstructs data from learned latent representation. In term of target, they both aim to minimize the reconstruction loss and regularize latent variables. The difference is that WAE takes Wasserstein distance instead of KL divergence as its objective (recall that VAE tries to maximize a marginal log-likelihood which leads to KL loss). <br>
 
-Given observation $ \small X \in \mathcal{X}$ with distribution $ \small P_X$, WAE models data by introducing latent variable $ \small Z \in \mathcal{Z}$ with prior $ \small P_Z$. The inference network $ \small Q_Z(Z|X)$, i.e. encoder learns $Z$ from $X$ whilst generative network $ \small P_G(X|Z)$, i.e. decoder reconstructs data from latent variables. Marginal distribution $ \small Q_Z$ of $ \small Z$ can be obtained through inference model when $ \small X \sim P_X$ and $ \small Z \sim Q_Z(Z|X)$. It can be expressed in a form of density:
+Given observation $ \small X \in \mathcal{X}$ with distribution $ \small P_X$, WAE models data by introducing latent variable $ \small Z \in \mathcal{Z}$ with prior $ \small P_Z$. The inference network $ \small Q_Z(Z|X)$, i.e. encoder learns $ \small Z$ from $ \small X$ whilst generative network $ \small P_G(X|Z)$, i.e. decoder reconstructs data from latent variables. Marginal distribution $ \small Q_Z$ of $ \small Z$ can be obtained through inference model when $ \small X \sim P_X$ and $ \small Z \sim Q_Z(Z|X)$. It can be expressed in a form of density:
 <br>
 {% raw %}
 $$ \small
@@ -296,7 +296,7 @@ On the other hand, if $ \small p_X$ and $ \small p_Y$ are already known, ($\ref{
 </div>
 
 <div style="text-align: center;">
-<a name="fig4.2"></a> <sub> <i> Fig4.2: Top row: one-dimensional distribution densities are known (top left), the Wasserstein distance then can be analytically computed (top right). Bottom row: only samples of distributions are available (bottom left), then $ \small a_m = c(x_{i[m]}. y_{j[m]} ) $ where $ \small x_{i[m]}. y_{j[m]}$ are sorted in ascending order (bottom right). (Source: <a href="https://arxiv.org/abs/1804.01947"> Kolouri et al., 2018. </a>). </i> </sub>
+<a name="fig4.2"></a> <sub> <i> Fig4.2: Top row: one-dimensional distribution densities are known (top left), the Wasserstein distance then can be analytically computed (top right). Bottom row: only samples of distributions are available (bottom left), then $a_m = c(x_{i[m]}. y_{j[m]})$ where $x_{i[m]}. y_{j[m]}$ are sorted in ascending order (bottom right). (Source: <a href="https://arxiv.org/abs/1804.01947"> Kolouri et al., 2018. </a>). </i> </sub>
 </div>
 <br>
 
@@ -359,7 +359,7 @@ $$ \small
 $$
 {% endraw %}
 
-The Wasserstein distance of joint-distributions can be estimated by its empirical Wasserstein distance (thus Monte Carlo estimator of its gradient can be obtained) because of next theorem:
+The Wasserstein distance of joint-distributions can be estimated by its empirical Wasserstein distance (thus Monte Carlo estimator of its gradient can be obtained) because of next theorem: <br>
 <a name="thrm4.5"></a> **Theorem 4.5**: <i>Let $ \small W_c(p_n, q_n)$ is the Wasserstein distance between two empirical distributions $ \small p^{\*}, q^{\*}$. For $n$ tends to infinity, there exists a positive number $s$ such that: </i>
 <br>
 {% raw %}
@@ -403,7 +403,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-In $\ref{eq4.13}$, $\omega_i$s are weights of each cost. $ \small d(\cdot, \cdot)$ is a metric distance on the observable space, i.e. data space. $ \small C_{PB}^{p}(\cdot, \cdot)$, $C_{LA}^{q}(\cdot, \cdot)$, $ \small C_{OA}^{p}(\cdot, \cdot)$ are correspondingly divergences for latent space, latent autoencoder cost and observable autoencoder cost. They are defined as:
+In $\ref{eq4.13}$, $\omega_i$s are weights of each cost. $ \small d(\cdot, \cdot)$ is a metric distance on the observable space, i.e. data space. $ \small C_{PB}^{p}(\cdot, \cdot)$, $ \small C_{LA}^{q}(\cdot, \cdot)$, $ \small C_{OA}^{p}(\cdot, \cdot)$ are correspondingly divergences for latent space, latent autoencoder cost and observable autoencoder cost. They are defined as:
 <br>
 {% raw %}
 $$ \small
