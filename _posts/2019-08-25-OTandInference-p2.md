@@ -298,7 +298,7 @@ $$ \small
 $$
 {% endraw %}
 
-Finally, objective function of VAE:
+Finally, objective function of (Gaussian latent) VAE:
 <br>
 {% raw %}
 $$ \small
