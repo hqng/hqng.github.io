@@ -104,7 +104,7 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-Note that $\log p(\mathbf{x})$ is a constant quantity w.r.t $\boldsymbol{\theta}$, to minimize $\text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} | \mathbf{x}))$ is equivalent to maximize the ELBO. One way of computing ELBO analytically is to restrict models to conjugate exponential family distribution. But we will focus on other approaches which are related to VAE.
+Note that $\log p(\mathbf{x})$ is a constant quantity w.r.t $\boldsymbol{\theta}$, to minimize $\text{KL}(q_{\boldsymbol{\theta}}(\mathbf{z}) \parallel p(\mathbf{z} \| \mathbf{x}))$ is equivalent to maximize the ELBO. One way of computing ELBO analytically is to restrict models to conjugate exponential family distribution. But we will focus on other approaches which are related to VAE.
 
 ### <a name="MFVI"></a> Mean-Field VI (MFVI)
 
@@ -117,8 +117,8 @@ q_{\boldsymbol{\theta}}(\mathbf{z}) = \prod_{j=1}^{M} q_{\theta_j}(z_j) \label{e
 \end{align}
 $$
 {% endraw %}
-Remember that mean-field approximation does not concern the correlation between latent variables, it becomes less accurate when true posterior variables are highly dependent.
-<br>
+Remember that mean-field approximation does not concern the correlation between latent variables, it becomes less accurate when true posterior variables are highly dependent. <br>
+
 For brevity, we shorten $q_{\theta_j}(z_j)$ to $q(z_j)$ and denote $ \mathbf{z}\_{-j} = \mathbf{z} \setminus \{z_j\} $ as the latent set excluding variable $ z_j $.
 By the assumption, we have:
 <br>
@@ -131,7 +131,6 @@ p(\mathbf{x}, \mathbf{z}) &= p(z_j, \mathbf{x} | z_{-j}) q(\mathbf{z}_{-j}) \non
 \end{align}
 $$
 {% endraw %}
-<br>
 Hence:
 <br>
 {% raw %}
@@ -242,10 +241,9 @@ Various VI models are not feasible for big datasets, for instance, MFVI's updati
 <a name="fig1.1"></a> <sub> <i> Fig1.1: Graphical model of SVI: observations $x_i$, local underlying variables $z_i$s, global latent variable $\mathbf{y}$, local variational parameter $\theta_i$, global variational parameter $\boldsymbol{\phi}$, hyper-parameter $\alpha$. Dashed line indicate variational approximation. </i> </sub>
 </div>
 <br>
+Instead of only considering local (per data point) latent variable $z_i$ and their corresponding variational parameter $\theta_i$, SVI introduces global latent variable $\mathbf{y}$ and global variational parameter $\boldsymbol{\phi}$. In detail, we have $ \\{ z_i \text{s}, \mathbf{y} \\} $ as latent variables and $ \{ \theta_i, \boldsymbol{\phi} \} $ as variational parameter for $i = 1, 2, \dots, N$ (recall that $N$ is number of observations). Furthermore, we assume the model depends on a hyper-paremeter $\alpha$. Unlike vanilla VI, SVI's objective is summed over contributions of all $N$ individual data points. This setting allows stochastic optimization work. Later we will learn that VAE also adopts it. <br>
 
-Instead of only considering local (per data point) latent variable $z_i$ and their corresponding variational parameter $\theta_i$, SVI introduces global latent variable $\mathbf{y}$ and global variational parameter $\boldsymbol{\phi}$. In detail, we have $ \\{ z_i \text{s}, \mathbf{y} \\} $ as latent variables and $ \{ \theta_i, \boldsymbol{\phi} \} $ as variational parameter for $i = 1, 2, \dots, N$ (recall that $N$ is number of observations). Furthermore, we assume the model depends on a hyper-paremeter $\alpha$. Unlike vanilla VI, SVI's objective is summed over contributions of all $N$ individual data points. This setting allows stochastic optimization work. Later we will learn that VAE also adopts it.
-<br>
-Variational distribution follows below assumption: 
+Variational distribution follows below assumption:
 <br>
 {% raw %}
 $$ \small
@@ -256,7 +254,6 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
 Joint distribution is factorization of global term and local terms: 
 <br>
 {% raw %}
@@ -268,7 +265,6 @@ p(x_i, z_i \mid \mathbf{y}, \alpha) &= p(x_i \mid z_i, \mathbf{y}, \alpha) p(z_i
 \end{align}
 $$
 {% endraw %}
-<br>
 SVI's objective then becomes: 
 <br>
 {% raw %}
@@ -292,11 +288,11 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-$i_s$s are indices of mini-batch that must be uniformly drawn at random. $S$ is often chosen such that $1 \leq S \ll N$.
-<br>
-Computation cost on small batch-size $S$ is less expensive than on entire dataset. A noisy estimator of gradient of ELBO then can be achieved via $\hat{\mathcal{L}}$. As a result, optimal of the objective function can be acquired using stochastic gradient optimization. Several important results of SVI models have been published, one may refer to ([Hensman *et al.*, 2012](https://arxiv.org/abs/1206.5162)), ([Khan *et al.*, 2018](https://arxiv.org/abs/1807.04489), [Hoffman *et al.*, 2013](http://jmlr.org/papers/v14/hoffman13a.html)) for more details.
-<br>
-Lastly, there is a trade-off between computation's efficiency and gradient estimator's variance. Large batch-size $S$ which consumes more computational resource reduces variance of gradient estimate. In this case, less noisy gradient allows us to have larger learning rate, thus it's faster to reach the convergence state and also more favored for global parameters to perform inference. On the other hand, small mini-batches relaxes the cost of iterating over local parameters. Various methods have been proposed to address this problem, notably can include *adaptive learning rate and mini-batch size* and *variance reduction*. It's worth to mention that alongside stochastic VI, there exists other interesting approaches to speed up convergence process such as *Collapsed*, *Sparse*, and *Distributed VI*. All of them leverage the structure of certain models to attain the goal ([Zhang *et al.*, 2017](https://arxiv.org/abs/1711.05597)).<br>
+$i_s$s are indices of mini-batch that must be uniformly drawn at random. $S$ is often chosen such that $1 \leq S \ll N$. <br>
+
+Computation cost on small batch-size $S$ is less expensive than on entire dataset. A noisy estimator of gradient of ELBO then can be achieved via $\hat{\mathcal{L}}$. As a result, optimal of the objective function can be acquired using stochastic gradient optimization. Several important results of SVI models have been published, one may refer to ([Hensman *et al.*, 2012](https://arxiv.org/abs/1206.5162)), ([Khan *et al.*, 2018](https://arxiv.org/abs/1807.04489), [Hoffman *et al.*, 2013](http://jmlr.org/papers/v14/hoffman13a.html)) for more details. <br>
+
+Lastly, there is a trade-off between computation's efficiency and gradient estimator's variance. Large batch-size $S$ which consumes more computational resource reduces variance of gradient estimate. In this case, less noisy gradient allows us to have larger learning rate, thus it's faster to reach the convergence state and also more favored for global parameters to perform inference. On the other hand, small mini-batches relaxes the cost of iterating over local parameters. Various methods have been proposed to address this problem, notably can include *adaptive learning rate and mini-batch size* and *variance reduction*. It's worth to mention that alongside stochastic VI, there exists other interesting approaches to speed up convergence process such as *Collapsed*, *Sparse*, and *Distributed VI*. All of them leverage the structure of certain models to attain the goal ([Zhang *et al.*, 2017](https://arxiv.org/abs/1711.05597)). <br>
 
 
 ## [***Part 2***](/variational%20inference/OTandInference-p2/)
