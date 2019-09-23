@@ -276,8 +276,8 @@ $$
 
 Strong concavity property of entropic regularization ensures the solution of ($\ref{eq3.12}$) is unique. Moreover, it can achieve a differentiable solution using Sinkhorn's algorithm. To come up with Sinkhorn iteration, we need an additional proposition.<br>
 
-**Prop.** If {% raw %} $P_{\epsilon} \mathrel{\vcenter{:}}= \arg \min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle \- \epsilon \mathcal{H}(P) $ {% endraw %} then: {% raw %} $ \exists ! u \in \mathbb{R}\_{+}^{n}, v \in \mathbb{R}\_{+}^{m} $ {% endraw %} such that: 
-{% raw %} $$ P_{\epsilon}=\operatorname{diag}(u) K \operatorname{diag}(v) \: \text{with} \: K \mathrel{\vcenter{:}}= e^{-M_{X Y} / \epsilon} $$ {% endraw %}
+**Prop.1** If {% raw %} $P_{\epsilon} \mathrel{\vcenter{:}}= \arg \min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle \- \epsilon \mathcal{H}(P) $ {% endraw %} then: {% raw %} $ \exists ! u \in \mathbb{R}\_{+}^{n}, v \in \mathbb{R}\_{+}^{m} $ {% endraw %} such that: 
+{% raw %} $$ P_{\epsilon}=\operatorname{diag}(u) K \operatorname{diag}(v) \: \text{with} \: K \mathrel{\vcenter{:}}= e^{-M_{X Y} / \epsilon} $$ {% endraw %} <a name="prop1"></a>
 
 *Proof*: <br>
 We have:
@@ -344,7 +344,7 @@ $$ \small
 $$ &#8718;
 {% endraw %}
 
-The above prop. suggests that if there exists a solution for regularized Wasserstein, it is unique and possibly computed once $u, v$ are available. As seen in the proof, these quantities can be approximated by repeating the last equation, in detail:<br> 
+The above [prop.](#prop1) suggests that if there exists a solution for regularized Wasserstein, it is unique and possibly computed once $u, v$ are available. As seen in the proof, these quantities can be approximated by repeating the last equation, in detail:<br> 
 
 **Sinkhorn's algorithm**: Input $M_{XY}, \epsilon, a, b$. Initialize $u, v$. Calculate $K = e^{-M_{XY}/\epsilon}$. Repeat until convergence:
 <br>
