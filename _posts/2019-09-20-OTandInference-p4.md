@@ -15,13 +15,13 @@ excerpt: "The fourth part of blog series about optimal transport, Wasserstein di
 
 ## VI with Wasserstein distance
 
-We now have enough materials to study VI models whose objective functions are derived from Wasserstein distance. Frist three models we look at are Wasserstein Autoencoders (WAE) and its variants, Sinkhorn Autoencoders (SAE) and Sliced-WAE. The last one we consider is Wasserstein Variational Inference (WVI) whose cost function is different from other three.
+We now have enough materials to study VI models whose objective functions are derived from Wasserstein distance. The first three models we look at are Wasserstein Autoencoders (WAE) and its variants, Sinkhorn Autoencoders (SAE) and Sliced-WAE. The last one we consider is Wasserstein Variational Inference (WVI) whose cost function is different from the other three.
 
 ### Wasserstein Autoencoders
 
 WAE ([Tolstikhin *et al.*, 2018](https://openreview.net/pdf?id=HkL7n1-0b)) is similar to VAE in both model-architecture and target-function. In structural term, WAE and VAE both employ 2 neural networks, one is encoder that encodes data into latent variables, another is decoder that reconstructs data from learned latent representation. In term of target, they both aim to minimize the reconstruction loss and regularize latent variables. The difference is that WAE takes Wasserstein distance instead of KL divergence as its objective (recall that VAE tries to maximize a marginal log-likelihood which leads to KL loss). <br>
 
-Given observation $ \small X \in \mathcal{X}$ with distribution $ \small P_X$, WAE models data by introducing latent variable $ \small Z \in \mathcal{Z}$ with prior $ \small P_Z$. The inference network $ \small Q_Z(Z|X)$, i.e. encoder learns $ \small Z$ from $ \small X$ whilst generative network $ \small P_G(X|Z)$, i.e. decoder reconstructs data from latent variables. Marginal distribution $ \small Q_Z$ of $ \small Z$ can be obtained through inference model when $ \small X \sim P_X$ and $ \small Z \sim Q_Z(Z|X)$. It can be expressed in a form of density:
+Given observation $ \small X \in \mathcal{X}$ with distribution $ \small P_X$, WAE models data by introducing latent variable $ \small Z \in \mathcal{Z}$ with prior $ \small P_Z$. The inference network $ \small Q_Z(Z|X)$, i.e. encoder, learns $ \small Z$ from $ \small X$ whilst generative network $ \small P_G(X|Z)$,i.e. decoder, reconstructs data from latent variables. Marginal distribution $ \small Q_Z$ of $ \small Z$ can be obtained through inference model when $ \small X \sim P_X$ and $ \small Z \sim Q_Z(Z|X)$. It can be expressed in a form of density:
 <br>
 {% raw %}
 $$ \small
@@ -61,7 +61,7 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-The L.H.S is exactly the primal form of Wasserstein distance between $ \small P_G$ and $ \small P_X$. By Lagrange multiplier, we can rewrite the problem to obtain WAE's objective:
+The L.H.S is exactly the primal form of Wasserstein distance between $ \small P_G$ and $ \small P_X$. By Lagrange multiplier, we can rewrite the problem to arrive with WAE's objective:
 <br>
 {% raw %}
 $$ \small
@@ -73,7 +73,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-In the paper, $ \small c$ is set as $ \small L_2-norm$. Recall that gradients of latent variables (w.r.t model's parameters) are necessary for stochastic gradient optimization, $ \small \mathcal{D}_Z$ should be non-difficult to compute/estimate gradient. The authors consider 2 options. The first choice of $ \small \mathcal{D}_Z$ is Jensen-Shannon divergence $ \small \mathcal{D}\_{JS}$, the second is MMD.
+In the paper, $ \small c$ is set as $ \small L_2-norm$. Because gradients of latent variables (w.r.t model's parameters) are necessary for stochastic gradient optimization, $ \small \mathcal{D}_Z$ should be non-difficult to compute/estimate these gradients. The authors consider 2 options. The first choice of $ \small \mathcal{D}_Z$ is Jensen-Shannon divergence $ \small \mathcal{D}\_{JS}$; the second is MMD.
 
 In former case, $ \small \mathcal{D}\_{JS}$ is estimated by adversarial training on latent samples. It turns into min-max problem, similar to GAN, but on latent space instead:
 <a name="alg4.1"></a> <br>
@@ -133,7 +133,7 @@ $ \small Q_\phi(Z|X)$ in algorithms [4.1](#alg4.1), [4.2](#alg4.2) can be non-ra
 
 ### Sinkhorn AE
 
-Sinkhorn AE ([Patrini *et al.*, 2019](https://openreview.net/pdf?id=BygNqoR9tm)) has the same objective as WAE except the regularization on latent space. In stead of GAN-based or MMD-based, SAE minimize a Wasserstein distance between $ \small Q_Z$ and $ \small P_Z$, i.e. $ \small \mathcal{D}_Z$ is Wasserstein distance. But computing Wasserstein on continuous distribution is difficult, SAE overcomes this problem by considering samples from such distribution as Dirac deltas. Since expectation of Dirac function defines a discrete distribution, it allows us to approximate Wasserstein distance by differentiable Sinkhorn iteration (section [optimal transport](/variational%20inference/OTandInference-p3/#OT)). <br>
+Sinkhorn AE ([Patrini *et al.*, 2019](https://openreview.net/pdf?id=BygNqoR9tm)) has the same objective as WAE except the regularization on latent space. In stead of GAN-based or MMD-based, SAE minimizes a Wasserstein distance between $ \small Q_Z$ and $ \small P_Z$, i.e. $ \small \mathcal{D}_Z$ is Wasserstein distance. But computing Wasserstein on continuous distribution is very challenging, SAE overcomes this problem by considering samples from such distribution as Dirac deltas, i.e. estimating empirical distributrion from its samples. Since expectation of Dirac function defines a discrete distribution, it allows us to approximate Wasserstein distance by differentiable Sinkhorn iteration (section [optimal transport](/variational%20inference/OTandInference-p3/#OT)). <br>
 
 Given 2 discrete distributions on support of $ \small M$ points $ \small \hat{P} = \frac{1}{M} \sum_{i=1}^{M} \delta_{z_{i}}$, $\hat{Q}= \frac{1}{M} \sum_{i=1}^{M} \delta_{\tilde{z}_{i}}$. Follow [3.10](/variational%20inference/OTandInference-p3/#eq3.10), empirical Wasserstein distance associated with cost function $ \small c'$ is:
 <br>
@@ -193,7 +193,7 @@ $$
 
 By [theorem 4.2](#thrm4.2), Wasserstein distance between data and generative model distributions has an upper bound, minimizing this bound leads to minimizing discrepancy between $ \small P_X$ and $ \small P_G$. Furthermore, the upper bound includes Wasserstein distance between aggregated posterior and the prior, we can estimate this distance by Sinkhorn on their samples. [Theorem 4.3](#thrm4.3) allows us to have an deterministic auto-encoders, i.e. both $ \small G(X\|Z)$ and $ \small Q(Z\|X)$ are deterministic. The last one, [theorem 4.4](#thrm4.4) means that under perfect-reconstruction assumption, matching aggregated posterior and prior is: *(i)* sufficient and *(ii)* necessary to model data distribution. This theorem reminds us to choose proper prior. Previous research have shown that the choice of prior should encourage geometric properties of latent space since it provide remarkable performance of representation learning. The authors consider few options: spherical, Dirichlet prior. <br>
 
-Finally, Sinkhorn algorithm for estimating Wasserstein distance of $ \small Q_Z$ and $ \small P_Z$:
+Finally, Sinkhorn algorithm for estimating Wasserstein distance between $ \small Q_Z$ and $ \small P_Z$:
 <a name="alg4.3"></a> <br>
 {% include pseudocode.html id="alg4.3" code="
 \begin{algorithm}
@@ -213,9 +213,9 @@ Finally, Sinkhorn algorithm for estimating Wasserstein distance of $ \small Q_Z$
 
 ### Sliced-WAE
 
-Sliced-WAE ([Kolouri *et al.*, 2018](https://arxiv.org/abs/1804.01947)) is another way to minimize the discrepancy between aggregated posterior and prior distributions. Similar to SAE, Sliced-WAE measures this discrepancy by Wasserstein distance but utilizes different approximation algorithm. It is based on the fact that computing this distance of univariate distributions is analytically simple. Hence, Sliced-WAE approximates Wasserstein distance on high-dimensional space through 2 steps: (1) projecting its distributions into sets of one-dimensional distributions, (2) estimating the original distance via Wasserstein distances of projected representations. <br>
+Sliced-WAE ([Kolouri *et al.*, 2018](https://arxiv.org/abs/1804.01947)) yields another way to minimize the discrepancy between aggregated posterior $\small Q_Z$ and prior distributions $\small P_Z$. Similar to SAE, Sliced-WAE measures this discrepancy by Wasserstein distance but utilizes different approximation algorithm. It is based on the fact that computing this distance of univariate distributions is analytically simple. Hence, Sliced-WAE approximates Wasserstein distance on high-dimensional space through 2 steps: *(1)* projecting its distributions into sets of one-dimensional distributions, *(2)* estimating the original distance via Wasserstein distances of projected representations. <br>
 
-To project high-dimensional distribution on one-dimensional space, we use *Radon transform*:
+To project high-dimensional distribution on one-dimensional space, it uses *Radon transform*:
 <br>
 {% raw %}
 $$ \small
@@ -225,7 +225,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-For a fixed $ \small \theta \in \mathbb{S}^{d-1}$, $\mathcal{R}p_X(\cdot; \theta) = \int_{\mathbb{R}} \mathcal{R}p_X(t; \theta)dt $ is an one-dimensional slice of distribution $ \small p_X$, it can be obtained by integrating $ \small p_X$ over hyperplane orthogonal to $ \small \theta$. [Fig 4.1](#fig4.1) visualizes the projection with different $ \small \theta$s:
+For a fixed $ \small \theta \in \mathbb{S}^{d-1}$, $\small \mathcal{R}p_X(\cdot; \theta) = \int_{\mathbb{R}} \mathcal{R}p_X(t; \theta)dt $ is an one-dimensional slice of distribution $ \small p_X$, it can be obtained by integrating $ \small p_X$ over hyperplane orthogonal to $ \small \theta$. [Fig 4.1](#fig4.1) visualizes the projection with different $ \small \theta$s:
 
 <div style="text-align: center;">
 <img src="{{ '/assets/otvi/SWAESlicedDist.png' | relative_url }}" alt="SWAE Sliced Dist" width="50%" /> 
@@ -236,7 +236,7 @@ For a fixed $ \small \theta \in \mathbb{S}^{d-1}$, $\mathcal{R}p_X(\cdot; \theta
 </div>
 <br>
 
-A tricky situation is that only samples of distribution are observed. In such case, we can estimate and transform their empirical distributions. Suppose $ \small x_m \sim p_X, \: m=1,\dots,M$, empirical distribution and its projection are:
+A tricky situation is that only samples of distribution are observed. In such case, we can estimate and transform their empirical distributions (just like Sinkhorn VAE). Suppose $ \small x_m \sim p_X, \\: m=1,\dots,M$, empirical distribution and its projection are:
 <br>
 {% raw %}
 $$ \small
@@ -277,9 +277,10 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Thus if every sliced Wasserstein distances are calculated, then by ($\ref{eq4.6}$), Wasserstein distance of non-projected distributions can be accomplished. <br>
+Thus if every sliced Wasserstein distance is calculated, then by ($\ref{eq4.6}$), Wasserstein distance of non-projected distributions can be accomplished. <br>
 
-Assume $ \small p_X$, $ \small p_Y$ are 2 one-dimensional densities and we only have their samples $ \small x_m \sim p_X$, $ \small y_m \sim p_Y$. Like Sinkhorn AE, $ \small p_{X}^{\*} = \frac{1}{M} \sum_{m=1}^{M} \delta_{x_m}$ and $p_{Y}^{\*} = \frac{1}{M} \sum_{m=1}^{M} \delta_{y_m}$ are empirical distributions. It results their cumulative distribution functions as $ \small P_X(t) = \frac{1}{M} \sum_{m=1}^{M} u(t-x_m) $, $ \small P_Y(t) = \frac{1}{M} \sum_{i=1}^{M} u(t-y_m) $ where $ \small u(\cdot)$ is step function. If we sort $ \small x_m$s in ascending order, i.e. $ \small x_{i[m]} \leq x_{i[m+1]}$ where $ \small i[m]$ is index of sorted $ \small x_m$s, clearly we achieve $ \small P_X^{-1} (\tau_m) = x_{i[m]} $. Hence, for sorted $ \small x_m$s and $ \small y_m$s, the Wasserstein distance is:
+Assume $ \small p_X$, $ \small p_Y$ are 2 one-dimensional densities and we only have their samples $ \small x_m \sim p_X$, $ \small y_m \sim p_Y$. Same as Sinkhorn AE, $ \small p_{X}^{\*} = \frac{1}{M} \sum_{m=1}^{M} \delta_{x_m}$ and $p_{Y}^{\*} = \frac{1}{M} \sum_{m=1}^{M} \delta_{y_m}$ are empirical distributions. It results their cumulative distribution functions as $ \small P_X(t) = \frac{1}{M} \sum_{m=1}^{M} u(t-x_m) $, $ \small P_Y(t) = \frac{1}{M} \sum_{i=1}^{M} u(t-y_m) $ where $ \small u(\cdot)$ is step function.
+If we sort $ \small x_m$s in ascending order, i.e. $ \small x_{i[m]} \leq x_{i[m+1]}$ where $ \small i[m]$ is index of sorted $ \small x_m$s, clearly we achieve $ \small P_X^{-1} (\tau_m) = x_{i[m]} $. Hence, for sorted $ \small x_m$s and $ \small y_m$s, the Wasserstein distance is:
 <br>
 {% raw %}
 $$ \small
@@ -300,7 +301,7 @@ On the other hand, if $ \small p_X$ and $ \small p_Y$ are already known, ($\ref{
 </div>
 <br>
 
-Combine ($\ref{eq4.4a}$), ($\ref{eq4.6}$) and ($\ref{eq4.7}$) together, the discrepancy between $ \small P_Z$ and $ \small Q_Z$ can be measured by sliced Wasserstein distance $ \small SW_c(P_Z, Q_Z)$. But the integration over $ \small d$-dimensional unit sphere $ \small \mathbb{S}^{d-1}$ (often $ \small \mathbb{R}^d$) of ($\ref{eq4.6}$) is practically expensive. The solution is to substitute with following summation:
+Combine ($\ref{eq4.4a}$), ($\ref{eq4.6}$) and ($\ref{eq4.7}$) together, the discrepancy between $ \small P_Z$ and $ \small Q_Z$ can be measured by sliced Wasserstein distance $ \small SW_c(P_Z, Q_Z)$. But the integration over $ \small d$-dimensional unit sphere $ \small \mathbb{S}^{d-1}$ (often $ \small \mathbb{R}^d$) in ($\ref{eq4.6}$) is practically expensive. The solution is to substitute it with following summation:
 <br>
 {% raw %}
 $$ \small
@@ -335,7 +336,7 @@ Finally, Sliced-WAE algorithm for training procedure:
 
 ### Wasserstein VI (WVI)
 
-Although WVI ([Ambrogioni *et at.*, 2018](https://arxiv.org/abs/1805.11284)) also utilizes Wasserstein distance, its objective is different from above approaches. In particular, WVI adapts joint-contrastive variational inference by considering a divergence between joint distributions,i.e. $ \small \mathcal{D}(p(x,z) \parallel q(x,z))$ (while tradition VI is referred as posterior-contrastive). Using Wasserstein distance as the divergence, WVI's objective is to minimize the following loss:
+Although WVI ([Ambrogioni *et at.*, 2018](https://arxiv.org/abs/1805.11284)) also utilizes Wasserstein distance, its objective is different from above approaches. In particular, WVI adapts joint-contrastive variational inference by considering a divergence between joint distributions, i.e. $ \small \mathcal{D}(p(x,z) \parallel q(x,z))$ (while classic VI is referred as posterior-contrastive). Using Wasserstein distance as the divergence, WVI's objective is to minimize the following loss:
 <br>
 {% raw %}
 $$ \small
@@ -359,7 +360,8 @@ $$ \small
 $$
 {% endraw %}
 
-The Wasserstein distance of joint-distributions can be estimated by its empirical Wasserstein distance (thus Monte Carlo estimator of its gradient can be obtained) because of next theorem: <br>
+The Wasserstein distance of joint-distributions can be estimated by its empirical Wasserstein distance (thus Monte Carlo estimator of its gradient can be obtained) because of next theorem:
+<br>
 <a name="thrm4.5"></a> **Theorem 4.5**: <i>Let $ \small W_c(p_n, q_n)$ is the Wasserstein distance between two empirical distributions $ \small p^{\*}, q^{\*}$. For $n$ tends to infinity, there exists a positive number $s$ such that: </i>
 <br>
 {% raw %}
@@ -369,7 +371,7 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-See ([Ambrogioni *et at.*, 2018](https://arxiv.org/abs/1805.11284)) for its proof.
+See ([Ambrogioni *et at.*, 2018](https://arxiv.org/abs/1805.11284)) for its proof.<br>
 Since Monte Carlo method is biased with finite value of $n$, to obtain an unbiased gradient estimator, we need to modify the objective to eliminate bias:
 <br>
 {% raw %}
@@ -393,7 +395,7 @@ $$ \small
 $$
 {% endraw %}
 
-WVI employs loss $ \small \tilde{\mathcal{L}}$ to measure discrepancy between distributions on different space and then combine them together to arrive its objective function:
+WVI employs loss $ \small \tilde{\mathcal{L}}$ to measure discrepancy between distributions on different space and then combine them together to attain its objective function:
 <br>
 {% raw %}
 $$ \small
@@ -403,7 +405,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-In $\ref{eq4.13}$, $\omega_i$s are weights of each cost. $ \small d(\cdot, \cdot)$ is a metric distance on the observable space, i.e. data space. $ \small C_{PB}^{p}(\cdot, \cdot)$, $ \small C_{LA}^{q}(\cdot, \cdot)$, $ \small C_{OA}^{p}(\cdot, \cdot)$ are correspondingly divergences for latent space, latent autoencoder cost and observable autoencoder cost. They are defined as:
+In $\ref{eq4.13}$, $ \small \omega_i$s are *weights* of each cost. $ \small d(\cdot, \cdot)$ is a *metric distance on the observable space*, i.e. data space. $ \small C_{PB}^{p}(\cdot, \cdot)$, $ \small C_{LA}^{q}(\cdot, \cdot)$, $ \small C_{OA}^{p}(\cdot, \cdot)$ are *divergence for latent space*, *latent autoencoder cost* and *observable autoencoder cost* respectively. They are defined as:
 <br>
 {% raw %}
 $$ \small
@@ -415,6 +417,7 @@ $$ \small
 $$
 {% endraw %}
 where $ \small h_q(x)$ and $ \small g_p(z)$ are deterministic functions represent for encoder and decoder respectively.<br>
+In the paper, experements are conducted with different settings of weights $\small \omega_i$s, e.g. one or two of them may be set to $ \small 0$.
 
 The last cost function, $ \small C_f^{p,q}(\cdot,\cdot)$ is $ \small f$-divergence respect to a convex function $ \small f$ such that $ \small f(0)=1$:
 <br>
@@ -429,5 +432,5 @@ Note that when $f$ satisfies above condition, $ \small C_f^{p,q}(\cdot,\cdot)$ i
 
 ### Conclusion
 
-We have studied several variational inference/autoencoders approaches which involve with Wasserstein distance. The experiments confirm their capability of learning representations that have geometric properties. Moreover, they allow special setting of model such as deterministic encoders, hence their encoder is less blur.
+We have studied several variational inference/autoencoders approaches which involve with Wasserstein distance. The experiments confirm their capability of learning representations that have geometric properties (see details at those papers). Moreover, they allow special setting of model such as deterministic encoders which result less blur encoders compared to VAE. 
 

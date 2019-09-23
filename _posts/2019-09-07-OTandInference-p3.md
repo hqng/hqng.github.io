@@ -70,7 +70,7 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-Problem ($\ref{eq3.2}$) is primal form, it can be derived to duality formula: given 2 real-valued functions $ \small \varphi$, $ \small \psi$ on $ \small \Omega$:
+Problem ($\ref{eq3.2}$) is primal form, it can be derived to duality formula. Given 2 real-valued functions $ \small \varphi$, $ \small \psi$ on $ \small \Omega$ such that:
 <br>
 {% raw %}
 $$ \small
@@ -165,7 +165,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-The R.H.S of ($\ref{eq3.6}$) is called $ \small D^p$-transform (of $ \small \varphi$), of course we might exchange $ \small \varphi$ for $ \small \psi$ and get the $ \small D^p$-transform of $ \small \psi$ instead. The duality of $ \small p$-Wasserstein now can be rewritten in semi-duality form:
+The R.H.S of ($\ref{eq3.6}$) is called $ \small D^p$-transform (of $ \small \varphi$); of course we might exchange $ \small \varphi$ for $ \small \psi$ and get the $ \small D^p$-transform of $ \small \psi$ instead. The duality of $ \small p$-Wasserstein now can be rewritten in semi-duality form:
 <br>
 {% raw %}
 $$ \small
@@ -175,7 +175,7 @@ W_p^p (\mu, \nu) = \sup_{\varphi} \int \varphi d \mu + \int \bar{\varphi} d \nu 
 $$
 {% endraw %}
 
-Recall the definition of **$ \small D^p$-concavity**: a function $ \small \varphi (x)$ is $ \small D^p$-concave if there exists $ \small \phi(y)$ such that: $ \small \varphi(x) = \bar{\phi}(x)$ (where $ \small \varphi,\: \phi$ are "well-defined" on $ \small \Omega$). Thus, if $ \small \varphi$ is $ \small D^p$-concave: $ \small \exists \phi \: \text{s.t.} \: \varphi(x) = \bar{\phi}(x) \implies \bar{\varphi}(y) = \phi(y) \implies \bar{\bar{\varphi}}(x) = \bar{\phi}(x) = \varphi(x) $. Put the constraint into ($\ref{eq3.7}$):
+Recall the definition of **$ \small D^p$-concavity**: a function $ \small \varphi (x)$ is $ \small D^p$-concave if there exists $ \small \phi(y)$ such that: $ \small \varphi(x) = \bar{\phi}(x)$ (where $ \small \varphi,\\: \phi$ are "well-defined" on $ \small \Omega$). Thus, if $ \small \varphi$ is $ \small D^p$-concave: $ \small \exists \phi \\: \text{s.t. } \varphi(x) = \bar{\phi}(x) \implies \bar{\varphi}(y) = \phi(y) \implies \bar{\bar{\varphi}}(x) = \bar{\phi}(x) = \varphi(x) $. Put the constraint into ($\ref{eq3.7}$):
 <br>
 {% raw %}
 $$ \small
@@ -190,7 +190,7 @@ In machine learning, we often take $ \small p=1$ and use $\small 1$-Wasserstein 
 {% raw %}
 $$ \small
 \begin{align}
-\mathbf{W_1}(\mu, \nu) = \sup_{\varphi \: \text{is $1$-Lipschitz}} \int_{\Omega} \varphi (d\mu - d\nu) \label{eq3.9} \tag{3.9}
+W_1 (\mu, \nu) = \sup_{\varphi \: \text{is $1$-Lipschitz}} \int_{\Omega} \varphi (d\mu - d\nu) \label{eq3.9} \tag{3.9}
 \end{align}
 $$
 {% endraw %}
@@ -249,7 +249,7 @@ W_{p}^{p}(\mu, \nu)=\max _{\alpha \in \mathbb{R}^{n}, \beta \in \mathbb{R}^{m}} 
 $$
 {% endraw %}
 
-One challenge is that solution of ($\ref{eq3.10}$),($\ref{eq3.11}$) is unstable and not always unique ([Cuturi's, 2019](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s)). Additionally, $ \small W_p^p$ is not differentiable, making training models by stochastic gradient optimization less feasible. Fortunately, entropic regularization that measures the level of uncertainty in a probability distribution can overcome these disadvantages: <br>
+One challenge is that solution of ($\ref{eq3.10}$), ($\ref{eq3.11}$) is unstable and not always unique ([Cuturi's, 2019](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s)). Additionally, $ \small W_p^p$ is not differentiable, making training models by stochastic gradient optimization less feasible. Fortunately, entropic regularization which is used to measure the level of uncertainty in a probability distribution can overcome these disadvantages: <br>
 
 **Entropic Regularization**:
 For joint distribution $ \small P(x, y)$ (in this section, we only concern about discrete distribution unless stated otherwise):
@@ -261,7 +261,7 @@ $$ \small
 \end{align*}
 $$
 {% endraw %}
-For particular $P \in U(a,b)$ : 
+For particular $\small P \in U(a,b)$ : 
 {% raw %}
 $$ \small
 \mathcal{H}(P) = -\sum_{i,j=1}^{n,m} P(x_i,y_j) \left(\log P(x_i,y_j) -1 \right) = \sum_{i,j=1}^{n,m} P_{ij} \left(\log P_{ij} -1 \right)
@@ -279,7 +279,7 @@ $$ \small
 $$
 {% endraw %}
 
-Strong concavity property of entropic regularization ensures the solution of ($\ref{eq3.12}$) is unique. Moreover, it can achieve a differentiable solution using Sinkhorn's algorithm. To come up with Sinkhorn iteration, we need an additional proposition.<br>
+Strong concavity property of entropic regularization ensures the solution of ($\ref{eq3.12}$) is unique. Moreover, it can lead to a differentiable solution using Sinkhorn's algorithm. To come up with Sinkhorn iteration, we need an additional proposition.<br>
 
 <a name="prop1"></a> **Prop.1**: <i>If $ \small P_{\epsilon} \mathrel{\vcenter{:}}= \arg \min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle \- \epsilon \mathcal{H}(P) $ then: $ \small \exists ! u \in \mathbb{R}\_{+}^{n}, v \in \mathbb{R}\_{+}^{m} $ such that: </i>
 {% raw %}
@@ -354,9 +354,9 @@ $$ \small
 $$ &#8718;
 {% endraw %}
 
-The above [prop.](#prop1) suggests that if there exists a solution for regularized Wasserstein, it is unique and possibly computed once $ \small u, v$ are available. As seen in the proof, these quantities can be approximated by repeating the last equation, in detail: <br> 
+The above [prop.](#prop1) suggests that if there exists a solution for regularized Wasserstein, it is unique and possibly computed once $ \small u, v$ are available. As seen in the proof, these quantities can be approximated by repeating the last equation. In detail: <br> 
 
-**Sinkhorn's algorithm**: Input $ \small M_{XY}, \epsilon, a, b$. Initialize $ \small u, v$. Calculate $ \small K = e^{-M_{XY}/\epsilon}$. Repeat until convergence:
+**Sinkhorn's algorithm**: <i>Input $ \small M_{XY}, \\: \epsilon, \\: a, \\: b$. Initialize $ \small u, \\: v$. Calculate $ \small K = e^{-M_{XY}/\epsilon}$. Repeat until convergence: </i>
 <br>
 {% raw %}
 $$ \small

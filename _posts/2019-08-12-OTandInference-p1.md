@@ -190,7 +190,7 @@ Our objective now becomes:
 $$ \small
 \begin{align}
 & \underset{q(z_j)}{\max} \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(z_j, \mathbf{x} | \mathbf{z}_{-j}) ] - \log q(z_j) \right)  dz_j + C_{-j}^{\prime} \label{eq1.12} \tag{1.12} \\
-\text{s.t:} & \: \int_{z_j}q(z_j)dz_j = 1, \: \forall j \in \{1,2,\dots,M \} \nonumber
+\text{s.t.:} & \: \int_{z_j}q(z_j)dz_j = 1, \: \forall j \in \{1,2,\dots,M \} \nonumber
 \end{align}
 $$
 {% endraw %}
