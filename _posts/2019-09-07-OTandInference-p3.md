@@ -337,8 +337,8 @@ $$
 $$ \small
 \implies \left\{
 	\begin{array}{ll}
-		u &= a / Kv \\
-		v &= b / K^Tu
+		{u} & {= a / Kv} \\
+		{v} & {= b / K^Tu}
 	\end{array}
 	\right. 
 $$ &#8718;
