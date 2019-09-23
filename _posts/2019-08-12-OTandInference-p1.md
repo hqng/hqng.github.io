@@ -35,7 +35,7 @@ While $ \small p(\mathbf{x}, \mathbf{z})$ can be fully observable, the integral 
 ### <a name="VanillaVI"></a> Vanilla VI
 
 We now derive the optimization problem's objective of VI. Let's consider:
-$$
+<br>
 {% raw %}
 $$ \small
 \begin{align}
@@ -44,7 +44,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Since $ \small \log$ is concave function, by Jensen's inequality: <br>
+Since $ \small \log$ is concave function, by Jensen's inequality:
 <br>
 {% raw %}
 $$ \small
@@ -56,7 +56,8 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-The quantity $ \small \mathcal{L}$ is ELBO - Evidence Lower BOund. <br>
+The quantity $ \small \mathcal{L}$ is ELBO - Evidence Lower BOund.
+<br>
 We now show that the difference between $\ \small log p(x)$ and ELBO is exactly KL divergence between variational distribution, i.e. parameterized prior $ \small q_{\boldsymbol{\theta}}(\mathbf{z})$, and posterior:
 <a name="eq1.4"></a> <br>
 {% raw %}
