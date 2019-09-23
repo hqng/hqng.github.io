@@ -279,7 +279,7 @@ $$
 {% endraw %}
 Thus if every sliced Wasserstein distances are calculated, then by ($\ref{eq4.6}$), Wasserstein distance of non-projected distributions can be accomplished. <br>
 
-Assume $p_X$, $p_Y$ are 2 one-dimensional densities and we only have their samples $x_m \sim p_X$, $y_m \sim p_Y$. Like Sinkhorn AE, $p_{X}^{\*} = \frac{1}{M} \sum_{m=1}^{M} \delta_{x_m}$ and $p_{Y}^{\*} = \frac{1}{M} \sum_{m=1}^{M} \delta_{y_m}$ are empirical distributions. It results their cumulative distribution functions as $P_X(t) = \frac{1}{M} \sum_{m=1}^{M} u(t-x_m) $, $P_Y(t) = \frac{1}{M} \sum_{i=1}^{M} u(t-y_m) $ where $u(\cdot)$ is step function. If we sort $x_m$s in ascending order, i.e. $x_{i[m]} \leq x_{i[m+1]}$ where $i[m]$ is index of sorted $x_m$s, clearly we achieve $P_X^{-1} (\tau_m) = x_{i[m]} $. Hence, for sorted $x_m$s and $y_m$s, the Wasserstein distance is:
+Assume $p_X$, $p_Y$ are 2 one-dimensional densities and we only have their samples $x_m \sim p_X$, $y_m \sim p_Y$. Like Sinkhorn AE, $p_{X}^{\*} = \frac{1}{M} \sum_{m=1}^{M} \delta_{x_m}$ and $p_{Y}^{\*} = \frac{1}{M} \sum_{m=1}^{M} \delta_{y_m}$ are empirical distributions. It results their cumulative distribution functions as $\small P_X(t) = \frac{1}{M} \sum_{m=1}^{M} u(t-x_m) $, $\small P_Y(t) = \frac{1}{M} \sum_{i=1}^{M} u(t-y_m) $ where $u(\cdot)$ is step function. If we sort $x_m$s in ascending order, i.e. $x_{i[m]} \leq x_{i[m+1]}$ where $i[m]$ is index of sorted $x_m$s, clearly we achieve $P_X^{-1} (\tau_m) = x_{i[m]} $. Hence, for sorted $x_m$s and $y_m$s, the Wasserstein distance is:
 <br>
 {% raw %}
 $$ \small
