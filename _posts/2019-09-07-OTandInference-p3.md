@@ -213,7 +213,7 @@ $$ \small \implies -\bar{\varphi}(x) \leq \inf_{y} D(x,y) - \bar{\varphi}(y) \le
 $$ \small \implies -\bar{\varphi}(x) \leq \bar{\bar{\varphi}}(x) \leq -\bar{\varphi}(x) \implies \bar{\varphi}(x) = -\bar{\bar{\varphi}}(x) = -\varphi(x)$$ &#8718;
 
 One interested in detailed proofs can refer to ([Gabriel Peyre and Marco Cuturi, 2018](https://arxiv.org/abs/1803.00567)) and [Cuturi's talk](https://www.youtube.com/watch?v=1ZiP_7kmIoc&t=1500s).
-Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form ([Genevay *et al,*, 2017](https://arxiv.org/abs/1706.01807)), $ \small 1$-Lipschitz constraint is fulfilled by weight-clipping ([Arjovsky *et al.*, 2017](https://arxiv.org/abs/1701.07875)) or penalizing gradient (WGAN-GP, [Gulrajani *et al.*, 2017](https://papers.nips.cc/paper/7159-improved-training-of-wasserstein-gans)).
+Side note: Discriminator of Wasserstein GAN serves as function $\varphi$ of semi-duality form ([Genevay *et al,*, 2017](https://arxiv.org/abs/1706.01807)), $ \small 1$-Lipschitz constraint is fulfilled by weight-clipping ([Arjovsky *et al.*, 2017](https://arxiv.org/abs/1701.07875)) or gradient-penalizing (WGAN-GP, [Gulrajani *et al.*, 2017](https://papers.nips.cc/paper/7159-improved-training-of-wasserstein-gans)).
 
 ## Empirical Wasserstein distance
 
@@ -282,7 +282,7 @@ $$
 
 Strong concavity property of entropic regularization ensures the solution of ($\ref{eq3.12}$) is unique. Moreover, it can lead to a differentiable solution using Sinkhorn's algorithm. To come up with Sinkhorn iteration, we need an additional proposition.<br>
 
-<a name="prop1"></a> **Prop.1**: <i>If $ \small P_{\epsilon} \mathrel{\vcenter{:}}= \arg \min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle \- \epsilon \mathcal{H}(P) $ then: $ \small \exists ! u \in \mathbb{R}\_{+}^{n}, v \in \mathbb{R}\_{+}^{m} $ such that: </i>
+<a name="prop1"></a> ***Prop.1***: <i>If $ \small P_{\epsilon} \mathrel{\vcenter{:}}= \arg \min_{P \in U(a, b)} \left\langle P, M_{X Y}\right\rangle \- \epsilon \mathcal{H}(P) $ then: $ \small \exists ! u \in \mathbb{R}\_{+}^{n}, v \in \mathbb{R}\_{+}^{m} $ such that: </i>
 {% raw %}
 $$ \small
 \begin{align*}

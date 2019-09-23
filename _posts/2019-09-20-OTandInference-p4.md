@@ -52,7 +52,7 @@ $$
 
 The goal of WAE is to minimize Wasserstein distance between $ \small P_X$ and $ \small P_G(X)$ distributions. Additionally, we will see later that this distance also measures the discrepancy between $ \small Q_Z(Z)$ and $ \small P_Z$. In other words, it conveniently contains both reconstruction cost and regularization term. WAE's objective bases on the next theorem.
 
-<a name="thrm4.1"></a> **Theorem 4.1**: <i>For deterministic $ \small P_G(X|Z)$, $ \small Q_Z$, $ \small P_G$ and any function $ \small G$ defined above, we have:</i>
+<a name="thrm4.1"></a> ***Theorem 4.1***: <i>For deterministic $ \small P_G(X|Z)$, $ \small Q_Z$, $ \small P_G$ and any function $ \small G$ defined above, we have:</i>
 <br>
 {% raw %}
 $$ \small
@@ -158,7 +158,7 @@ $$
 {% endraw %}
 From theoretical perspective, SAE works thanks to below theorems.
 
-<a name="thrm4.2"></a> **Theorem 4.2**: <i>If $ \small G(Z|X)$ is deterministic and $ \small \gamma-Lipschitz$ then:</i>
+<a name="thrm4.2"></a> ***Theorem 4.2***: <i>If $ \small G(Z|X)$ is deterministic and $ \small \gamma-Lipschitz$ then:</i>
 <br>
 {% raw %}
 $$ \small
@@ -169,7 +169,7 @@ $$
 {% endraw %}
 <i> If $ \small G(Z\|X) $ is stochastic, the result holds with $ \small \gamma = \sup_{\mathcal{P} \neq \mathcal{Q}} \frac{ W_p (G(X\|Z)\_{\\#} \mathcal{P}, W_p (G(X\|Z)\_{\\#} \mathcal{Q})} {W_p(\mathcal{P}, \mathcal{Q})}$ </i>
 
-<a name="thrm4.3"></a> **Theorem 4.3**: <i>Let $ \small P_X$ is not anatomic and $ \small G(X|Z)$ is deterministic. Then for every continuous cost $ \small c$:</i>
+<a name="thrm4.3"></a> ***Theorem 4.3***: <i>Let $ \small P_X$ is not anatomic and $ \small G(X|Z)$ is deterministic. Then for every continuous cost $ \small c$:</i>
 <br>
 {% raw %}
 $$ \small
@@ -180,7 +180,7 @@ $$
 {% endraw %}
 <i> Using the cost $ \small c(x,y) = {\lVert}{x - y}{\rVert}_2^p $, the equation holds with $ \small W_p^p(P_X,P_G)$ in place of $W_c(P_X,P_G)$ </i>
 
-<a name="thrm4.4"></a> **Theorem 4.4**: <i>Suppose perfect reconstruction, that is, $ \small P_X = (G \circ Q)_{\\#}P_X $. Then:</i>
+<a name="thrm4.4"></a> ***Theorem 4.4***: <i>Suppose perfect reconstruction, that is, $ \small P_X = (G \circ Q)_{\\#}P_X $. Then:</i>
 <br>
 {% raw %}
 $$ \small
@@ -362,7 +362,7 @@ $$
 
 The Wasserstein distance of joint-distributions can be estimated by its empirical Wasserstein distance (thus Monte Carlo estimator of its gradient can be obtained) because of next theorem:
 <br>
-<a name="thrm4.5"></a> **Theorem 4.5**: <i>Let $ \small W_c(p_n, q_n)$ is the Wasserstein distance between two empirical distributions $ \small p^{\*}, q^{\*}$. For $n$ tends to infinity, there exists a positive number $s$ such that: </i>
+<a name="thrm4.5"></a> ***Theorem 4.5***: <i>Let $ \small W_c(p_n, q_n)$ is the Wasserstein distance between two empirical distributions $ \small p^{\*}, q^{\*}$. For $n$ tends to infinity, there exists a positive number $s$ such that: </i>
 <br>
 {% raw %}
 $$ \small
