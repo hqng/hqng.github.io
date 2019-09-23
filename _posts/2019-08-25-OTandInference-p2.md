@@ -85,6 +85,7 @@ $$
 {% endraw %}
 From now on, ($\ref{eq2.2}$) is used for referring both cases unless stated otherwise. <br>
 -->
+
 With the transformation from distribution $ \small q(\epsilon)$ to $ \small q_{\theta}(z)$, [the probability contained in a differential area must be invariant under change of variables](https://en.wikipedia.org/wiki/Probability_density_function#Dependent_variables_and_change_of_variables), i.e. $ \small {\lvert} {q_{\theta}(z)dz} {\rvert} = {\lvert} {q(\varepsilon) d \varepsilon} {\rvert} $. Together with ($\ref{eq2.1}$), we have:
 <br>
 {% raw %}
