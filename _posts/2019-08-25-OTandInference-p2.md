@@ -183,7 +183,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-<br>
+
 {% raw %}
 $$ \small
 \begin{align}
