@@ -417,7 +417,6 @@ $$ \small
 $$
 {% endraw %}
 where $ \small h_q(x)$ and $ \small g_p(z)$ are deterministic functions represent for encoder and decoder respectively.<br>
-In the paper, experements are conducted with different settings of weights $\small \omega_i$s, e.g. one or two of them may be set to $ \small 0$.
 
 The last cost function, $ \small C_f^{p,q}(\cdot,\cdot)$ is $ \small f$-divergence respect to a convex function $ \small f$ such that $ \small f(0)=1$:
 <br>
@@ -428,7 +427,7 @@ $$ \small
 \end{align}
 $$
 {% endraw %}
-Note that when $f$ satisfies above condition, $ \small C_f^{p,q}(\cdot,\cdot)$ in fact is a valid Wasserstein distance ([Ambrogioni *et at.*, 2018](https://arxiv.org/abs/1805.11284)).
+Note that when $f$ satisfies above condition, $ \small C_f^{p,q}(\cdot,\cdot)$ in fact is a valid Wasserstein distance ([Ambrogioni *et at.*, 2018](https://arxiv.org/abs/1805.11284)). In the paper, experements are conducted with different settings of weights $\small \omega_i$s, e.g. one or two of them may be set to $ \small 0$.
 
 ### Conclusion
 
