@@ -34,7 +34,7 @@ While $ \small p(\mathbf{x}, \mathbf{z})$ can be fully observable, the integral 
 
 ### <a name="VanillaVI"></a> Vanilla VI
 
-We now derive the optimization problem's objective of VI. Let's consider:
+To arrive with the optimization problem's objective of VI, let's consider:
 <br>
 {% raw %}
 $$ \small
