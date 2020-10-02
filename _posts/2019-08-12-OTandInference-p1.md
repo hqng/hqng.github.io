@@ -169,7 +169,7 @@ $$ \small
 &= \int_{z_j} q(z_j) \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] dz_j - \int_{z_j} q(z_j) \log q(z_j) dz_j \nonumber \\
 &- \int_{\mathbf{z}_{-j}} \left( \prod_{i \neq j} q_i(z_i) \right) \sum_{k \neq j} \log q_k(z_k) dz_1 \dots dz_{j-1} dz_{j+1} \dots dz_M \nonumber \\
 &= \int_{z_j} q(z_j) \left( \mathbb{E}_{q(\mathbf{z}_{-j})}[ \log p(\mathbf{x}, \mathbf{z}) ] - \log q(z_j) \right)  dz_j + C_{-j} \label{eq1.10} \tag{1.10} \\
-\text{where:} \: & C_{-j} \: \text{containts all constant quantities w.r.t} \: z_j \nonumber
+\text{where:} \: & C_{-j} \: \text{contains all constant quantities w.r.t} \: z_j \nonumber
 \end{align}
 $$
 {% endraw %}

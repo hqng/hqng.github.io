@@ -431,5 +431,4 @@ Note that when $f$ satisfies above condition, $ \small C_f^{p,q}(\cdot,\cdot)$ i
 
 ### Conclusion
 
-We have studied several variational inference/autoencoders approaches which involve with Wasserstein distance. The experiments confirm their capability of learning representations that have geometric properties (see details at those papers). Moreover, they allow special setting of model such as deterministic encoders which result less blur encoders compared to VAE. 
-
+We have studied several variational inference/autoencoders approaches which involve with Wasserstein distance. The experiments confirm their capability of learning a deterministic mapping from input points to latent codes and encourage the flexibility of latent spaces.
